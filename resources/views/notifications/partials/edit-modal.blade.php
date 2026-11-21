@@ -1,0 +1,198 @@
+<!-- Modal Popup: Chỉnh sửa thông báo (Bám sát Ảnh 2) -->
+<div
+    id="editNotificationModal"
+    class="fixed inset-0 z-50 overflow-y-auto hidden"
+    aria-labelledby="edit-notif-title"
+    role="dialog"
+    aria-modal="true"
+>
+    <!-- Backdrop -->
+    <div
+        id="editNotifBackdrop"
+        onclick="closeEditNotificationModal()"
+        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+    ></div>
+
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div
+            id="editNotifPanel"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+        >
+            <!-- Modal Header (Bám sát Ảnh 2) -->
+            <div class="px-7 pt-6 pb-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                        THÔNG TIN
+                    </span>
+                    <button
+                        type="button"
+                        onclick="closeEditNotificationModal()"
+                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        aria-label="Đóng"
+                    >
+                        &times;
+                    </button>
+                </div>
+                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="edit-notif-title">
+                    Chỉnh sửa thông báo
+                </h3>
+                <p class="text-[13px] text-[#52697c] mt-0.5">
+                    Các trường có dấu * là bắt buộc
+                </p>
+            </div>
+
+            <!-- Modal Form (Bám sát Ảnh 2) -->
+            <form id="editNotificationForm" method="POST" action="" onsubmit="event.preventDefault(); simulateEditNotification();">
+                @csrf
+                @method('PUT')
+                <div class="px-7 pb-6 space-y-4">
+                    <!-- Tiêu đề * -->
+                    <div>
+                        <label for="edit_notif_title" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            Tiêu đề *
+                        </label>
+                        <input
+                            type="text"
+                            id="edit_notif_title"
+                            name="title"
+                            required
+                            value="Thông báo lịch bảo trì thang máy"
+                            class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                        />
+                    </div>
+
+                    <!-- Nội dung * -->
+                    <div>
+                        <label for="edit_notif_body" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            Nội dung *
+                        </label>
+                        <textarea
+                            id="edit_notif_body"
+                            name="body"
+                            rows="4"
+                            required
+                            class="w-full px-3 py-2.5 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                        >Thang máy tòa A bảo trì ngày 08/02/2026, 08:00–11:00. Vui lòng sử dụng thang bộ trong thời gian này.</textarea>
+                    </div>
+
+                    <!-- Phạm vi nhận * -->
+                    <div>
+                        <label for="edit_notif_scope" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            Phạm vi nhận *
+                        </label>
+                        <div class="relative">
+                            <select
+                                id="edit_notif_scope"
+                                name="scope"
+                                required
+                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer"
+                            >
+                                <option value="Tòa nhà" selected>Tòa nhà ▾</option>
+                                <option value="Toàn bộ">Toàn bộ</option>
+                                <option value="Tầng">Tầng</option>
+                                <option value="Căn hộ">Căn hộ</option>
+                                <option value="Cá nhân">Cá nhân</option>
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">▾</div>
+                        </div>
+                        <p class="text-[11px] text-[#8a9ba8] mt-1">
+                            Toàn bộ / Tòa nhà / Tầng / Căn hộ / Cá nhân
+                        </p>
+                    </div>
+
+                    <!-- Tòa nhận * -->
+                    <div>
+                        <label for="edit_notif_building" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            Tòa nhận *
+                        </label>
+                        <input
+                            type="text"
+                            id="edit_notif_building"
+                            value="1 · GGMB Residence · Tòa A"
+                            class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad]"
+                        />
+                    </div>
+
+                    <!-- Notice Box (Bám sát Ảnh 2) -->
+                    <div class="p-3 bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] text-[12px] text-[#52697c]">
+                        Kiểm tra nội dung và người nhận trước khi lưu thay đổi thông báo đã gửi.
+                    </div>
+
+                    <!-- Meta info (Bám sát Ảnh 2) -->
+                    <div class="text-[12px] text-[#52697c] space-y-0.5">
+                        <p>Người tạo: <span class="text-[#334b5d]">Nguyễn Minh Quản lý</span></p>
+                        <p>Ngày tạo: <span class="text-[#334b5d]">01/02/2026 08:00</span></p>
+                    </div>
+                </div>
+
+                <!-- Modal Footer (Đóng bên trái, Lưu thay đổi bên phải - Bám sát Ảnh 2) -->
+                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                    <button
+                        type="button"
+                        onclick="closeEditNotificationModal()"
+                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                    >
+                        Đóng
+                    </button>
+                    <button
+                        type="submit"
+                        class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                    >
+                        Lưu thay đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openEditNotificationModal(idOrData) {
+        const data = (typeof idOrData === 'object' && idOrData !== null) ? idOrData : (window.notificationsMap?.[idOrData] || {});
+        const modal = document.getElementById('editNotificationModal');
+        const backdrop = document.getElementById('editNotifBackdrop');
+        const panel = document.getElementById('editNotifPanel');
+
+        if (!modal || !backdrop || !panel) return;
+
+        const title = data.title || 'Thông báo lịch bảo trì thang máy';
+        const body = data.body || 'Thang máy tòa A bảo trì ngày 08/02/2026, 08:00–11:00. Vui lòng sử dụng thang bộ trong thời gian này.';
+        const scope = data.scope || 'Tòa nhà';
+
+        document.getElementById('edit_notif_title').value = title;
+        document.getElementById('edit_notif_body').value = body;
+        if (document.getElementById('edit_notif_scope')) {
+            document.getElementById('edit_notif_scope').value = scope;
+        }
+
+        modal.classList.remove('hidden');
+        requestAnimationFrame(() => {
+            backdrop.classList.remove('opacity-0');
+            backdrop.classList.add('opacity-100');
+            panel.classList.remove('opacity-0', 'scale-95');
+            panel.classList.add('opacity-100', 'scale-100');
+        });
+    }
+
+    function closeEditNotificationModal() {
+        const modal = document.getElementById('editNotificationModal');
+        const backdrop = document.getElementById('editNotifBackdrop');
+        const panel = document.getElementById('editNotifPanel');
+
+        if (!modal || !backdrop || !panel) return;
+
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+        panel.classList.remove('opacity-100', 'scale-100');
+        panel.classList.add('opacity-0', 'scale-95');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 200);
+    }
+
+    function simulateEditNotification() {
+        closeEditNotificationModal();
+        alert('Đã lưu thay đổi thông báo thành công (Demo UI)!');
+    }
+</script>
