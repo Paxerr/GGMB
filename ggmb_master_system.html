@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GGMB - Hệ Thống Quản Lý Tòa Nhà Chung Cư Cao Cấp</title>
+  <!-- Google Fonts: Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Material Symbols Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            montserrat: ['Montserrat', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              black: '#0B0B0B',
+              dark: '#333333',
+              brown: '#956A4C',
+              'brown-hover': '#7f583e',
+              gray: '#828282',
+              border: '#BDBDBD',
+              divider: '#E0E0E0',
+              bg: '#F2F2F2',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * {
+      font-family: 'Montserrat', sans-serif;
+      box-sizing: border-box;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+    .scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #BDBDBD;
+      border-radius: 4px;
+    }
+    .scrollbar-thin::-webkit-scrollbar-track {
+      background: #F2F2F2;
+    }
+    .mobile-frame {
+      width: 390px;
+      height: 844px;
+      border-radius: 44px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.3), 0 0 0 10px #1a1a1a;
+      overflow: hidden;
+      position: relative;
+    }
+  </style>
+</head>
+<body class="bg-[#1e1e1e] text-brand-dark min-h-screen antialiased flex flex-col">
+
+  <!-- TOP TOOLBAR: CONTROL SWITCHER -->
+  <header class="bg-brand-black text-white px-6 py-3 flex flex-wrap items-center justify-between border-b border-[#2d2d2d] z-50 sticky top-0 shadow-lg">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2">
+        <span class="w-3 h-3 rounded-full bg-brand-brown"></span>
+        <span class="font-bold tracking-wider text-sm uppercase text-white">GGMB RESIDENTIAL</span>
+      </div>
+      <span class="text-xs text-brand-gray border-l border-zinc-700 pl-4 hidden sm:inline">Design System Kế Thừa 100% Template Gốc</span>
+    </div>
+
+    <!-- MODE & SCREEN SELECTOR -->
+    <div class="flex items-center gap-3">
+      <!-- Device View Toggle -->
+      <div class="bg-[#1c1c1c] p-1 rounded border border-zinc-700 flex items-center gap-1 text-xs">
+        <button id="btn-view-desktop" onclick="switchDevice('desktop')" class="px-3 py-1.5 rounded font-medium bg-brand-brown text-white transition flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">desktop_windows</span>
+          Desktop (1440px)
+        </button>
+        <button id="btn-view-tablet" onclick="switchDevice('tablet')" class="px-3 py-1.5 rounded font-medium text-brand-gray hover:text-white transition flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">tablet_mac</span>
+          Tablet (834px)
+        </button>
+        <button id="btn-view-mobile" onclick="switchDevice('mobile')" class="px-3 py-1.5 rounded font-medium text-brand-gray hover:text-white transition flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">smartphone</span>
+          Cư Dân Mobile (390px)
+        </button>
+      </div>
+
+      <!-- Quick Screen Switcher -->
+      <select id="screen-dropdown" onchange="switchScreen(this.value)" class="bg-[#2a2a2a] text-white text-xs px-3 py-2 rounded border border-zinc-600 focus:outline-none focus:border-brand-brown">
+        <optgroup label="I. PHÂN HỆ BAN QUẢN LÝ (BQL)">
+          <option value="admin-dashboard">1. Dashboard Vận hành & Tài chính</option>
+          <option value="admin-floorplan">2. Sơ đồ Mặt bằng & Ma trận Căn hộ</option>
+          <option value="admin-residents">3. Quản lý Hồ sơ Cư dân & Khách thuê</option>
+          <option value="admin-parking">4. Quản lý Bãi xe & Thẻ RFID</option>
+          <option value="admin-utilities">5. Sổ Ghi Chỉ số Điện & Nước</option>
+          <option value="admin-invoices">6. Quản lý Hóa đơn & Đối soát Công nợ (VietQR)</option>
+          <option value="admin-tickets">7. Bàn Tiếp nhận & Điều phối Sự cố (Kanban)</option>
+          <option value="admin-notices">8. Trung tâm Bảng tin & Thông báo Push</option>
+          <option value="admin-pricing">9. Cài đặt Biểu phí Dịch vụ</option>
+          <option value="admin-login">10. Đăng nhập Split Screen</option>
+        </optgroup>
+        <optgroup label="II. PHÂN HỆ CƯ DÂN (MOBILE)">
+          <option value="resident-home">11. Trang chủ Căn hộ của tôi</option>
+          <option value="resident-invoice">12. Chi tiết Hóa đơn & Mã VietQR</option>
+          <option value="resident-ticket">13. Báo hỏng & Timeline Tiến độ</option>
+          <option value="resident-pass">14. Đặt Tiện ích & Cấp mã Khách vào</option>
+        </optgroup>
+      </select>
+    </div>
+  </header>
+
+  <!-- MAIN WORKSPACE CONTAINER -->
+  <main class="flex-1 flex justify-center items-start p-4 md:p-6 overflow-x-auto bg-[#181818]">
+
+    <!-- ========================================================================= -->
+    <!-- DESKTOP / TABLET WORKSPACE CONTAINER                                      -->
+    <!-- ========================================================================= -->
+    <div id="desktop-wrapper" class="w-full max-w-[1440px] bg-brand-bg rounded-lg shadow-2xl overflow-hidden flex min-h-[920px] border border-[#333333] transition-all duration-300">
+      
+      <!-- SIDEBAR ADMIN -->
+      <aside id="admin-sidebar" class="w-[260px] bg-brand-black text-white flex flex-col justify-between shrink-0 border-r border-[#222222] transition-all duration-300">
+        <div>
+          <!-- Logo & Brand Header -->
+          <div class="p-6 border-b border-[#222222] flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded bg-brand-brown flex items-center justify-center font-bold text-lg text-white">G</div>
+              <div>
+                <h1 class="font-bold text-sm tracking-wider uppercase leading-none">BQL GGMB</h1>
+                <p class="text-[10px] text-brand-gray mt-1 tracking-tight">Khu phức hợp cư dân</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Menu Items -->
+          <nav class="p-3 space-y-1">
+            <button onclick="switchScreen('admin-dashboard')" data-menu="admin-dashboard" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-white bg-brand-brown transition">
+              <span class="material-symbols-outlined text-[18px]">dashboard</span>
+              <span>Dashboard Tổng quan</span>
+            </button>
+            <button onclick="switchScreen('admin-floorplan')" data-menu="admin-floorplan" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">grid_view</span>
+              <span>Sơ đồ & Ma trận căn</span>
+            </button>
+            <button onclick="switchScreen('admin-residents')" data-menu="admin-residents" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">group</span>
+              <span>Hồ sơ Cư dân</span>
+            </button>
+            <button onclick="switchScreen('admin-parking')" data-menu="admin-parking" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">local_parking</span>
+              <span>Bãi xe & Thẻ RFID</span>
+            </button>
+            <button onclick="switchScreen('admin-utilities')" data-menu="admin-utilities" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">electric_bolt</span>
+              <span>Chỉ số Điện & Nước</span>
+            </button>
+            <button onclick="switchScreen('admin-invoices')" data-menu="admin-invoices" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+              <span>Hóa đơn & Công nợ</span>
+            </button>
+            <button onclick="switchScreen('admin-tickets')" data-menu="admin-tickets" class="menu-item w-full flex items-center justify-between px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-[18px]">handyman</span>
+                <span>Điều phối Sự cố</span>
+              </div>
+              <span class="bg-red-600 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">4</span>
+            </button>
+            <button onclick="switchScreen('admin-notices')" data-menu="admin-notices" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">campaign</span>
+              <span>Phát Thông báo</span>
+            </button>
+            <button onclick="switchScreen('admin-pricing')" data-menu="admin-pricing" class="menu-item w-full flex items-center gap-3 px-3.5 py-2.5 rounded text-xs font-medium text-brand-gray hover:text-white hover:bg-zinc-800 transition">
+              <span class="material-symbols-outlined text-[18px]">tune</span>
+              <span>Cài đặt Biểu phí</span>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Hotline & Profile Bottom -->
+        <div class="p-4 border-t border-[#222222] bg-[#111111]">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-brand-brown text-white font-semibold flex items-center justify-center text-xs">AN</div>
+            <div class="truncate">
+              <p class="text-xs font-semibold text-white truncate">Nguyễn Văn An</p>
+              <p class="text-[10px] text-brand-gray truncate">Trưởng BQL Tòa nhà</p>
+            </div>
+            <button onclick="switchScreen('admin-login')" title="Đăng xuất" class="ml-auto text-brand-gray hover:text-white">
+              <span class="material-symbols-outlined text-[18px]">logout</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- CONTENT SHELL AREA -->
+      <div class="flex-1 flex flex-col min-w-0 bg-brand-bg">
+        
+        <!-- TOPBAR -->
+        <header class="bg-white border-b border-brand-divider px-6 py-3.5 flex items-center justify-between shrink-0">
+          <div class="flex items-center gap-2 text-xs text-brand-gray">
+            <span>Trang chủ</span>
+            <span>/</span>
+            <span id="current-breadcrumb" class="font-semibold text-brand-black">Dashboard Tổng quan</span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3 top-2 text-brand-gray text-[18px]">search</span>
+              <input type="text" placeholder="Tìm căn hộ, cư dân, SĐT..." class="pl-9 pr-4 py-1.5 bg-brand-bg text-xs rounded border border-brand-border focus:outline-none focus:border-brand-brown w-64">
+            </div>
+            <button class="relative p-1.5 text-brand-dark hover:text-brand-brown">
+              <span class="material-symbols-outlined text-[20px]">notifications</span>
+              <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-600"></span>
+            </button>
+            <div class="h-6 w-px bg-brand-divider"></div>
+            <span class="text-xs font-medium text-brand-dark">Khu phức hợp Ordynka - Tháp A</span>
+          </div>
+        </header>
+
+        <!-- VIEW CONTAINER -->
+        <div class="flex-1 p-6 overflow-y-auto scrollbar-thin">
+
+          <!-- SCREEN 1: DASHBOARD VẬN HÀNH & TÀI CHÍNH -->
+          <div id="screen-admin-dashboard" class="screen-view space-y-6">
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 class="text-xl font-bold text-brand-black">Tổng quan Vận hành & Tài chính</h2>
+                <p class="text-xs text-brand-gray mt-1">Dữ liệu tổng hợp thời gian thực - Tháng 11/2026</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="px-3 py-2 bg-white border border-brand-border text-xs font-medium rounded hover:bg-gray-50 flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[16px]">calendar_month</span>
+                  Tháng 11/2026
+                </button>
+                <button class="px-4 py-2 bg-brand-brown hover:bg-brand-brown-hover text-white text-xs font-semibold rounded flex items-center gap-1.5 shadow-sm">
+                  <span class="material-symbols-outlined text-[16px]">file_download</span>
+                  Xuất Báo Cáo
+                </button>
+              </div>
+            </div>
+
+            <!-- 4 Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="bg-white p-5 rounded border border-brand-divider shadow-sm">
+                <div class="flex items-center justify-between text-brand-gray mb-2">
+                  <span class="text-xs font-medium">Tỷ lệ Lấp đầy Căn hộ</span>
+                  <span class="material-symbols-outlined text-brand-brown">domain</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-2xl font-bold text-brand-black">94.8%</span>
+                  <span class="text-[11px] text-emerald-600 font-semibold">+1.2%</span>
+                </div>
+                <div class="w-full bg-brand-bg rounded-full h-1.5 mt-3 overflow-hidden">
+                  <div class="bg-brand-brown h-1.5 rounded-full" style="width: 94.8%"></div>
+                </div>
+                <p class="text-[11px] text-brand-gray mt-2">420/443 căn hộ đang sinh sống</p>
+              </div>
+
+              <div class="bg-white p-5 rounded border border-brand-divider shadow-sm">
+                <div class="flex items-center justify-between text-brand-gray mb-2">
+                  <span class="text-xs font-medium">Doanh thu Phí Dịch vụ</span>
+                  <span class="material-symbols-outlined text-brand-brown">payments</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-2xl font-bold text-brand-black">1.85 Tỷ</span>
+                  <span class="text-[11px] text-brand-gray">/ 2.06 Tỷ</span>
+                </div>
+                <div class="w-full bg-brand-bg rounded-full h-1.5 mt-3 overflow-hidden">
+                  <div class="bg-emerald-600 h-1.5 rounded-full" style="width: 89.8%"></div>
+                </div>
+                <p class="text-[11px] text-brand-gray mt-2">Đã thu đạt 89.8% (Còn nợ: 210 Tr)</p>
+              </div>
+
+              <div class="bg-white p-5 rounded border border-brand-divider shadow-sm">
+                <div class="flex items-center justify-between text-brand-gray mb-2">
+                  <span class="text-xs font-medium">Sự cố Đang Xử lý</span>
+                  <span class="material-symbols-outlined text-red-600">report_problem</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-2xl font-bold text-brand-black">6</span>
+                  <span class="bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded font-semibold">2 Khẩn cấp</span>
+                </div>
+                <p class="text-[11px] text-brand-gray mt-5">Phản hồi trung bình: <strong class="text-brand-dark">18 phút</strong></p>
+              </div>
+
+              <div class="bg-white p-5 rounded border border-brand-divider shadow-sm">
+                <div class="flex items-center justify-between text-brand-gray mb-2">
+                  <span class="text-xs font-medium">Thẻ Xe Kích hoạt</span>
+                  <span class="material-symbols-outlined text-brand-brown">directions_car</span>
+                </div>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-2xl font-bold text-brand-black">1,250</span>
+                  <span class="text-[11px] text-brand-gray">thẻ RFID</span>
+                </div>
+                <p class="text-[11px] text-brand-gray mt-5">350 Ô tô | 900 Xe máy (Hầm đạt 88%)</p>
+              </div>
+            </div>
+
+            <!-- Charts & Breakdown Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div class="lg:col-span-2 bg-white p-6 rounded border border-brand-divider shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 class="text-sm font-bold text-brand-black">Đối Soát Thu Phí & Chi Phí Vận Hành (6 Tháng)</h3>
+                    <p class="text-[11px] text-brand-gray">Đơn vị tính: Triệu VNĐ</p>
+                  </div>
+                  <div class="flex items-center gap-4 text-xs">
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-brand-brown rounded-sm"></span> Doanh thu thu phí</span>
+                    <span class="flex items-center gap-1.5"><span class="w-3 h-3 bg-brand-dark rounded-sm"></span> Chi phí vận hành</span>
+                  </div>
+                </div>
+
+                <div class="h-60 flex items-end justify-between gap-3 pt-6 border-b border-brand-divider px-2">
+                  <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-44">
+                      <div class="w-1/2 bg-brand-brown rounded-t" style="height: 80%" title="Thu: 1,650 Tr"></div>
+                      <div class="w-1/2 bg-brand-dark rounded-t" style="height: 55%" title="Chi: 1,100 Tr"></div>
+                    </div>
+                    <span class="text-[11px] text-brand-gray mt-2">Tháng 6</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-44">
+                      <div class="w-1/2 bg-brand-brown rounded-t" style="height: 85%" title="Thu: 1,720 Tr"></div>
+                      <div class="w-1/2 bg-brand-dark rounded-t" style="height: 58%" title="Chi: 1,180 Tr"></div>
+                    </div>
+                    <span class="text-[11px] text-brand-gray mt-2">Tháng 7</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-44">
+                      <div class="w-1/2 bg-brand-brown rounded-t" style="height: 88%" title="Thu: 1,790 Tr"></div>
+                      <div class="w-1/2 bg-brand-dark rounded-t" style="height: 60%" title="Chi: 1,210 Tr"></div>
+                    </div>
+                    <span class="text-[11px] text-brand-gray mt-2">Tháng 8</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-44">
+                      <div class="w-1/2 bg-brand-brown rounded-t" style="height: 90%" title="Thu: 1,810 Tr"></div>
+                      <div class="w-1/2 bg-brand-dark rounded-t" style="height: 62%" title="Chi: 1,250 Tr"></div>
+                    </div>
+                    <span class="text-[11px] text-brand-gray mt-2">Tháng 9</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-44">
+                      <div class="w-1/2 bg-brand-brown rounded-t" style="height: 94%" title="Thu: 1,890 Tr"></div>
+                      <div class="w-1/2 bg-brand-dark rounded-t" style="height: 65%" title="Chi: 1,290 Tr"></div>
+                    </div>
+                    <span class="text-[11px] text-brand-gray mt-2">Tháng 10</span>
+                  </div>
+                  <div class="flex-1 flex flex-col items-center gap-1 h-full justify-end">
+                    <div class="w-full flex items-end justify-center gap-1 h-44">
+                      <div class="w-1/2 bg-brand-brown rounded-t" style="height: 92%" title="Thu: 1,850 Tr"></div>
+                      <div class="w-1/2 bg-brand-dark rounded-t" style="height: 52%" title="Chi: 1,050 Tr"></div>
+                    </div>
+                    <span class="text-[11px] font-bold text-brand-black mt-2">T11 (Nay)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bg-white p-6 rounded border border-brand-divider shadow-sm flex flex-col justify-between">
+                <div>
+                  <h3 class="text-sm font-bold text-brand-black mb-1">Đội Kỹ Thuật Trực Ca 24/7</h3>
+                  <p class="text-[11px] text-brand-gray mb-4">Ca trực hiện tại: Ca Ngày (07:00 - 19:00)</p>
+                  
+                  <div class="space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-brand-bg rounded">
+                      <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-zinc-800 text-white flex items-center justify-center font-bold text-xs">KT</div>
+                        <div>
+                          <p class="text-xs font-semibold text-brand-black">Lê Văn Tuấn (Trưởng ca)</p>
+                          <p class="text-[10px] text-brand-gray">Chuyên môn: Điện - Nước - PCCC</p>
+                        </div>
+                      </div>
+                      <span class="bg-emerald-100 text-emerald-800 text-[10px] px-2 py-0.5 rounded font-semibold">Đang trực</span>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-brand-bg rounded">
+                      <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded bg-zinc-800 text-white flex items-center justify-center font-bold text-xs">MD</div>
+                        <div>
+                          <p class="text-xs font-semibold text-brand-black">Phạm Minh Đức</p>
+                          <p class="text-[10px] text-brand-gray">Chuyên môn: Thang máy & Khóa từ</p>
+                        </div>
+                      </div>
+                      <span class="bg-amber-100 text-amber-800 text-[10px] px-2 py-0.5 rounded font-semibold">Đang sửa A-1204</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-brand-divider">
+                  <button onclick="switchScreen('admin-tickets')" class="w-full py-2.5 bg-brand-black text-white text-xs font-medium rounded hover:bg-brand-dark transition flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[16px]">call</span>
+                    Gọi Kỹ Thuật Khẩn Cấp (Bộ Đàm)
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Table: Sự cố khẩn cấp -->
+            <div class="bg-white rounded border border-brand-divider shadow-sm overflow-hidden">
+              <div class="px-6 py-4 border-b border-brand-divider flex items-center justify-between">
+                <div>
+                  <h3 class="text-sm font-bold text-brand-black">Sự Cố Khẩn Cấp Cần Điều Phối Thợ Xử Lý Ngay</h3>
+                  <p class="text-xs text-brand-gray mt-0.5">Ưu tiên xử lý sự cố rò rỉ nước, mất điện và an ninh</p>
+                </div>
+                <button onclick="switchScreen('admin-tickets')" class="text-xs font-semibold text-brand-brown hover:underline">Xem tất cả sự cố &rarr;</button>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                  <thead class="bg-brand-bg text-brand-gray uppercase text-[11px] font-semibold border-b border-brand-divider">
+                    <tr>
+                      <th class="py-3 px-6">Mã căn</th>
+                      <th class="py-3 px-6">Cư dân & SĐT</th>
+                      <th class="py-3 px-6">Vấn đề sự cố</th>
+                      <th class="py-3 px-6">Mức độ</th>
+                      <th class="py-3 px-6">Thời gian gửi</th>
+                      <th class="py-3 px-6 text-right">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-brand-divider">
+                    <tr class="hover:bg-gray-50 transition">
+                      <td class="py-3.5 px-6 font-bold text-brand-black">A-1204</td>
+                      <td class="py-3.5 px-6">
+                        <div class="font-medium text-brand-black">Trần Hoàng Nam</div>
+                        <div class="text-[11px] text-brand-gray">0912.345.890</div>
+                      </td>
+                      <td class="py-3.5 px-6">
+                        <span class="font-medium text-brand-dark">Rò rỉ van ống nước chính khu bếp</span>
+                        <div class="text-[11px] text-brand-gray">Nước đang tràn ra sàn gỗ căn hộ</div>
+                      </td>
+                      <td class="py-3.5 px-6">
+                        <span class="bg-red-100 text-red-700 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase">Khẩn cấp</span>
+                      </td>
+                      <td class="py-3.5 px-6 text-brand-gray">15 phút trước</td>
+                      <td class="py-3.5 px-6 text-right">
+                        <button onclick="switchScreen('admin-tickets')" class="px-3 py-1.5 bg-brand-brown text-white font-medium rounded hover:bg-brand-brown-hover transition text-xs shadow-sm">
+                          Cử thợ ngay
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- (Các màn hình khác sẽ render tại đây dựa trên ID) -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE RESIDENT PORTAL WORKSPACE (390 x 844px) -->
+    <div id="mobile-wrapper" class="mobile-frame bg-white flex flex-col hidden">
+      <div class="bg-brand-black text-white px-6 pt-3 pb-2 flex justify-between items-center text-xs font-semibold shrink-0">
+        <span>9:41</span>
+        <div class="w-20 h-4 bg-black rounded-full absolute left-1/2 -translate-x-1/2 top-2"></div>
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[14px]">signal_cellular_alt</span>
+          <span class="material-symbols-outlined text-[14px]">wifi</span>
+          <span class="material-symbols-outlined text-[16px]">battery_full</span>
+        </div>
+      </div>
+
+      <div class="flex-1 overflow-y-auto scrollbar-thin bg-brand-bg pb-20 p-4 space-y-4">
+        <div class="flex items-center justify-between pt-1">
+          <div>
+            <p class="text-xs text-brand-gray">Xin chào, Cư dân</p>
+            <h2 class="text-base font-bold text-brand-black">Trần Hoàng Nam • P.1204</h2>
+          </div>
+          <button class="relative p-2 bg-white rounded-full border border-brand-border text-brand-dark">
+            <span class="material-symbols-outlined text-[20px]">notifications</span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-600"></span>
+          </button>
+        </div>
+
+        <div class="bg-brand-black text-white p-5 rounded-2xl shadow-lg relative overflow-hidden">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <span class="text-[10px] text-zinc-400 uppercase tracking-wider font-semibold">Phí Quản Lý & Dịch Vụ T11/2026</span>
+              <p class="text-2xl font-bold mt-1 text-white">4,505,000 đ</p>
+            </div>
+            <span class="bg-amber-500/20 text-amber-300 text-[10px] px-2.5 py-1 rounded-full font-bold">Hạn nộp: 15/11</span>
+          </div>
+          <p class="text-xs text-zinc-400 mb-4">Đã gồm: Điện (845k), Nước (210k), Quản lý & 2 Thẻ xe</p>
+          <button onclick="switchScreen('resident-invoice')" class="w-full py-2.5 bg-brand-brown hover:bg-brand-brown-hover text-white text-xs font-bold rounded-lg transition flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-[16px]">qr_code_scanner</span>
+            Thanh Toán Ngay Qua VietQR
+          </button>
+        </div>
+      </div>
+
+      <nav class="absolute bottom-0 left-0 right-0 bg-white border-t border-brand-divider px-2 py-2 flex justify-around items-center text-[10px] font-semibold text-brand-gray shrink-0 shadow-lg">
+        <button class="flex flex-col items-center gap-1 text-brand-brown">
+          <span class="material-symbols-outlined text-[20px]">home</span>
+          <span>Trang chủ</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 hover:text-brand-dark">
+          <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+          <span>Hóa đơn</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 hover:text-brand-dark">
+          <span class="material-symbols-outlined text-[20px]">build</span>
+          <span>Báo hỏng</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 hover:text-brand-dark">
+          <span class="material-symbols-outlined text-[20px]">passkey</span>
+          <span>Tiện ích</span>
+        </button>
+        <button class="flex flex-col items-center gap-1 hover:text-brand-dark">
+          <span class="material-symbols-outlined text-[20px]">account_circle</span>
+          <span>Cá nhân</span>
+        </button>
+      </nav>
+    </div>
+
+  </main>
+
+  <script>
+    function switchScreen(screenId) {
+      document.getElementById('screen-dropdown').value = screenId;
+      if (screenId.startsWith('resident-')) {
+        switchDevice('mobile');
+      } else {
+        if (document.getElementById('desktop-wrapper').classList.contains('hidden')) {
+          switchDevice('desktop');
+        }
+      }
+    }
+
+    function switchDevice(mode) {
+      const desktopWrapper = document.getElementById('desktop-wrapper');
+      const mobileWrapper = document.getElementById('mobile-wrapper');
+      const sidebar = document.getElementById('admin-sidebar');
+      const btnDesk = document.getElementById('btn-view-desktop');
+      const btnTab = document.getElementById('btn-view-tablet');
+      const btnMob = document.getElementById('btn-view-mobile');
+
+      [btnDesk, btnTab, btnMob].forEach(b => {
+        b.className = 'px-3 py-1.5 rounded font-medium text-brand-gray hover:text-white transition flex items-center gap-1.5';
+      });
+
+      if (mode === 'desktop') {
+        desktopWrapper.classList.remove('hidden');
+        desktopWrapper.style.maxWidth = '1440px';
+        sidebar.style.width = '260px';
+        mobileWrapper.classList.add('hidden');
+        btnDesk.className = 'px-3 py-1.5 rounded font-medium bg-brand-brown text-white transition flex items-center gap-1.5';
+      } else if (mode === 'tablet') {
+        desktopWrapper.classList.remove('hidden');
+        desktopWrapper.style.maxWidth = '834px';
+        sidebar.style.width = '200px';
+        mobileWrapper.classList.add('hidden');
+        btnTab.className = 'px-3 py-1.5 rounded font-medium bg-brand-brown text-white transition flex items-center gap-1.5';
+      } else if (mode === 'mobile') {
+        desktopWrapper.classList.add('hidden');
+        mobileWrapper.classList.remove('hidden');
+        btnMob.className = 'px-3 py-1.5 rounded font-medium bg-brand-brown text-white transition flex items-center gap-1.5';
+      }
+    }
+  </script>
+</body>
+</html>
+
