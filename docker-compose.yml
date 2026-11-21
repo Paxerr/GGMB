@@ -1,0 +1,23 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ggmb_mysql
+    restart: unless-stopped
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD:-root}'
+      MYSQL_DATABASE: '${DB_DATABASE:-ggmb}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'no'
+    volumes:
+      - ggmb_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD:-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  ggmb_mysql_data:
+    driver: local
+
