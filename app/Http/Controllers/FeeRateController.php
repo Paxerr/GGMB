@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\FeeRateDTO;
+use App\DTOs\FeeTypeDTO;
+use App\Http\Requests\FeeRate\StoreFeeRateRequest;
+use App\Http\Requests\FeeRate\StoreFeeTypeRequest;
+use App\Http\Requests\FeeRate\UpdateFeeTypeRequest;
+use App\Models\FeeRate;
+use App\Models\FeeType;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -9,72 +17,39 @@ use Illuminate\View\View;
 class FeeRateController extends Controller
 {
     /**
-     * Cấu hình biểu phí (Bám sát Ảnh 6).
+     * Cấu hình biểu phí (SCR-FEE-01).
      */
     public function index(Request $request): View
     {
-        $feeRates = collect([
-            (object) [
-                'id' => 1,
-                'rate_id' => 1,
-                'unit' => 'kWh',
-                'name' => 'Điện',
-                'description' => 'Điện năng tiêu thụ',
-                'status' => 'ACTIVE',
-                'status_label' => 'Áp dụng',
-                'price' => 3500,
-                'effective_from' => '01/01/2025',
-                'effective_to' => null,
-            ],
-            (object) [
-                'id' => 2,
-                'rate_id' => 2,
-                'unit' => 'm³',
-                'name' => 'Nước',
-                'description' => 'Nước sinh hoạt',
-                'status' => 'ACTIVE',
-                'status_label' => 'Áp dụng',
-                'price' => 18000,
-                'effective_from' => '01/01/2025',
-                'effective_to' => null,
-            ],
-            (object) [
-                'id' => 3,
-                'rate_id' => 3,
-                'unit' => 'm²/tháng',
-                'name' => 'Phí quản lý',
-                'description' => 'Phí quản lý vận hành chung cư',
-                'status' => 'ACTIVE',
-                'status_label' => 'Áp dụng',
-                'price' => 12000,
-                'effective_from' => '01/01/2025',
-                'effective_to' => null,
-            ],
-            (object) [
-                'id' => 4,
-                'rate_id' => 4,
-                'unit' => 'xe/tháng',
-                'name' => 'Gửi xe',
-                'description' => 'Phí gửi xe phương tiện đăng ký',
-                'status' => 'ACTIVE',
-                'status_label' => 'Áp dụng',
-                'price' => 100000,
-                'effective_from' => '01/01/2025',
-                'effective_to' => null,
-            ],
-            (object) [
-                'id' => 5,
-                'rate_id' => 5,
-                'unit' => 'tháng',
-                'name' => 'Internet',
-                'description' => 'Phí kết nối mạng nội bộ',
-                'status' => 'ACTIVE',
-                'status_label' => 'Áp dụng',
-                'price' => 200000,
-                'effective_from' => '01/01/2025',
-                'effective_to' => null,
-            ],
-        ]);
+        $feeTypes = FeeType::with(['rates' => function ($q): void {
+            $q->orderByDesc('EffectiveFrom')->orderByDesc('FeeRateId');
+        }])->orderBy('FeeTypeId')->get();
+
+        $feeRates = $feeTypes->map(function (FeeType $ft) {
+            $latestRate = $ft->rates->first();
+
+            $unit = match (strtoupper($ft->Code)) {
+                'ELEC', 'DIEN' => 'kWh',
+                'WATER', 'NUOC' => 'm³',
+                'MGMT', 'QL' => 'm²/tháng',
+                'PARK', 'XE' => 'xe/tháng',
+                default => 'tháng',
+            };
+
+            return (object) [
+                'id' => $ft->FeeTypeId,
+                'rate_id' => $latestRate?->FeeRateId ?? $ft->FeeTypeId,
+                'unit' => $unit,
+                'name' => $ft->Name,
+                'code' => $ft->Code,
+                'description' => $ft->Description ?? 'Biểu phí dịch vụ',
+                'status' => $ft->IsActive ? 'ACTIVE' : 'INACTIVE',
+                'status_label' => $ft->IsActive ? 'Áp dụng' : 'Tạm dừng',
+                'price' => $latestRate?->UnitPrice ?? 0,
+                'effective_from' => $latestRate?->EffectiveFrom ? Carbon::parse($latestRate->EffectiveFrom)->format('d/m/Y') : '01/01/2025',
+                'effective_to' => $latestRate?->EffectiveTo ? Carbon::parse($latestRate->EffectiveTo)->format('d/m/Y') : null,
+            ];
+        });
 
         return view('fee-rates.index', [
             'feeRates' => $feeRates,
@@ -82,20 +57,27 @@ class FeeRateController extends Controller
     }
 
     /**
-     * Chi tiết loại phí và lịch sử đơn giá (Bám sát Ảnh 7).
+     * Chi tiết loại phí và lịch sử đơn giá (SCR-FEE-02).
      */
     public function show(int $id): View
     {
+        $feeType = FeeType::with(['rates' => function ($q): void {
+            $q->orderByDesc('EffectiveFrom')->orderByDesc('FeeRateId');
+        }])->findOrFail($id);
+
+        $latestRate = $feeType->rates->first();
+
         $feeRate = (object) [
-            'id' => $id,
-            'name' => 'Điện',
-            'code' => (string) $id,
-            'description' => 'Điện năng tiêu thụ',
-            'status' => 'ACTIVE',
-            'status_label' => 'Đang sử dụng',
-            'price' => 3500,
-            'effective_from' => '01/01/2025',
-            'effective_to' => null,
+            'id' => $feeType->FeeTypeId,
+            'name' => $feeType->Name,
+            'code' => $feeType->Code,
+            'description' => $feeType->Description ?? '',
+            'status' => $feeType->IsActive ? 'ACTIVE' : 'INACTIVE',
+            'status_label' => $feeType->IsActive ? 'Đang sử dụng' : 'Đã ngừng sử dụng',
+            'price' => $latestRate?->UnitPrice ?? 0,
+            'effective_from' => $latestRate?->EffectiveFrom ? Carbon::parse($latestRate->EffectiveFrom)->format('d/m/Y') : '01/01/2025',
+            'effective_to' => $latestRate?->EffectiveTo ? Carbon::parse($latestRate->EffectiveTo)->format('d/m/Y') : null,
+            'history' => $feeType->rates,
         ];
 
         return view('fee-rates.show', [
@@ -104,7 +86,7 @@ class FeeRateController extends Controller
     }
 
     /**
-     * Thêm loại phí (Bám sát Ảnh 8).
+     * Mở form thêm loại phí mới (SCR-FEE-03).
      */
     public function create(): View
     {
@@ -112,25 +94,42 @@ class FeeRateController extends Controller
     }
 
     /**
-     * Lưu loại phí mới.
+     * Lưu loại phí mới vào cơ sở dữ liệu.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreFeeTypeRequest $request): RedirectResponse
     {
-        return redirect()->route('fee-rates.index')->with('success', 'Thêm loại phí mới thành công.');
+        $dto = FeeTypeDTO::fromStoreRequest($request);
+
+        $feeType = FeeType::create($dto->toModelArray());
+
+        if ($dto->initialPrice !== null) {
+            FeeRate::create([
+                'FeeTypeId' => $feeType->FeeTypeId,
+                'UnitPrice' => $dto->initialPrice,
+                'EffectiveFrom' => now()->toDateString(),
+                'EffectiveTo' => null,
+                'CreatedAt' => now(),
+            ]);
+        }
+
+        return redirect()->route('fee-rates.index')
+            ->with('success', "Thêm loại phí '{$feeType->Name}' thành công.");
     }
 
     /**
-     * Chỉnh sửa loại phí (Bám sát Ảnh 9).
+     * Chỉnh sửa loại phí (SCR-FEE-04).
      */
     public function edit(int $id): View
     {
+        $feeType = FeeType::findOrFail($id);
+
         $feeRate = (object) [
-            'id' => $id,
-            'name' => 'Điện',
-            'code' => (string) $id,
-            'description' => 'Điện năng tiêu thụ',
-            'status' => 'ACTIVE',
-            'status_label' => 'Đang sử dụng',
+            'id' => $feeType->FeeTypeId,
+            'name' => $feeType->Name,
+            'code' => $feeType->Code,
+            'description' => $feeType->Description ?? '',
+            'status' => $feeType->IsActive ? 'ACTIVE' : 'INACTIVE',
+            'status_label' => $feeType->IsActive ? 'Đang sử dụng' : 'Đã ngừng',
         ];
 
         return view('fee-rates.edit', [
@@ -139,23 +138,30 @@ class FeeRateController extends Controller
     }
 
     /**
-     * Cập nhật loại phí.
+     * Cập nhật thông tin loại phí.
      */
-    public function update(int $id, Request $request): RedirectResponse
+    public function update(int $id, UpdateFeeTypeRequest $request): RedirectResponse
     {
-        return redirect()->route('fee-rates.show', $id)->with('success', 'Cập nhật thông tin loại phí thành công.');
+        $feeType = FeeType::findOrFail($id);
+
+        $dto = FeeTypeDTO::fromUpdateRequest($request, $feeType->Code);
+        $feeType->update($dto->toModelArray());
+
+        return redirect()->route('fee-rates.show', $id)
+            ->with('success', "Cập nhật thông tin loại phí '{$feeType->Name}' thành công.");
     }
 
     /**
-     * Ngừng sử dụng loại phí (Bám sát Ảnh 10).
+     * Màn hình Ngừng sử dụng loại phí (SCR-FEE-05).
      */
     public function deactivate(int $id): View
     {
+        $feeType = FeeType::findOrFail($id);
+
         $feeRate = (object) [
-            'id' => $id,
-            'name' => 'Điện',
-            'status' => 'ACTIVE',
-            'status_label' => 'Đang sử dụng',
+            'id' => $feeType->FeeTypeId,
+            'name' => $feeType->Name,
+            'code' => $feeType->Code,
         ];
 
         return view('fee-rates.deactivate', [
@@ -164,23 +170,28 @@ class FeeRateController extends Controller
     }
 
     /**
-     * Xác nhận ngừng sử dụng.
+     * Xác nhận ngừng sử dụng loại phí.
      */
     public function confirmDeactivate(int $id, Request $request): RedirectResponse
     {
-        return redirect()->route('fee-rates.index')->with('success', "Đã ngừng sử dụng loại phí #{$id} thành công.");
+        $feeType = FeeType::findOrFail($id);
+        $feeType->update(['IsActive' => false]);
+
+        return redirect()->route('fee-rates.index')
+            ->with('success', "Đã ngừng áp dụng loại phí '{$feeType->Name}'.");
     }
 
     /**
-     * Kích hoạt lại loại phí (Bám sát Ảnh Kích hoạt lại loại phí).
+     * Màn hình Kích hoạt lại loại phí (SCR-FEE-06).
      */
     public function activate(int $id): View
     {
+        $feeType = FeeType::findOrFail($id);
+
         $feeRate = (object) [
-            'id' => $id,
-            'name' => 'Điện',
-            'status' => 'INACTIVE',
-            'status_label' => 'Ngừng sử dụng',
+            'id' => $feeType->FeeTypeId,
+            'name' => $feeType->Name,
+            'code' => $feeType->Code,
         ];
 
         return view('fee-rates.activate', [
@@ -193,29 +204,36 @@ class FeeRateController extends Controller
      */
     public function confirmActivate(int $id, Request $request): RedirectResponse
     {
-        return redirect()->route('fee-rates.index')->with('success', "Đã kích hoạt lại loại phí #{$id} thành công.");
+        $feeType = FeeType::findOrFail($id);
+        $feeType->update(['IsActive' => true]);
+
+        return redirect()->route('fee-rates.index')
+            ->with('success', "Đã kích hoạt áp dụng lại loại phí '{$feeType->Name}'.");
     }
 
     /**
-     * Thêm đơn giá mới (Bám sát Ảnh Thêm đơn giá mới).
+     * Màn hình Thêm đơn giá mới cho loại phí.
      */
     public function createRate(int $id): View
     {
-        $feeRate = (object) [
-            'id' => $id,
-            'name' => 'Điện',
-        ];
+        $feeType = FeeType::findOrFail($id);
 
         return view('fee-rates.rates-create', [
-            'feeRate' => $feeRate,
+            'feeType' => $feeType,
         ]);
     }
 
     /**
-     * Lưu đơn giá mới.
+     * Lưu đơn giá mới cho loại phí.
      */
-    public function storeRate(int $id, Request $request): RedirectResponse
+    public function storeRate(int $id, StoreFeeRateRequest $request): RedirectResponse
     {
-        return redirect()->route('fee-rates.show', $id)->with('success', 'Thêm đơn giá mới thành công.');
+        $feeType = FeeType::findOrFail($id);
+
+        $dto = FeeRateDTO::fromStoreRequest($request, $feeType->FeeTypeId);
+        FeeRate::create($dto->toModelArray());
+
+        return redirect()->route('fee-rates.show', $id)
+            ->with('success', "Đã thêm đơn giá mới cho loại phí '{$feeType->Name}'.");
     }
 }

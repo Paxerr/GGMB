@@ -7,8 +7,8 @@ use App\Models\ApartmentResident;
 use App\Models\Invoice;
 use App\Models\Ticket;
 use App\Models\Vehicle;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
-use Throwable;
 
 class DashboardController extends Controller
 {
@@ -17,76 +17,65 @@ class DashboardController extends Controller
      */
     public function index(): View
     {
-        try {
-            // 1. Thống kê Căn hộ
-            $totalApartments = Apartment::count() ?: 40;
-            $occupiedApartments = Apartment::where('Status', 'OCCUPIED')->count() ?: 30;
-            $vacantApartments = Apartment::where('Status', 'VACANT')->count() ?: 8;
-            $otherApartments = Apartment::whereNotIn('Status', ['OCCUPIED', 'VACANT'])->count() ?: 2;
+        // 1. Thống kê Căn hộ thực tế từ MySQL
+        $totalApartments = Apartment::where('IsDeleted', false)->count();
+        $occupiedApartments = Apartment::where('IsDeleted', false)->where('Status', 'OCCUPIED')->count();
+        $vacantApartments = Apartment::where('IsDeleted', false)->whereIn('Status', ['VACANT', 'AVAILABLE'])->count();
+        $otherApartments = Apartment::where('IsDeleted', false)->whereNotIn('Status', ['OCCUPIED', 'VACANT', 'AVAILABLE'])->count();
 
-            // 2. Thống kê Cư dân
-            $totalResidents = ApartmentResident::where('Status', 'ACTIVE')->count() ?: 30;
+        // 2. Thống kê Cư dân đang cư trú
+        $totalResidents = ApartmentResident::where('IsDeleted', false)->where('Status', 'ACTIVE')->count();
 
-            // 3. Thống kê Phương tiện
-            $totalVehicles = Vehicle::count() ?: 25;
-            $motorbikes = Vehicle::where('VehicleType', 'MOTORBIKE')->count() ?: 19;
-            $cars = Vehicle::where('VehicleType', 'CAR')->count() ?: 6;
+        // 3. Thống kê Phương tiện & phân loại
+        $totalVehicles = Vehicle::where('IsDeleted', false)->count();
+        $motorbikes = Vehicle::where('IsDeleted', false)->where('VehicleType', 'MOTORBIKE')->count();
+        $cars = Vehicle::where('IsDeleted', false)->where('VehicleType', 'CAR')->count();
 
-            // 4. Thống kê Yêu cầu / Sự cố
-            $totalTickets = Ticket::count() ?: 100;
-            $pendingTickets = Ticket::where('Status', '!=', 'RESOLVED')->count() ?: 51;
+        // 4. Thống kê Yêu cầu / Sự cố
+        $totalTickets = Ticket::where('IsDeleted', false)->count();
+        $pendingTickets = Ticket::where('IsDeleted', false)->whereNotIn('Status', ['RESOLVED', 'CLOSED', 'CANCELLED'])->count();
 
-            // 5. Thống kê Công nợ & Hóa đơn quá hạn
-            $overdueInvoicesQuery = Invoice::where('Status', 'OVERDUE')->orderBy('InvoiceId');
-            $overdueCount = $overdueInvoicesQuery->count() ?: 5;
-            $overdueTotal = $overdueInvoicesQuery->sum('TotalAmount') ?: 24920000;
+        // 5. Thống kê Công nợ & Hóa đơn quá hạn
+        $overdueQuery = Invoice::where('Status', 'OVERDUE')->orderBy('InvoiceId');
+        $overdueCount = $overdueQuery->count();
+        $overdueTotal = $overdueQuery->sum('TotalAmount');
 
-            $overdueInvoices = $overdueInvoicesQuery->take(5)->get();
-
-            $invoicesData = $overdueInvoices->isNotEmpty() ? $overdueInvoices->map(function ($inv) {
-                return [
-                    'id' => $inv->InvoiceId,
-                    'amount' => number_format($inv->TotalAmount, 0, ',', '.').' đ',
-                ];
-            })->toArray() : [
-                ['id' => 3, 'amount' => '877.500 đ'],
-                ['id' => 6, 'amount' => '930.000 đ'],
-                ['id' => 9, 'amount' => '842.500 đ'],
-                ['id' => 15, 'amount' => '947.500 đ'],
-                ['id' => 18, 'amount' => '860.000 đ'],
+        $overdueInvoices = $overdueQuery->take(5)->get();
+        $invoicesData = $overdueInvoices->map(function (Invoice $inv) {
+            return [
+                'id' => $inv->InvoiceId,
+                'amount' => number_format((float) $inv->TotalAmount, 0, ',', '.').' đ',
             ];
-        } catch (Throwable $e) {
-            // Giá trị mặc định chuẩn từ Figma thiết kế nếu DB chưa migrate
-            $totalApartments = 40;
-            $occupiedApartments = 30;
-            $vacantApartments = 8;
-            $otherApartments = 2;
-            $totalResidents = 30;
-            $totalVehicles = 25;
-            $motorbikes = 19;
-            $cars = 6;
-            $totalTickets = 100;
-            $pendingTickets = 51;
-            $overdueCount = 5;
-            $overdueTotal = 24920000;
-            $invoicesData = [
-                ['id' => 3, 'amount' => '877.500 đ'],
-                ['id' => 6, 'amount' => '930.000 đ'],
-                ['id' => 9, 'amount' => '842.500 đ'],
-                ['id' => 15, 'amount' => '947.500 đ'],
-                ['id' => 18, 'amount' => '860.000 đ'],
+        })->toArray();
+
+        // 6. Doanh thu theo kỳ hóa đơn thực tế từ MySQL
+        $periodRevenues = Invoice::select('BillingPeriod', DB::raw('SUM(TotalAmount) as total'))
+            ->groupBy('BillingPeriod')
+            ->orderBy('BillingPeriod')
+            ->take(6)
+            ->get();
+
+        $maxTotal = $periodRevenues->max('total') ?: 1;
+
+        $monthlyRevenue = $periodRevenues->map(function ($item) use ($maxTotal) {
+            $height = min(170, max(40, (int) round(($item->total / $maxTotal) * 170)));
+
+            return [
+                'month' => 'Kỳ '.$item->BillingPeriod,
+                'height' => $height,
+            ];
+        })->toArray();
+
+        if (empty($monthlyRevenue)) {
+            $monthlyRevenue = [
+                ['month' => 'Tháng 1', 'height' => 170],
+                ['month' => 'Tháng 2', 'height' => 170],
+                ['month' => 'Tháng 3', 'height' => 170],
+                ['month' => 'Tháng 4', 'height' => 170],
+                ['month' => 'Tháng 5', 'height' => 160],
+                ['month' => 'Tháng 6', 'height' => 160],
             ];
         }
-
-        // 6. Dữ liệu biểu đồ doanh thu (6 tháng)
-        $monthlyRevenue = [
-            ['month' => 'Tháng 1', 'height' => 170],
-            ['month' => 'Tháng 2', 'height' => 170],
-            ['month' => 'Tháng 3', 'height' => 170],
-            ['month' => 'Tháng 4', 'height' => 170],
-            ['month' => 'Tháng 5', 'height' => 160],
-            ['month' => 'Tháng 6', 'height' => 160],
-        ];
 
         return view('dashboard', [
             'totalApartments' => $totalApartments,
@@ -100,7 +89,7 @@ class DashboardController extends Controller
             'totalTickets' => $totalTickets,
             'pendingTickets' => $pendingTickets,
             'overdueCount' => $overdueCount,
-            'overdueTotal' => number_format($overdueTotal, 0, ',', '.').' đ',
+            'overdueTotal' => number_format((float) $overdueTotal, 0, ',', '.').' đ',
             'invoicesData' => $invoicesData,
             'monthlyRevenue' => $monthlyRevenue,
         ]);

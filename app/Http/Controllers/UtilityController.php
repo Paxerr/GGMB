@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\MeterReadingDTO;
+use App\Exceptions\BusinessException;
+use App\Http\Requests\Utility\CorrectMeterReadingRequest;
+use App\Http\Requests\Utility\StoreFirstTimeReadingRequest;
 use App\Models\Apartment;
+use App\Models\MeterReading;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -11,7 +16,7 @@ use Illuminate\View\View;
 class UtilityController extends Controller
 {
     /**
-     * Sổ chỉ số điện nước (30 · SCR-MTR-01).
+     * Sổ chỉ số điện nước (SCR-MTR-01).
      */
     public function index(Request $request): View
     {
@@ -19,25 +24,54 @@ class UtilityController extends Controller
             ->orderBy('ApartmentNumber')
             ->get();
 
-        // Dữ liệu mẫu chuẩn Figma (Ảnh 1 & 2)
-        $sample = collect([
-            (object) ['id' => 1, 'apartment' => '0101', 'type' => 'Điện', 'period' => '02/2026', 'old_num' => 103, 'new_num' => 142, 'usage' => 39, 'recorder' => '5 · tech01', 'unit' => 'kWh'],
-            (object) ['id' => 2, 'apartment' => '0101', 'type' => 'Nước', 'period' => '02/2026', 'old_num' => 41, 'new_num' => 48, 'usage' => 7, 'recorder' => '5 · tech01', 'unit' => 'm³'],
-            (object) ['id' => 3, 'apartment' => '0102', 'type' => 'Điện', 'period' => '02/2026', 'old_num' => 106, 'new_num' => 149, 'usage' => 43, 'recorder' => '5 · tech01', 'unit' => 'kWh'],
-            (object) ['id' => 4, 'apartment' => '0102', 'type' => 'Nước', 'period' => '02/2026', 'old_num' => 42, 'new_num' => 51, 'usage' => 9, 'recorder' => '5 · tech01', 'unit' => 'm³'],
-            (object) ['id' => 5, 'apartment' => '0103', 'type' => 'Điện', 'period' => '02/2026', 'old_num' => 109, 'new_num' => 156, 'usage' => 47, 'recorder' => '5 · tech01', 'unit' => 'kWh'],
-            (object) ['id' => 6, 'apartment' => '0103', 'type' => 'Nước', 'period' => '02/2026', 'old_num' => 43, 'new_num' => 54, 'usage' => 11, 'recorder' => '5 · tech01', 'unit' => 'm³'],
-            (object) ['id' => 7, 'apartment' => '0104', 'type' => 'Điện', 'period' => '02/2026', 'old_num' => 112, 'new_num' => 163, 'usage' => 51, 'recorder' => '5 · tech01', 'unit' => 'kWh'],
-            (object) ['id' => 8, 'apartment' => '0104', 'type' => 'Nước', 'period' => '02/2026', 'old_num' => 44, 'new_num' => 57, 'usage' => 13, 'recorder' => '5 · tech01', 'unit' => 'm³'],
-        ]);
+        $query = MeterReading::with(['apartment', 'feeType', 'recordedBy']);
 
-        // Lọc theo loại nếu có
+        // Lọc theo loại phí (Điện / Nước)
         if ($request->filled('type') && $request->input('type') !== 'ALL') {
-            $type = $request->input('type');
-            $sample = $sample->filter(fn ($item) => $item->type === $type);
+            $typeInput = trim((string) $request->input('type'));
+            $query->whereHas('feeType', function ($q) use ($typeInput): void {
+                $q->where('Name', 'like', "%{$typeInput}%")
+                    ->orWhere('Code', 'like', "%{$typeInput}%");
+            });
         }
 
-        $readings = new LengthAwarePaginator($sample, 60, 8, 1, ['path' => url('/utilities')]);
+        // Lọc theo Căn hộ
+        if ($request->filled('apartment_id')) {
+            $query->where('ApartmentId', (int) $request->input('apartment_id'));
+        }
+
+        // Lọc theo Kỳ ghi
+        if ($request->filled('period')) {
+            $query->where('BillingPeriod', trim((string) $request->input('period')));
+        }
+
+        $paginated = $query->orderByDesc('BillingPeriod')->orderBy('ApartmentId')->paginate(10)->withQueryString();
+
+        $mappedItems = $paginated->getCollection()->map(function (MeterReading $mr) {
+            $isElec = str_contains(strtolower($mr->feeType?->Name ?? ''), 'điện') || str_contains(strtoupper($mr->feeType?->Code ?? ''), 'ELEC');
+            $unit = $isElec ? 'kWh' : 'm³';
+
+            return (object) [
+                'id' => $mr->MeterReadingId,
+                'apartment' => $mr->apartment?->ApartmentNumber ?? '—',
+                'type' => $mr->feeType?->Name ?? ($isElec ? 'Điện' : 'Nước'),
+                'period' => $mr->BillingPeriod,
+                'old_num' => (float) $mr->PreviousReading,
+                'new_num' => (float) $mr->CurrentReading,
+                'usage' => (float) $mr->Consumption,
+                'recorder' => $mr->recordedBy ? "{$mr->recordedBy->UserId} · {$mr->recordedBy->UserName}" : 'Hệ thống',
+                'unit' => $unit,
+                'recorded_at' => $mr->RecordedAt ? $mr->RecordedAt->format('d/m/Y H:i') : '—',
+            ];
+        });
+
+        $readings = new LengthAwarePaginator(
+            $mappedItems,
+            $paginated->total(),
+            $paginated->perPage(),
+            $paginated->currentPage(),
+            ['path' => LengthAwarePaginator::resolveCurrentPath(), 'query' => $request->query()]
+        );
 
         return view('utilities.index', [
             'readings' => $readings,
@@ -48,16 +82,52 @@ class UtilityController extends Controller
     /**
      * Lưu đính chính chỉ số (SCR-MTR-04).
      */
-    public function correct(Request $request): RedirectResponse
+    public function correct(CorrectMeterReadingRequest $request): RedirectResponse
     {
-        return redirect()->route('utilities.index')->with('success', 'Đính chính chỉ số thành công.');
+        $id = (int) $request->validated('MeterReadingId');
+        $meterReading = MeterReading::findOrFail($id);
+
+        $prev = (float) $request->validated('PreviousReading');
+        $curr = (float) $request->validated('CurrentReading');
+
+        if ($curr < $prev) {
+            throw new BusinessException('Chỉ số mới không được nhỏ hơn chỉ số cũ.');
+        }
+
+        $meterReading->update([
+            'PreviousReading' => $prev,
+            'CurrentReading' => $curr,
+            'Consumption' => $curr - $prev,
+            'RecordedByUserId' => auth()->id() ?? $meterReading->RecordedByUserId,
+            'RecordedAt' => now(),
+        ]);
+
+        return redirect()->route('utilities.index')
+            ->with('success', "Đã đính chính chỉ số cho căn hộ {$meterReading->apartment?->ApartmentNumber} thành công.");
     }
 
     /**
      * Lưu nhập chỉ số lần đầu (SCR-MTR-05).
      */
-    public function firstTime(Request $request): RedirectResponse
+    public function firstTime(StoreFirstTimeReadingRequest $request): RedirectResponse
     {
-        return redirect()->route('utilities.index')->with('success', 'Nhập chỉ số ban đầu thành công.');
+        $aptId = (int) $request->validated('ApartmentId');
+        $feeTypeId = (int) $request->validated('FeeTypeId');
+        $period = (string) $request->validated('BillingPeriod');
+
+        $exists = MeterReading::where('ApartmentId', $aptId)
+            ->where('FeeTypeId', $feeTypeId)
+            ->where('BillingPeriod', $period)
+            ->exists();
+
+        if ($exists) {
+            throw new BusinessException("Chỉ số kỳ {$period} của căn hộ này đã được ghi nhận trước đó.");
+        }
+
+        $dto = MeterReadingDTO::fromFirstTimeRequest($request, auth()->id() ?? 1);
+        MeterReading::create($dto->toModelArray());
+
+        return redirect()->route('utilities.index')
+            ->with('success', 'Nhập chỉ số ban đầu thành công.');
     }
 }

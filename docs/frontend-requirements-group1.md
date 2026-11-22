@@ -73,3 +73,4 @@ Tài liệu này tổng hợp các điểm cần hoàn thiện và đồng bộ 
 ### 2.5. Tòa nhà & Tầng (`buildings`)
 * **Form Thêm / Sửa tòa nhà:**
   * Tên tòa nhà: `name="BuildingName"` *(Bắt buộc, tối đa 100 ký tự)*
+

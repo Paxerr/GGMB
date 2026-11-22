@@ -2,88 +2,86 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\NotificationDTO;
+use App\Http\Requests\Notification\StoreNotificationRequest;
+use App\Http\Requests\Notification\UpdateNotificationRequest;
+use App\Models\Apartment;
+use App\Models\ApartmentResident;
+use App\Models\Building;
+use App\Models\Floor;
+use App\Models\Notification;
+use App\Models\NotificationRecipient;
+use App\Models\NotificationTarget;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class NotificationController extends Controller
 {
     /**
-     * Bảng tin tòa nhà (Bám sát Ảnh 9).
+     * Bảng tin tòa nhà (SCR-NTF-01).
      */
     public function index(Request $request): View
     {
-        $notifications = collect([
-            (object) [
-                'id' => 1,
-                'title' => 'Thông báo lịch bảo trì thang máy',
-                'body' => 'Thang máy tòa A bảo trì ngày 08/02/2026, 08:00–11:00. Vui lòng sử dụng thang bộ trong thời gian này.',
-                'scope' => 'Tòa nhà',
-                'scope_detail' => 'Toàn tòa A · GGMB Residence',
-                'creator' => '1 · Nguyễn Minh Quản lý',
-                'created_at' => '01/02/2026 08:00',
-                'read_count' => 10,
-                'unread_count' => 20,
-                'total_count' => 30,
-                'recipients' => [
-                    ['stt' => 1, 'name' => 'Nguyễn An', 'apartment' => '0101', 'read' => false, 'read_label' => 'Chưa đọc'],
-                    ['stt' => 2, 'name' => 'Trần Bình', 'apartment' => '0102', 'read' => false, 'read_label' => 'Chưa đọc'],
-                    ['stt' => 3, 'name' => 'Lê Chi', 'apartment' => '0103', 'read' => true, 'read_label' => 'Đã đọc'],
-                    ['stt' => 4, 'name' => 'Phạm Dũng', 'apartment' => '0104', 'read' => false, 'read_label' => 'Chưa đọc'],
-                    ['stt' => 5, 'name' => 'Hoàng Giang', 'apartment' => '0105', 'read' => false, 'read_label' => 'Chưa đọc'],
-                    ['stt' => 6, 'name' => 'Vũ Hà', 'apartment' => '0106', 'read' => true, 'read_label' => 'Đã đọc'],
-                ],
-            ],
-            (object) [
-                'id' => 2,
-                'title' => 'Nhắc thanh toán phí tháng 02/2026',
-                'body' => 'Ban quản lý xin gửi thông báo nhắc lịch thanh toán phí dịch vụ và tiền điện nước tháng 02/2026 trước ngày 10/02/2026.',
-                'scope' => 'Tất cả',
-                'scope_detail' => 'Tất cả cư dân · GGMB Residence',
-                'creator' => '1 · Nguyễn Minh Quản lý',
-                'created_at' => '01/03/2026 08:00',
-                'read_count' => 10,
-                'unread_count' => 20,
-                'total_count' => 30,
-                'recipients' => [
-                    ['stt' => 1, 'name' => 'Nguyễn An', 'apartment' => '0101', 'read' => true, 'read_label' => 'Đã đọc'],
-                    ['stt' => 2, 'name' => 'Trần Bình', 'apartment' => '0102', 'read' => false, 'read_label' => 'Chưa đọc'],
-                    ['stt' => 3, 'name' => 'Lê Chi', 'apartment' => '0103', 'read' => true, 'read_label' => 'Đã đọc'],
-                ],
-            ],
-            (object) [
-                'id' => 3,
-                'title' => 'Cập nhật xử lý yêu cầu kỹ thuật',
-                'body' => 'Kỹ thuật viên đã kiểm tra và khắc phục xong sự cố rò rỉ van nước hành lang tầng 2. Cảm ơn cư dân đã phản ánh kịp thời.',
-                'scope' => 'Tầng',
-                'scope_detail' => 'Tầng 2, Tòa A · GGMB Residence',
-                'creator' => '2 · Trần Thu Hỗ trợ',
-                'created_at' => '15/02/2026 14:00',
-                'read_count' => 3,
-                'unread_count' => 5,
-                'total_count' => 8,
-                'recipients' => [
-                    ['stt' => 1, 'name' => 'Đặng Oanh', 'apartment' => '0201', 'read' => true, 'read_label' => 'Đã đọc'],
-                    ['stt' => 2, 'name' => 'Phan Nam', 'apartment' => '0202', 'read' => true, 'read_label' => 'Đã đọc'],
-                    ['stt' => 3, 'name' => 'Mai Phương', 'apartment' => '0203', 'read' => false, 'read_label' => 'Chưa đọc'],
-                ],
-            ],
-            (object) [
-                'id' => 4,
-                'title' => 'Thông báo riêng căn hộ 0101',
-                'body' => 'Gửi cư dân căn hộ 0101: Yêu cầu cập nhật thông tin biển số xe của quý cư dân đã được tiếp nhận và xử lý.',
-                'scope' => 'Căn hộ',
-                'scope_detail' => 'Căn hộ 0101 · Tòa A',
-                'creator' => '1 · Nguyễn Minh Quản lý',
-                'created_at' => '20/02/2026 09:00',
-                'read_count' => 0,
-                'unread_count' => 1,
-                'total_count' => 1,
-                'recipients' => [
-                    ['stt' => 1, 'name' => 'Nguyễn An', 'apartment' => '0101', 'read' => false, 'read_label' => 'Chưa đọc'],
-                ],
-            ],
-        ]);
+        $notifications = Notification::with([
+            'creator',
+            'recipients.user.apartmentResidents.apartment',
+            'targets.building',
+            'targets.floor',
+            'targets.apartment',
+        ])
+            ->where('IsDeleted', false)
+            ->orderByDesc('NotificationId')
+            ->get()
+            ->map(function (Notification $ntf) {
+                $readCount = $ntf->recipients->where('IsRead', true)->count();
+                $unreadCount = $ntf->recipients->where('IsRead', false)->count();
+                $totalCount = $ntf->recipients->count();
+
+                $scopeLabel = match ($ntf->TargetType) {
+                    'BUILDING' => 'Tòa nhà',
+                    'FLOOR' => 'Tầng',
+                    'APARTMENT' => 'Căn hộ',
+                    default => 'Tất cả',
+                };
+
+                $scopeDetail = match ($ntf->TargetType) {
+                    'BUILDING' => 'Toàn tòa nhà · GGMB Residence',
+                    'FLOOR' => 'Theo tầng chỉ định · GGMB Residence',
+                    'APARTMENT' => 'Gửi riêng căn hộ',
+                    default => 'Tất cả cư dân · GGMB Residence',
+                };
+
+                $recipientsList = $ntf->recipients->map(function (NotificationRecipient $rcp, int $idx) {
+                    $activeResidency = $rcp->user?->apartmentResidents?->firstWhere('Status', 'ACTIVE');
+                    $aptNum = $activeResidency?->apartment?->ApartmentNumber ?? '—';
+
+                    return [
+                        'stt' => $idx + 1,
+                        'name' => $rcp->user?->FullName ?? 'Cư dân',
+                        'apartment' => $aptNum,
+                        'read' => (bool) $rcp->IsRead,
+                        'read_label' => $rcp->IsRead ? 'Đã đọc' : 'Chưa đọc',
+                    ];
+                })->toArray();
+
+                return (object) [
+                    'id' => $ntf->NotificationId,
+                    'title' => $ntf->Title,
+                    'body' => $ntf->Content,
+                    'scope' => $scopeLabel,
+                    'scope_detail' => $scopeDetail,
+                    'creator' => $ntf->creator ? "{$ntf->creator->UserId} · {$ntf->creator->FullName}" : 'Ban quản lý',
+                    'created_at' => $ntf->CreatedAt ? Carbon::parse($ntf->CreatedAt)->format('d/m/Y H:i') : '—',
+                    'read_count' => $readCount,
+                    'unread_count' => $unreadCount,
+                    'total_count' => $totalCount,
+                    'recipients' => $recipientsList,
+                ];
+            });
 
         return view('notifications.index', [
             'notifications' => $notifications,
@@ -91,26 +89,92 @@ class NotificationController extends Controller
     }
 
     /**
-     * Soạn thông báo mới (Bám sát Ảnh 1, 3, 4, 5).
+     * Soạn thông báo mới (SCR-NTF-02).
      */
     public function create(Request $request): View
     {
-        return view('notifications.create');
+        $buildings = Building::where('IsDeleted', false)->get();
+        $floors = Floor::where('IsDeleted', false)->orderBy('FloorNumber')->get();
+        $apartments = Apartment::where('IsDeleted', false)->orderBy('ApartmentNumber')->get();
+
+        return view('notifications.create', [
+            'buildings' => $buildings,
+            'floors' => $floors,
+            'apartments' => $apartments,
+        ]);
     }
 
     /**
-     * Soạn thông báo mới.
+     * Lưu thông báo mới và tự động gửi tới cư dân mục tiêu.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreNotificationRequest $request): RedirectResponse
     {
-        return redirect()->route('notifications.index')->with('success', 'Gửi thông báo thành công.');
+        $dto = NotificationDTO::fromStoreRequest($request, auth()->id() ?? 1);
+
+        DB::transaction(function () use ($dto): void {
+            $notification = Notification::create($dto->toModelArray());
+
+            // Lưu Target
+            NotificationTarget::create([
+                'NotificationId' => $notification->NotificationId,
+                'BuildingId' => $dto->buildingId,
+                'FloorId' => $dto->floorId,
+                'ApartmentId' => ! empty($dto->apartmentIds) ? reset($dto->apartmentIds) : null,
+                'IsDeleted' => false,
+            ]);
+
+            // Xác định danh sách UserId cư dân nhận thông báo
+            $targetUserIds = collect([]);
+
+            if ($dto->targetType === 'ALL') {
+                $targetUserIds = User::where('Role', 'RESIDENT')
+                    ->where('IsDeleted', false)
+                    ->pluck('UserId');
+            } elseif ($dto->targetType === 'BUILDING' && $dto->buildingId) {
+                $targetUserIds = ApartmentResident::whereHas('apartment.floor', function ($q) use ($dto): void {
+                    $q->where('BuildingId', $dto->buildingId);
+                })->where('Status', 'ACTIVE')->pluck('UserId');
+            } elseif ($dto->targetType === 'FLOOR' && $dto->floorId) {
+                $targetUserIds = ApartmentResident::whereHas('apartment', function ($q) use ($dto): void {
+                    $q->where('FloorId', $dto->floorId);
+                })->where('Status', 'ACTIVE')->pluck('UserId');
+            } elseif (! empty($dto->apartmentIds)) {
+                $targetUserIds = ApartmentResident::whereIn('ApartmentId', $dto->apartmentIds)
+                    ->where('Status', 'ACTIVE')
+                    ->pluck('UserId');
+            }
+
+            if ($targetUserIds->isEmpty()) {
+                $targetUserIds = User::where('Role', 'RESIDENT')->where('IsDeleted', false)->pluck('UserId');
+            }
+
+            foreach ($targetUserIds->unique() as $uid) {
+                NotificationRecipient::create([
+                    'NotificationId' => $notification->NotificationId,
+                    'UserId' => $uid,
+                    'IsRead' => false,
+                    'IsDeleted' => false,
+                ]);
+            }
+        });
+
+        return redirect()->route('notifications.index')
+            ->with('success', 'Gửi thông báo thành công.');
     }
 
     /**
      * Cập nhật thông báo.
      */
-    public function update(int $id, Request $request): RedirectResponse
+    public function update(int $id, UpdateNotificationRequest $request): RedirectResponse
     {
-        return redirect()->route('notifications.index')->with('success', "Cập nhật thông báo #{$id} thành công.");
+        $notification = Notification::where('IsDeleted', false)->findOrFail($id);
+
+        $notification->update([
+            'Title' => (string) $request->validated('Title'),
+            'Content' => (string) $request->validated('Content'),
+        ]);
+
+        return redirect()->route('notifications.index')
+            ->with('success', "Cập nhật thông báo #{$id} thành công.");
     }
 }
