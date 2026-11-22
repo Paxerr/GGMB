@@ -1,4 +1,4 @@
-<!-- Modal Popup: Chỉnh sửa đơn giá (Bám sát Ảnh Chỉnh sửa đơn giá) -->
+<!-- Modal Popup: Chỉnh sửa đơn giá -->
 <div
     id="editRateModal"
     class="fixed inset-0 z-50 overflow-y-auto hidden"
@@ -16,39 +16,39 @@
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="editRatePanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[600px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[600px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
-            <!-- Modal Header (Bám sát Ảnh Chỉnh sửa đơn giá) -->
-            <div class="px-7 pt-6 pb-3">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#0E4D3C] tracking-wider uppercase select-none">
                         THÔNG TIN
                     </span>
                     <button
                         type="button"
                         onclick="closeEditRateModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="edit-rate-title">
+                <h3 class="text-[18px] sm:text-[20px] font-bold text-[#111827] tracking-tight mt-1" id="edit-rate-title">
                     Chỉnh sửa đơn giá
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5" id="editRateSubtitle">
+                <p class="text-[13px] text-[#6B7280] mt-0.5" id="editRateSubtitle">
                     Điện · Chỉ người có quyền cấu hình được sửa.
                 </p>
             </div>
 
             <!-- Two Tabs: Thêm mới / › Sửa hiện hành -->
-            <div class="px-7 pt-1 pb-3">
-                <div class="flex border border-[#d9e4ec] rounded-[4px] overflow-hidden p-0.5 bg-[#f8fafc]">
+            <div class="px-6 pt-4 pb-1">
+                <div class="flex border border-[#E5E7EB] rounded-[8px] overflow-hidden p-1 bg-[#F8FAF8]">
                     <button
                         type="button"
                         onclick="switchRateTab('create')"
                         id="rateTabCreate"
-                        class="flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#52697c] hover:text-[#122d40] rounded transition-colors"
+                        class="flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#6B7280] hover:text-[#111827] rounded-[6px] transition-colors cursor-pointer"
                     >
                         Thêm mới
                     </button>
@@ -56,7 +56,7 @@
                         type="button"
                         onclick="switchRateTab('edit')"
                         id="rateTabEdit"
-                        class="flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#2864ad] text-white rounded transition-colors"
+                        class="flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#0E4D3C] text-white rounded-[6px] transition-colors cursor-pointer"
                     >
                         › Sửa hiện hành
                     </button>
@@ -66,10 +66,10 @@
             <!-- Modal Form -->
             <form id="editRateForm" method="POST" action="" onsubmit="handleEditRateSubmit(event)">
                 @csrf
-                <div class="px-7 pb-6 space-y-4">
+                <div class="p-6 space-y-4">
                     <!-- Loại phí * (không đổi khi sửa) -->
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Loại phí * (không đổi khi sửa)
                         </label>
                         <input
@@ -77,16 +77,16 @@
                             id="edit_rate_fee_name"
                             readonly
                             value="Điện"
-                            class="w-full h-[42px] px-3 bg-[#f8fafc] border border-[#d9e4ec] text-[14px] text-[#52697c] focus:outline-none cursor-not-allowed"
+                            class="w-full h-[40px] px-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#6B7280] focus:outline-none cursor-not-allowed"
                         />
-                        <p class="text-[11px] text-[#8a9ba8] mt-1">
+                        <p class="text-[11px] text-[#6B7280] mt-1">
                             Đơn giá dùng khi lập chi tiết hóa đơn theo thời gian hiệu lực. Không tự thay đổi hóa đơn đã lập.
                         </p>
                     </div>
 
                     <!-- Đơn giá * · VND -->
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Đơn giá * · VND
                         </label>
                         <input
@@ -94,14 +94,14 @@
                             id="edit_rate_price"
                             value="3.500"
                             required
-                            class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
 
                     <!-- Hàng 2 Cột: Áp dụng từ * & Áp dụng đến -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Áp dụng từ *
                             </label>
                             <input
@@ -109,39 +109,39 @@
                                 id="edit_rate_from"
                                 value="01/01/2025"
                                 required
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Áp dụng đến
                             </label>
                             <input
                                 type="text"
                                 id="edit_rate_to"
                                 value="Không giới hạn"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
 
-                    <p class="text-[11px] text-[#8a9ba8]">
+                    <p class="text-[11px] text-[#6B7280]">
                         Đơn giá không âm; kiểm tra định dạng và thời gian áp dụng trước khi lưu.
                     </p>
                 </div>
 
-                <!-- Modal Footer (Hủy bên trái, Lưu đơn giá bên phải - Bám sát Ảnh) -->
-                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                <!-- Modal Footer -->
+                <div class="px-6 py-4 bg-[#F8FAF8] border-t border-[#E5E7EB] rounded-b-[16px] flex items-center justify-between">
                     <button
                         type="button"
                         onclick="closeEditRateModal()"
-                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                        class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                        class="h-[40px] px-5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                     >
                         Lưu đơn giá
                     </button>
@@ -201,14 +201,14 @@
         const tabEdit = document.getElementById('rateTabEdit');
 
         if (tab === 'create') {
-            tabCreate.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#2864ad] text-white rounded transition-colors';
-            tabEdit.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#52697c] hover:text-[#122d40] rounded transition-colors';
+            tabCreate.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#0E4D3C] text-white rounded-[6px] transition-colors cursor-pointer';
+            tabEdit.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#6B7280] hover:text-[#111827] rounded-[6px] transition-colors cursor-pointer';
             document.getElementById('edit_rate_price').value = '';
             document.getElementById('edit_rate_from').value = 'dd/mm/yyyy';
             document.getElementById('edit_rate_to').value = 'Để trống nếu không giới hạn';
         } else {
-            tabEdit.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#2864ad] text-white rounded transition-colors';
-            tabCreate.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#52697c] hover:text-[#122d40] rounded transition-colors';
+            tabEdit.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#0E4D3C] text-white rounded-[6px] transition-colors cursor-pointer';
+            tabCreate.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#6B7280] hover:text-[#111827] rounded-[6px] transition-colors cursor-pointer';
             document.getElementById('edit_rate_price').value = '3.500';
             document.getElementById('edit_rate_from').value = '01/01/2025';
             document.getElementById('edit_rate_to').value = 'Không giới hạn';

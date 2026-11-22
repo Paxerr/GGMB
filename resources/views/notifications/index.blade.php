@@ -1,41 +1,52 @@
 @extends('layouts.app', [
     'title' => 'Bảng tin tòa nhà · GGMB',
     'active' => 'notifications',
-    'breadcrumbs' => ['GGMB', 'Thông báo']
+    'breadcrumbs' => ['Quản trị', 'Thông báo']
 ])
 
 @section('content')
 <div class="space-y-6 pb-12">
-    <!-- Breadcrumb (Bám sát Ảnh 9) -->
-    <nav class="flex items-center text-[13px] leading-[18px] text-[#52697c] space-x-2">
-        <a href="{{ route('dashboard') }}" class="hover:text-[#2864ad] transition-colors">GGMB</a>
-        <span>/</span>
-        <span class="text-[#122d40] font-medium">Thông báo</span>
-    </nav>
+    <span class="sr-only">GGMB</span>
 
-    <!-- Page Title & Subtitle (Bám sát Ảnh 9) -->
-    <div class="space-y-1">
-        <h1 class="text-[28px] leading-[36px] font-bold text-[#122d40] tracking-tight">
-            Bảng tin tòa nhà
-        </h1>
-        <p class="text-[14px] leading-[20px] text-[#52697c]">
-            Gửi thông báo theo đúng phạm vi; theo dõi đã đọc / chưa đọc cho từng người nhận.
-        </p>
+    <!-- Breadcrumb & Tiêu đề -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <nav class="flex items-center text-[12px] text-[#6B7280] space-x-1.5 mb-1.5">
+                <span>Quản trị</span>
+                <span>/</span>
+                <span class="text-[#111827] font-medium">Thông báo</span>
+            </nav>
+            <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
+                Bảng tin tòa nhà
+            </h1>
+            <p class="mt-0.5 text-[13.5px] text-[#6B7280]">
+                Gửi thông báo theo đúng phạm vi; theo dõi đã đọc / chưa đọc cho từng người nhận.
+            </p>
+        </div>
+        <div class="shrink-0">
+            <button
+                type="button"
+                onclick="openCreateNotificationModal()"
+                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] shadow-sm transition-colors cursor-pointer"
+            >
+                <span>＋</span> Soạn thông báo
+            </button>
+        </div>
     </div>
 
-    <!-- Filter Bar (Bám sát Ảnh 9) -->
-    <div class="bg-white border border-[#d9e4ec] rounded-[4px] p-4 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-4 shadow-xs">
+    <!-- Filter Bar -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-4 shadow-none">
         <form method="GET" action="{{ route('notifications.index') }}" class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 flex-1">
             <!-- Phạm vi -->
             <div class="space-y-1.5 w-full sm:w-[220px]">
-                <label for="filterScope" class="block text-[12px] font-semibold text-[#334b5d]">
+                <label for="filterScope" class="block text-[12px] font-semibold text-[#374151]">
                     Phạm vi
                 </label>
                 <div class="relative">
                     <select
                         id="filterScope"
                         name="scope"
-                        class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                     >
                         <option value="">Tất cả phạm vi ▾</option>
                         <option value="Tòa nhà">Tòa nhà</option>
@@ -43,13 +54,13 @@
                         <option value="Tầng">Tầng</option>
                         <option value="Căn hộ">Căn hộ</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                 </div>
             </div>
 
             <!-- Tìm tiêu đề thông báo -->
             <div class="space-y-1.5 flex-1">
-                <label for="filterSearch" class="block text-[12px] font-semibold text-[#334b5d]">
+                <label for="filterSearch" class="block text-[12px] font-semibold text-[#374151]">
                     Tìm tiêu đề thông báo
                 </label>
                 <input
@@ -57,45 +68,34 @@
                     id="filterSearch"
                     name="q"
                     placeholder="Nhập tiêu đề thông báo"
-                    class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad]"
+                    class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                 />
             </div>
 
             <!-- Nút Lọc -->
             <button
                 type="submit"
-                class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
             >
                 Lọc
             </button>
         </form>
-
-        <!-- Right: Nút ＋ Soạn thông báo (Mở Modal Popup) -->
-        <div class="shrink-0">
-            <button
-                type="button"
-                onclick="openCreateNotificationModal()"
-                class="w-full sm:w-[170px] h-[40px] px-4 bg-[#2864ad] hover:bg-[#205391] border border-solid border-[#2864ad] rounded-[4px] text-[14px] font-semibold text-white transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap shadow-sm"
-            >
-                ＋ Soạn thông báo
-            </button>
-        </div>
     </div>
 
-    <!-- Data Table (Bám sát Ảnh 9) -->
+    <!-- Data Table -->
     @php
         $notificationsMap = [];
     @endphp
-    <div class="bg-white border border-[#d9e4ec] rounded-[4px] overflow-hidden shadow-xs">
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] overflow-hidden shadow-none">
         <!-- Table Header -->
-        <div class="bg-[#f0f4f8] border-b border-[#d9e4ec] flex h-[44px] items-center text-[12px] leading-[18px] font-semibold text-[#52697c] select-none">
-            <div class="w-[60px] min-w-[50px] px-3 border-r border-[#d9e4ec] h-full flex items-center">ID</div>
-            <div class="flex-1 min-w-[200px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Tiêu đề</div>
-            <div class="w-[120px] min-w-[100px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Phạm vi</div>
-            <div class="w-[200px] min-w-[180px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Người tạo · Mã</div>
-            <div class="w-[160px] min-w-[140px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Ngày tạo</div>
-            <div class="w-[150px] min-w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Đọc / Chưa / Tổng</div>
-            <div class="w-[140px] min-w-[120px] px-3 h-full flex items-center">Thao tác</div>
+        <div class="bg-[#F2F6F4] border-b border-[#E5E7EB] flex h-[44px] items-center text-[12px] font-semibold text-[#374151] select-none">
+            <div class="w-[60px] min-w-[50px] px-4 border-r border-[#E5E7EB] h-full flex items-center">ID</div>
+            <div class="flex-1 min-w-[200px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Tiêu đề</div>
+            <div class="w-[130px] min-w-[100px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Phạm vi</div>
+            <div class="w-[200px] min-w-[180px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Người tạo · Mã</div>
+            <div class="w-[160px] min-w-[140px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Ngày tạo</div>
+            <div class="w-[160px] min-w-[130px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Đọc / Chưa / Tổng</div>
+            <div class="w-[140px] min-w-[120px] px-4 h-full flex items-center">Thao tác</div>
         </div>
 
         <!-- Table Rows -->
@@ -104,83 +104,90 @@
                 $notificationsMap[$notif->id] = (array) $notif;
             @endphp
             <div
-                class="bg-white border-b last:border-b-0 border-[#d9e4ec] flex h-[48px] items-center text-[#334b5d] text-[14px] leading-[20px] hover:bg-[#f8fbfd] transition-colors cursor-pointer"
+                class="bg-white border-b border-[#E5E7EB] last:border-b-0 flex h-[52px] items-center text-[#374151] text-[13.5px] hover:bg-[#F9FBFA] transition-colors cursor-pointer"
                 onclick="if(!event.target.closest('button')) openNotificationDetailDrawer({{ $notif->id }})"
             >
-                <div class="w-[60px] min-w-[50px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">{{ $notif->id }}</div>
-                <div class="flex-1 min-w-[200px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-medium text-[#122d40] truncate">
+                <div class="w-[60px] min-w-[50px] px-4 border-r border-[#E5E7EB] h-full flex items-center text-[#6B7280]">{{ $notif->id }}</div>
+                <div class="flex-1 min-w-[200px] px-4 border-r border-[#E5E7EB] h-full flex items-center font-semibold text-[#111827] truncate">
                     {{ $notif->title }}
                 </div>
-                <div class="w-[120px] min-w-[100px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal text-[13px]">
-                    <span class="inline-block px-2 py-0.5 rounded text-xs font-medium bg-slate-100 text-[#334b5d]">
+                <div class="w-[130px] min-w-[100px] px-4 border-r border-[#E5E7EB] h-full flex items-center">
+                    <span class="inline-block px-2.5 py-0.5 rounded-[6px] text-xs font-semibold bg-[#E4EFE9] text-[#0E4D3C]">
                         {{ $notif->scope }}
                     </span>
                 </div>
-                <div class="w-[200px] min-w-[180px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal text-[13px] text-[#52697c] truncate">
+                <div class="w-[200px] min-w-[180px] px-4 border-r border-[#E5E7EB] h-full flex items-center text-[13px] text-[#6B7280] truncate">
                     {{ $notif->creator }}
                 </div>
-                <div class="w-[160px] min-w-[140px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal text-[13px] text-[#52697c]">
+                <div class="w-[160px] min-w-[140px] px-4 border-r border-[#E5E7EB] h-full flex items-center text-[13px] text-[#6B7280]">
                     {{ $notif->created_at }}
                 </div>
-                <div class="w-[150px] min-w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-medium font-mono text-[13px] text-[#122d40]">
+                <div class="w-[160px] min-w-[130px] px-4 border-r border-[#E5E7EB] h-full flex items-center font-medium font-mono text-[13px] text-[#111827]">
                     {{ $notif->read_count }} / {{ $notif->unread_count }} / {{ $notif->total_count }}
                 </div>
-                <div class="w-[140px] min-w-[120px] px-3 h-full flex items-center space-x-2 text-[14px]">
+                <div class="w-[140px] min-w-[120px] px-4 h-full flex items-center gap-1.5 text-[13px]">
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openNotificationDetailDrawer({{ $notif->id }});"
-                        class="text-[#2864ad] hover:text-[#205391] hover:underline font-medium cursor-pointer"
+                        title="Xem chi tiết thông báo"
+                        class="p-1.5 text-[#0E4D3C] hover:bg-[#E4EFE9] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Xem
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span class="sr-only">Xem</span>
                     </button>
-                    <span class="text-[#52697c]">/</span>
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openEditNotificationModal({{ $notif->id }});"
-                        class="text-[#2864ad] hover:text-[#205391] hover:underline font-medium cursor-pointer"
+                        title="Chỉnh sửa thông báo"
+                        class="p-1.5 text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F3F4F6] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Sửa
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="sr-only">Sửa</span>
                     </button>
                 </div>
             </div>
         @endforeach
     </div>
 
-    <!-- Informational Scope Box (Bám sát Ảnh 10) -->
-    <div class="bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] p-4 space-y-2 text-[13px] text-[#52697c]">
-        <h4 class="text-[12px] font-bold text-[#122d40] uppercase tracking-wider">
+    <!-- Informational Scope Box -->
+    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4 space-y-2 text-[13px] text-[#6B7280]">
+        <h4 class="text-[12px] font-bold text-[#111827] uppercase tracking-wider">
             PHẠM VI GỬI THÔNG BÁO
         </h4>
-        <div class="space-y-1 text-[#334b5d] font-mono text-xs">
+        <div class="space-y-1 text-[#374151] font-mono text-xs">
             <p>#1 · Toàn tòa A: Lịch bảo trì thang máy</p>
             <p>#2 · Tất cả cư dân: Nhắc thanh toán phí tháng 02/2026</p>
             <p>#3 · Tầng 2, Tòa A: Cập nhật xử lý yêu cầu kỹ thuật</p>
             <p>#4 · Căn hộ 0101: Thông báo riêng</p>
         </div>
-        <p class="text-[12px] text-[#8a9ba8] pt-1">
+        <p class="text-[12px] text-[#9CA3AF] pt-1">
             Chọn Xem để theo dõi người nhận đã đọc hoặc chưa đọc thông báo.
         </p>
     </div>
 
-    <!-- Pagination & Row Info (Bám sát Ảnh 9) -->
+    <!-- Pagination & Row Info -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
-        <div class="text-[13px] text-[#52697c]">
+        <div class="text-[13px] text-[#6B7280]">
             Hiển thị 1–4 trong 4 thông báo
         </div>
 
-        <!-- Phân trang ‹ 1 2 ... 7 › -->
-        <div class="w-[204px] h-[40px] bg-white border border-[#d9e4ec] rounded-[4px] flex items-center justify-between px-3 select-none text-[14px] text-[#334b5d]">
-            <span class="text-[#a6bece]">‹</span>
-            <span class="font-semibold text-[#122d40] border-b-2 border-[#2864ad] pb-0.5">1</span>
-            <span class="text-[#334b5d]">2</span>
-            <span class="text-[#8a9ba8]">...</span>
-            <span class="text-[#334b5d]">7</span>
-            <span class="text-[#334b5d] hover:text-[#2864ad] cursor-pointer">›</span>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
+                Trang trước
+            </button>
+            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
+                Trang sau
+            </button>
         </div>
     </div>
 </div>
 
-<!-- Partials: Drawer Chi tiết & Modal Soạn / Sửa (Bám sát Ảnh 10) -->
+<!-- Partials: Drawer Chi tiết & Modal Soạn / Sửa -->
 @include('notifications.partials.detail-drawer')
 @include('notifications.partials.create-modal')
 @include('notifications.partials.edit-modal')

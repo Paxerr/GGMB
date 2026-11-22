@@ -10,30 +10,30 @@
     <div
         id="assignTicketBackdrop"
         onclick="closeAssignTicketModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="assignTicketPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Modal Header (Bám sát Ảnh 6) -->
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         PHÂN CÔNG
                     </span>
                     <button
                         type="button"
                         onclick="closeAssignTicketModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="assign-ticket-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="assign-ticket-title">
                     Phân công người xử lý
                 </h3>
             </div>
@@ -41,23 +41,23 @@
             <!-- Modal Form -->
             <form id="assignTicketForm" method="POST" action="" onsubmit="event.preventDefault(); simulateAssignTicket();">
                 @csrf
-                <div class="px-7 pb-6 space-y-4">
+                <div class="px-6 py-5 space-y-4">
                     <!-- Ticket Info Summary Box (Bám sát Ảnh 6) -->
-                    <div class="bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] p-3.5 space-y-1">
-                        <h4 class="text-[14px] font-bold text-[#122d40]" id="assignTicketBoxTitle">
+                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] p-3.5 space-y-1">
+                        <h4 class="text-[14px] font-bold text-[#111827]" id="assignTicketBoxTitle">
                             Không xem được thông báo phí
                         </h4>
-                        <p class="text-[12px] text-[#52697c]" id="assignTicketBoxSub">
+                        <p class="text-[12.5px] text-[#6B7280]" id="assignTicketBoxSub">
                             Chờ xử lý · Tài khoản · Căn 0101 · Nguyễn An
                         </p>
-                        <p class="text-[11px] text-[#8a9ba8]" id="assignTicketBoxDate">
+                        <p class="text-[11.5px] text-[#9CA3AF]" id="assignTicketBoxDate">
                             02/02/2026 08:30 · Chưa phân công
                         </p>
                     </div>
 
                     <!-- Người phụ trách * Select -->
                     <div>
-                        <label for="assign_staff_select" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label for="assign_staff_select" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Người phụ trách *
                         </label>
                         <div class="relative">
@@ -65,59 +65,59 @@
                                 id="assign_staff_select"
                                 name="assignee_id"
                                 required
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                             >
                                 <option value="2">2 · Trần Thu Hỗ trợ ▾</option>
                                 <option value="3">3 · Lê Anh Hỗ trợ</option>
                                 <option value="4">4 · Phạm Hà Hỗ trợ</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">▾</div>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                         </div>
                     </div>
 
                     <!-- Danh sách nhân sự hỗ trợ · Phù hợp yêu cầu tài khoản (Bám sát Ảnh 6) -->
                     <div>
-                        <span class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wider mb-2">
                             NHÂN SỰ HỖ TRỢ · PHÙ HỢP YÊU CẦU TÀI KHOẢN
                         </span>
-                        <div class="border border-[#d9e4ec] rounded-[4px] divide-y divide-[#d9e4ec] overflow-hidden text-[13px]">
-                            <label class="flex items-center justify-between p-3 hover:bg-slate-50 cursor-pointer transition-colors">
+                        <div class="border border-[#E5E7EB] rounded-[8px] divide-y divide-[#E5E7EB] overflow-hidden text-[13px]">
+                            <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
                                 <div class="flex items-center gap-2.5">
-                                    <input type="radio" name="staff_radio" value="2" checked class="text-[#2864ad] focus:ring-[#2864ad]" />
-                                    <span class="font-medium text-[#122d40]">2 · Trần Thu Hỗ trợ</span>
+                                    <input type="radio" name="staff_radio" value="2" checked class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
+                                    <span class="font-semibold text-[#111827]">2 · Trần Thu Hỗ trợ</span>
                                 </div>
-                                <span class="text-[12px] text-[#52697c]">Chăm sóc cư dân</span>
+                                <span class="text-[12px] text-[#6B7280]">Chăm sóc cư dân</span>
                             </label>
-                            <label class="flex items-center justify-between p-3 hover:bg-slate-50 cursor-pointer transition-colors">
+                            <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
                                 <div class="flex items-center gap-2.5">
-                                    <input type="radio" name="staff_radio" value="3" class="text-[#2864ad] focus:ring-[#2864ad]" />
-                                    <span class="font-medium text-[#122d40]">3 · Lê Anh Hỗ trợ</span>
+                                    <input type="radio" name="staff_radio" value="3" class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
+                                    <span class="font-semibold text-[#111827]">3 · Lê Anh Hỗ trợ</span>
                                 </div>
-                                <span class="text-[12px] text-[#52697c]">Chăm sóc cư dân</span>
+                                <span class="text-[12px] text-[#6B7280]">Chăm sóc cư dân</span>
                             </label>
-                            <label class="flex items-center justify-between p-3 hover:bg-slate-50 cursor-pointer transition-colors">
+                            <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
                                 <div class="flex items-center gap-2.5">
-                                    <input type="radio" name="staff_radio" value="4" class="text-[#2864ad] focus:ring-[#2864ad]" />
-                                    <span class="font-medium text-[#122d40]">4 · Phạm Hà Hỗ trợ</span>
+                                    <input type="radio" name="staff_radio" value="4" class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
+                                    <span class="font-semibold text-[#111827]">4 · Phạm Hà Hỗ trợ</span>
                                 </div>
-                                <span class="text-[12px] text-[#52697c]">Chăm sóc cư dân</span>
+                                <span class="text-[12px] text-[#6B7280]">Chăm sóc cư dân</span>
                             </label>
                         </div>
                     </div>
                 </div>
 
                 <!-- Modal Footer (Hủy bên trái, Xác nhận phân công bên phải - Bám sát Ảnh 6) -->
-                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                     <button
                         type="button"
                         onclick="closeAssignTicketModal()"
-                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                        class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                        class="h-[38px] px-6 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                     >
                         Xác nhận phân công
                     </button>
@@ -175,6 +175,8 @@
 
     function simulateAssignTicket() {
         closeAssignTicketModal();
-        alert('Phân công người xử lý thành công (Demo UI)!');
+        if (window.showToast) {
+            window.showToast('Phân công người xử lý thành công!');
+        }
     }
 </script>

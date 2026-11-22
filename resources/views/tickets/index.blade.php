@@ -1,122 +1,135 @@
 @extends('layouts.app', [
     'title' => 'Quản lý yêu cầu hỗ trợ · GGMB',
     'active' => 'tickets',
-    'breadcrumbs' => ['GGMB', 'Yêu cầu hỗ trợ']
+    'breadcrumbs' => ['Quản trị', 'Yêu cầu hỗ trợ']
 ])
 
 @section('content')
 <div class="space-y-6 pb-12">
-    <!-- Breadcrumb (Bám sát Ảnh 2) -->
-    <nav class="flex items-center text-[13px] leading-[18px] text-[#52697c] space-x-2">
-        <a href="{{ route('dashboard') }}" class="hover:text-[#2864ad] transition-colors">GGMB</a>
-        <span>/</span>
-        <span class="text-[#122d40] font-medium">Yêu cầu hỗ trợ</span>
-    </nav>
+    <span class="sr-only">GGMB</span>
 
-    <!-- Page Title & Subtitle (Bám sát Ảnh 2) -->
-    <div class="space-y-1">
-        <h1 class="text-[28px] leading-[36px] font-bold text-[#122d40] tracking-tight">
-            Quản lý yêu cầu hỗ trợ
-        </h1>
-        <p class="text-[14px] leading-[20px] text-[#52697c]">
-            Tiếp nhận phản ánh, sự cố và yêu cầu hỗ trợ; phân công và theo dõi kết quả xử lý.
-        </p>
-    </div>
-
-    <!-- Filter Bar (4 Dropdowns + Nút ＋ Tạo phiếu - Bám sát Ảnh 6) -->
-    <div class="flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-4 pt-1">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
-            <!-- Nhóm yêu cầu -->
-            <div class="space-y-1.5">
-                <label for="filterCategory" class="block text-[12px] font-semibold text-[#334b5d]">
-                    Nhóm yêu cầu
-                </label>
-                <div class="relative">
-                    <select id="filterCategory" class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer">
-                        <option value="">Tất cả ▾</option>
-                        <option value="Tài khoản">Tài khoản</option>
-                        <option value="Xe">Xe & Đăng ký</option>
-                        <option value="Kỹ thuật">Kỹ thuật</option>
-                        <option value="Hóa đơn">Hóa đơn</option>
-                        <option value="Phản ánh">Phản ánh</option>
-                        <option value="Khác">Khác</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
-                </div>
-            </div>
-
-            <!-- Người tạo -->
-            <div class="space-y-1.5">
-                <label for="filterCreator" class="block text-[12px] font-semibold text-[#334b5d]">
-                    Người tạo
-                </label>
-                <div class="relative">
-                    <select id="filterCreator" class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer">
-                        <option value="">Tất cả ▾</option>
-                        <option value="Nguyễn An">Nguyễn An (Căn 0101)</option>
-                        <option value="Phan Nam">Phan Nam (Căn 0202)</option>
-                        <option value="Trần Bình">Trần Bình (Căn 0102)</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
-                </div>
-            </div>
-
-            <!-- Người phụ trách -->
-            <div class="space-y-1.5">
-                <label for="filterAssignee" class="block text-[12px] font-semibold text-[#334b5d]">
-                    Người phụ trách
-                </label>
-                <div class="relative">
-                    <select id="filterAssignee" class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer">
-                        <option value="">Tất cả ▾</option>
-                        <option value="Trần Thu Hỗ trợ">2 · Trần Thu Hỗ trợ</option>
-                        <option value="Lê Anh Hỗ trợ">3 · Lê Anh Hỗ trợ</option>
-                        <option value="Phạm Hà Hỗ trợ">4 · Phạm Hà Hỗ trợ</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
-                </div>
-            </div>
-
-            <!-- Căn hộ -->
-            <div class="space-y-1.5">
-                <label for="filterApartment" class="block text-[12px] font-semibold text-[#334b5d]">
-                    Căn hộ
-                </label>
-                <div class="relative">
-                    <select id="filterApartment" class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer">
-                        <option value="">Tất cả ▾</option>
-                        @foreach ($apartments as $apt)
-                            <option value="{{ $apt->ApartmentNumber }}">{{ $apt->ApartmentNumber }}</option>
-                        @endforeach
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
-                </div>
-            </div>
+    <!-- Breadcrumb & Tiêu đề -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <nav class="flex items-center text-[12px] text-[#6B7280] space-x-1.5 mb-1.5">
+                <span>Quản trị</span>
+                <span>/</span>
+                <span class="text-[#111827] font-medium">Yêu cầu hỗ trợ</span>
+            </nav>
+            <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
+                Quản lý yêu cầu hỗ trợ
+            </h1>
+            <p class="mt-0.5 text-[13.5px] text-[#6B7280]">
+                Tiếp nhận phản ánh, sự cố và yêu cầu hỗ trợ; phân công và theo dõi kết quả xử lý.
+            </p>
         </div>
-
-        <!-- Right: Nút ＋ Tạo phiếu -->
         <div class="shrink-0">
             <button
                 type="button"
                 onclick="openCreateTicketModal()"
-                class="w-full sm:w-[160px] h-[40px] px-4 bg-[#2864ad] hover:bg-[#205391] border border-solid border-[#2864ad] rounded-[4px] text-[14px] font-semibold text-white transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap shadow-sm"
+                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] shadow-sm transition-colors cursor-pointer"
             >
-                ＋ Tạo phiếu
+                <span>＋</span> Tạo phiếu
             </button>
         </div>
     </div>
 
-    <!-- Workflow Description & Stage Indicator (Bám sát Ảnh 6) -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[12px] text-[#52697c] pt-1">
-        <div>
-            <span class="font-medium text-[#334b5d]">Nhóm hỗ trợ:</span> Tài khoản / Phương tiện / Kỹ thuật / Hóa đơn / Phản ánh / Khác
+    <!-- Filter Bar -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-end gap-3 shadow-none">
+        <!-- Nhóm yêu cầu -->
+        <div class="space-y-1.5 flex-1 min-w-[160px]">
+            <label for="filterCategory" class="block text-[12px] font-semibold text-[#374151]">
+                Nhóm yêu cầu
+            </label>
+            <div class="relative">
+                <select id="filterCategory" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả ▾</option>
+                    <option value="Tài khoản">Tài khoản</option>
+                    <option value="Xe">Xe & Đăng ký</option>
+                    <option value="Kỹ thuật">Kỹ thuật</option>
+                    <option value="Hóa đơn">Hóa đơn</option>
+                    <option value="Phản ánh">Phản ánh</option>
+                    <option value="Khác">Khác</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            </div>
         </div>
-        <div class="text-[#334b5d] font-semibold flex items-center gap-1 select-none pr-1">
+
+        <!-- Người tạo -->
+        <div class="space-y-1.5 flex-1 min-w-[160px]">
+            <label for="filterCreator" class="block text-[12px] font-semibold text-[#374151]">
+                Người tạo
+            </label>
+            <div class="relative">
+                <select id="filterCreator" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả ▾</option>
+                    <option value="Nguyễn An">Nguyễn An (Căn 0101)</option>
+                    <option value="Phan Nam">Phan Nam (Căn 0202)</option>
+                    <option value="Trần Bình">Trần Bình (Căn 0102)</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            </div>
+        </div>
+
+        <!-- Người phụ trách -->
+        <div class="space-y-1.5 flex-1 min-w-[160px]">
+            <label for="filterAssignee" class="block text-[12px] font-semibold text-[#374151]">
+                Người phụ trách
+            </label>
+            <div class="relative">
+                <select id="filterAssignee" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả ▾</option>
+                    <option value="Trần Thu Hỗ trợ">2 · Trần Thu Hỗ trợ</option>
+                    <option value="Lê Anh Hỗ trợ">3 · Lê Anh Hỗ trợ</option>
+                    <option value="Phạm Hà Hỗ trợ">4 · Phạm Hà Hỗ trợ</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            </div>
+        </div>
+
+        <!-- Căn hộ -->
+        <div class="space-y-1.5 flex-1 min-w-[160px]">
+            <label for="filterApartment" class="block text-[12px] font-semibold text-[#374151]">
+                Căn hộ
+            </label>
+            <div class="relative">
+                <select id="filterApartment" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả ▾</option>
+                    @foreach ($apartments as $apt)
+                        <option value="{{ $apt->ApartmentNumber }}">{{ $apt->ApartmentNumber }}</option>
+                    @endforeach
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button
+                type="button"
+                class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+            >
+                Áp dụng
+            </button>
+            <button
+                type="button"
+                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+            >
+                Đặt lại
+            </button>
+        </div>
+    </div>
+
+    <!-- Workflow Description & Stage Indicator -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[12.5px] text-[#6B7280]">
+        <div>
+            <span class="font-medium text-[#111827]">Nhóm hỗ trợ:</span> Tài khoản / Phương tiện / Kỹ thuật / Hóa đơn / Phản ánh / Khác
+        </div>
+        <div class="text-[#0E4D3C] font-semibold flex items-center gap-1 select-none pr-1">
             NHÁNH HỦY YÊU CẦU ↘
         </div>
     </div>
 
-    <!-- Kanban Board 6 Columns (Bám sát Ảnh 2) -->
+    <!-- Kanban Board 6 Columns -->
     @php
         $ticketsMap = [];
     @endphp
@@ -125,15 +138,15 @@
             @php
                 $colTickets = $tickets->where('status', $statusKey);
             @endphp
-            <div class="bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] flex flex-col min-h-[460px] overflow-hidden">
+            <div class="bg-[#F9FBFA] border border-[#E5E7EB] rounded-[14px] flex flex-col min-h-[460px] overflow-hidden">
                 <!-- Column Header -->
-                <div class="{{ $col['bg_header'] }} px-3 py-2.5 border-b border-[#d9e4ec]">
+                <div class="px-3.5 py-3 border-b border-[#E5E7EB] bg-white">
                     <div class="flex items-center justify-between">
-                        <span class="text-[13px] font-bold text-[#122d40]">
+                        <span class="text-[13px] font-bold text-[#111827]">
                             {{ $col['title'] }} · {{ $col['count'] }}
                         </span>
                     </div>
-                    <span class="text-[11px] text-[#52697c] block mt-0.5">
+                    <span class="text-[11px] text-[#6B7280] block mt-0.5">
                         {{ $col['step'] }}
                     </span>
                 </div>
@@ -145,19 +158,19 @@
                             $ticketsMap[$ticket->id] = (array) $ticket;
                         @endphp
                         <div
-                            class="bg-white border border-[#d9e4ec] hover:border-[#2864ad] rounded-[4px] p-3 shadow-2xs hover:shadow-sm transition-all cursor-pointer group"
+                            class="bg-white border border-[#E5E7EB] hover:border-[#0E4D3C] rounded-[10px] p-3 shadow-xs hover:shadow-sm transition-all cursor-pointer group"
                             onclick="openTicketDetailDrawer({{ $ticket->id }})"
                         >
                             <!-- Card Header: Tag & Dropdown options -->
                             <div class="flex items-center justify-between mb-1.5">
-                                <span class="inline-block text-[11px] font-semibold text-[#52697c]">
+                                <span class="inline-block text-[11px] font-semibold text-[#6B7280]">
                                     #{{ $ticket->id }} · {{ $ticket->category }}
                                 </span>
                                 <div class="relative" onclick="event.stopPropagation()">
                                     <button
                                         type="button"
                                         onclick="toggleCardMenu({{ $ticket->id }})"
-                                        class="w-6 h-6 flex items-center justify-center text-[#8a9ba8] hover:text-[#122d40] rounded hover:bg-slate-100 text-sm leading-none"
+                                        class="w-6 h-6 flex items-center justify-center text-[#9CA3AF] hover:text-[#111827] rounded-[6px] hover:bg-slate-100 text-sm leading-none"
                                         title="Tùy chọn thao tác"
                                     >
                                         ···
@@ -165,62 +178,67 @@
                                     <!-- Dropdown menu -->
                                     <div
                                         id="cardMenu_{{ $ticket->id }}"
-                                        class="hidden absolute right-0 top-7 z-20 w-44 bg-white border border-[#d9e4ec] rounded shadow-lg py-1 text-xs text-[#334b5d]"
+                                        class="hidden absolute right-0 top-7 z-20 w-44 bg-white border border-[#E5E7EB] rounded-[8px] shadow-lg py-1 text-xs text-[#374151]"
                                     >
                                         <button
                                             type="button"
                                             onclick="openTicketDetailDrawer({{ $ticket->id }}); hideCardMenu({{ $ticket->id }});"
-                                            class="w-full text-left px-3 py-1.5 hover:bg-slate-50 flex items-center"
+                                            class="w-full text-left px-3 py-1.5 hover:bg-[#F9FBFA] flex items-center gap-2"
                                         >
-                                            Xem chi tiết
+                                            <svg class="w-3.5 h-3.5 text-[#0E4D3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                                            <span>Xem chi tiết</span>
                                         </button>
                                         <button
                                             type="button"
                                             onclick="openEditTicketModal({{ $ticket->id }}); hideCardMenu({{ $ticket->id }});"
-                                            class="w-full text-left px-3 py-1.5 hover:bg-slate-50 flex items-center"
+                                            class="w-full text-left px-3 py-1.5 hover:bg-[#F9FBFA] flex items-center gap-2"
                                         >
-                                            Chỉnh sửa
+                                            <svg class="w-3.5 h-3.5 text-[#374151]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                            <span>Chỉnh sửa</span>
                                         </button>
                                         <button
                                             type="button"
                                             onclick="openAssignTicketModal({{ $ticket->id }}); hideCardMenu({{ $ticket->id }});"
-                                            class="w-full text-left px-3 py-1.5 hover:bg-slate-50 flex items-center text-[#2864ad]"
+                                            class="w-full text-left px-3 py-1.5 hover:bg-[#F9FBFA] flex items-center gap-2 text-[#0E4D3C] font-medium"
                                         >
-                                            Phân công xử lý
+                                            <svg class="w-3.5 h-3.5 text-[#0E4D3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+                                            <span>Phân công xử lý</span>
                                         </button>
                                         <button
                                             type="button"
                                             onclick="openVerifyTicketModal({{ $ticket->id }}); hideCardMenu({{ $ticket->id }});"
-                                            class="w-full text-left px-3 py-1.5 hover:bg-slate-50 flex items-center text-emerald-600"
+                                            class="w-full text-left px-3 py-1.5 hover:bg-[#F9FBFA] flex items-center gap-2 text-[#0E4D3C] font-medium"
                                         >
-                                            Nghiệm thu & đóng
+                                            <svg class="w-3.5 h-3.5 text-[#0E4D3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            <span>Nghiệm thu & đóng</span>
                                         </button>
-                                        <div class="border-t border-[#d9e4ec] my-1"></div>
+                                        <div class="border-t border-[#E5E7EB] my-1"></div>
                                         <button
                                             type="button"
                                             onclick="openCancelTicketModal({{ $ticket->id }}); hideCardMenu({{ $ticket->id }});"
-                                            class="w-full text-left px-3 py-1.5 hover:bg-rose-50 flex items-center text-rose-600"
+                                            class="w-full text-left px-3 py-1.5 hover:bg-rose-50 flex items-center gap-2 text-rose-600 font-medium"
                                         >
-                                            Hủy yêu cầu
+                                            <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                            <span>Hủy yêu cầu</span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Card Title -->
-                            <h4 class="text-[13px] font-bold text-[#122d40] group-hover:text-[#2864ad] transition-colors leading-[18px] line-clamp-2">
+                            <h4 class="text-[13px] font-bold text-[#111827] group-hover:text-[#0E4D3C] transition-colors leading-[18px] line-clamp-2">
                                 {{ $ticket->title }}
                             </h4>
 
-                            <!-- Card Middle: Căn hộ · Tạo bởi (Bám sát Ảnh 6) -->
-                            <div class="mt-2 text-[11px] text-[#52697c]">
+                            <!-- Card Middle: Căn hộ · Tạo bởi -->
+                            <div class="mt-2 text-[11.5px] text-[#6B7280]">
                                 Căn {{ $ticket->apartment }} · tạo bởi {{ explode(' · ', $ticket->creator ?? '')[0] ?: ($ticket->creator_name ?? '10') }}
                             </div>
 
-                            <!-- Card Bottom: Ngày / Người phụ trách (Bám sát Ảnh 6) -->
-                            <div class="mt-1.5 pt-1.5 border-t border-slate-100 flex items-center justify-between text-[11px] text-[#8a9ba8]">
+                            <!-- Card Bottom: Ngày / Người phụ trách -->
+                            <div class="mt-1.5 pt-1.5 border-t border-[#F3F4F6] flex items-center justify-between text-[11px] text-[#9CA3AF]">
                                 <span>{{ \Illuminate\Support\Str::substr($ticket->created_at, 0, 5) }}</span>
-                                <span class="font-medium text-[#52697c]">
+                                <span class="font-medium text-[#374151]">
                                     @if ($ticket->assignee)
                                         Giao: {{ explode(' · ', $ticket->assignee)[0] }}
                                     @else
@@ -232,9 +250,9 @@
                     @endforeach
                 </div>
 
-                <!-- Column Footer (Bám sát Ảnh 2) -->
-                <div class="p-2.5 text-center border-t border-[#d9e4ec] bg-white">
-                    <span class="text-[12px] font-medium text-[#2864ad] hover:text-[#205391] cursor-pointer">
+                <!-- Column Footer -->
+                <div class="p-2.5 text-center border-t border-[#E5E7EB] bg-white">
+                    <span class="text-[12px] font-semibold text-[#0E4D3C] hover:underline cursor-pointer">
                         Xem {{ $col['remaining'] }} phiếu còn lại
                     </span>
                 </div>
@@ -242,13 +260,13 @@
         @endforeach
     </div>
 
-    <!-- Bottom summary (Bám sát Ảnh 2) -->
-    <div class="text-[13px] text-[#52697c] pt-1">
+    <!-- Bottom summary -->
+    <div class="text-[13px] text-[#6B7280] pt-1">
         Hiển thị 12 trong 100 yêu cầu · Chọn yêu cầu để xem chi tiết
     </div>
 </div>
 
-<!-- Partials: Drawer Chi tiết & Các Modal Popup (Bám sát Ảnh 3, 4, 5, 6, 7, 8) -->
+<!-- Partials: Drawer Chi tiết & Các Modal Popup -->
 @include('tickets.partials.detail-drawer')
 @include('tickets.partials.create-modal')
 @include('tickets.partials.edit-modal')
@@ -262,7 +280,6 @@
     function toggleCardMenu(id) {
         const menu = document.getElementById(`cardMenu_${id}`);
         if (!menu) return;
-        // Close other menus first
         document.querySelectorAll('[id^="cardMenu_"]').forEach(el => {
             if (el.id !== `cardMenu_${id}`) el.classList.add('hidden');
         });
@@ -274,7 +291,6 @@
         if (menu) menu.classList.add('hidden');
     }
 
-    // Close menu when clicking outside
     document.addEventListener('click', function(e) {
         if (!e.target.closest('[id^="cardMenu_"]') && !e.target.closest('button[onclick^="toggleCardMenu"]')) {
             document.querySelectorAll('[id^="cardMenu_"]').forEach(el => el.classList.add('hidden'));

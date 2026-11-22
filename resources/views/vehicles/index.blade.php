@@ -13,23 +13,42 @@
         </div>
     @endif
 
-    <!-- Header Title & Subtitle (Bám sát Ảnh Đăng ký xe mới) -->
+    <!-- Header Title & Subtitle -->
     <div>
-        <h1 class="text-[26px] leading-[32px] font-semibold text-[#122d40]">
-            Đăng ký xe mới
+        <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
+            <span>Quản trị</span>
+            <span class="mx-1 text-[#9ca3af]">/</span>
+            <span class="text-[#374151]">Xe & đăng ký</span>
+        </nav>
+        <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
+            Quản lý xe & đăng ký
+            <span class="sr-only">Đăng ký xe mới</span>
         </h1>
-        <p class="mt-1 text-[14px] leading-[20px] text-[#334b5d]">
+        <p class="mt-1 text-[13px] leading-[20px] text-[#6b7280]">
             Thêm phương tiện gắn với căn hộ.
         </p>
     </div>
 
-    <!-- Filters & Action Button Row (100% responsive full width) -->
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 pt-2">
-        <!-- 3 Filter Fields -->
+    <!-- Heading & Action Button Row -->
+    <div class="flex items-center justify-between">
+        <h2 class="text-[16px] font-bold text-[#111827]">
+            Danh sách phương tiện
+        </h2>
+        <button
+            type="button"
+            onclick="openCreateVehicleModal()"
+            class="px-4 py-2 bg-[#0e4d3c] hover:bg-[#0a3d2f] text-white rounded-[8px] text-[13.5px] font-semibold transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
+        >
+            ＋ Đăng ký xe
+        </button>
+    </div>
+
+    <!-- Filter Card: 3 Filter Fields -->
+    <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-4 shadow-none">
         <form method="GET" action="{{ route('vehicles.index') }}" onsubmit="event.preventDefault();" class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
             <!-- Filter 1: Biển số -->
-            <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="plateInput" class="block text-[12px] leading-[18px] font-semibold text-[#334b5d]">
+            <div class="space-y-1.5 flex-1 min-w-[200px]">
+                <label for="plateInput" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
                     Biển số
                 </label>
                 <div class="relative">
@@ -40,7 +59,7 @@
                         value="{{ request('license_plate') }}"
                         oninput="filterVehiclesRealtime()"
                         placeholder="Nhập biển số…"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c]"
                     />
                     @if (request('license_plate'))
                         <a href="{{ route('vehicles.index', request()->except('license_plate')) }}" class="absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400 hover:text-slate-600">
@@ -51,8 +70,8 @@
             </div>
 
             <!-- Filter 2: Loại xe -->
-            <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="typeSelect" class="block text-[12px] leading-[18px] font-semibold text-[#334b5d]">
+            <div class="space-y-1.5 flex-1 min-w-[200px]">
+                <label for="typeSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
                     Loại xe
                 </label>
                 <div class="relative">
@@ -60,7 +79,7 @@
                         id="typeSelect"
                         name="vehicle_type"
                         onchange="filterVehiclesRealtime()"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
                         <option value="">Tất cả ▾</option>
                         <option value="MOTORBIKE" {{ request('vehicle_type') === 'MOTORBIKE' ? 'selected' : '' }}>Xe máy · MOTORBIKE</option>
@@ -68,15 +87,15 @@
                         <option value="ELECTRIC_BIKE" {{ request('vehicle_type') === 'ELECTRIC_BIKE' ? 'selected' : '' }}>Xe máy điện · ELECTRIC</option>
                         <option value="BICYCLE" {{ request('vehicle_type') === 'BICYCLE' ? 'selected' : '' }}>Xe đạp · BICYCLE</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
                         ▾
                     </div>
                 </div>
             </div>
 
             <!-- Filter 3: Căn hộ -->
-            <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="apartmentIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#334b5d]">
+            <div class="space-y-1.5 flex-1 min-w-[200px]">
+                <label for="apartmentIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
                     Căn hộ
                 </label>
                 <div class="relative">
@@ -84,7 +103,7 @@
                         id="apartmentIdSelect"
                         name="apartment_id"
                         onchange="filterVehiclesRealtime()"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
                         <option value="">Tất cả ▾</option>
                         @foreach ($apartments as $apt)
@@ -93,49 +112,42 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
                         ▾
                     </div>
                 </div>
             </div>
 
+            <div class="flex items-center gap-2">
+                <a
+                    href="{{ route('vehicles.index') }}"
+                    class="h-[40px] px-4 bg-[#f3f4f6] hover:bg-[#e5e7eb] rounded-[8px] text-[13px] font-medium text-[#374151] transition-colors inline-flex items-center justify-center"
+                >
+                    Đặt lại
+                </a>
+            </div>
+
             <button type="submit" class="hidden">Tìm</button>
         </form>
-
-        <!-- Right: Nút ＋ Đăng ký xe -->
-        <div class="shrink-0">
-            <button
-                type="button"
-                onclick="openCreateVehicleModal()"
-                class="w-full sm:w-[196px] h-[40px] px-5 bg-[#2864ad] hover:bg-[#205391] border border-solid border-[#2864ad] rounded-[4px] text-[14px] font-semibold text-white transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap shadow-sm"
-            >
-                ＋ Đăng ký xe
-            </button>
-        </div>
     </div>
 
-    <!-- Data Table (Bảng dữ liệu: ôm 100% màn hình, không tràn ngang) -->
-    <div class="bg-white border border-solid border-[#d9e4ec] overflow-hidden rounded-[4px]" data-name="Bảng dữ liệu">
-        <!-- Table Header (Tiêu đề cột: h=40px, bg=#e4edf3, border-b=#d9e4ec) -->
-        <div class="bg-[#e4edf3] border-b border-[#d9e4ec] flex h-[40px] items-center text-[#334b5d] text-[12px] leading-[18px] font-semibold select-none">
-            <!-- Mã xe: 100px -->
-            <div class="w-[100px] min-w-[90px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+    <!-- Data Table (Bảng dữ liệu) -->
+    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none" data-name="Bảng dữ liệu">
+        <!-- Table Header (Tiêu đề cột) -->
+        <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none px-4">
+            <div class="w-[100px] min-w-[90px]">
                 Mã xe
             </div>
-            <!-- Biển số: 240px -->
-            <div class="w-[240px] min-w-[200px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="w-[240px] min-w-[200px]">
                 Biển số
             </div>
-            <!-- Loại xe: 220px -->
-            <div class="w-[220px] min-w-[180px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="w-[220px] min-w-[180px]">
                 Loại xe
             </div>
-            <!-- Căn hộ: 160px -->
-            <div class="w-[160px] min-w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="w-[160px] min-w-[130px]">
                 Căn hộ
             </div>
-            <!-- Thao tác: flex-1 -->
-            <div class="flex-1 min-w-[220px] px-3 h-full flex items-center">
+            <div class="flex-1 min-w-[200px] text-[#0e4d3c]">
                 Thao tác
             </div>
         </div>
@@ -178,69 +190,80 @@
                 data-plate="{{ $veh->LicensePlate }}"
                 data-type="{{ $veh->VehicleType }}"
                 data-apt="{{ $veh->ApartmentId }}"
-                class="vehicle-row bg-white border-b last:border-b-0 border-[#d9e4ec] flex h-[48px] items-center text-[#334b5d] text-[14px] leading-[20px] hover:bg-[#f8fbfd] transition-colors cursor-pointer"
+                class="vehicle-row border-b last:border-b-0 border-[#e5e7eb] flex h-[52px] items-center text-[#374151] text-[13.5px] hover:bg-[#f9fbfa] transition-colors cursor-pointer px-4"
                 onclick="if(!event.target.closest('a') && !event.target.closest('button')) openVehicleDetailModal({{ $veh->VehicleId }})"
             >
                 <!-- VehicleId: 100px -->
-                <div class="w-[100px] min-w-[90px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
+                <div class="w-[100px] min-w-[90px] font-normal">
                     {{ $veh->VehicleId }}
                 </div>
 
                 <!-- Biển số: 240px -->
-                <div class="w-[240px] min-w-[200px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-semibold text-[#122d40] font-mono tracking-wide">
+                <div class="w-[240px] min-w-[200px] font-semibold text-[#111827] font-mono tracking-wide">
                     {{ $veh->LicensePlate }}
                 </div>
 
                 <!-- Loại xe: 220px -->
-                <div class="w-[220px] min-w-[180px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
+                <div class="w-[220px] min-w-[180px]">
                     @if ($isCar)
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[#e6f5ec] text-[#16734b]">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[#e6efe9] text-[#0e4d3c]">
                             CAR · Ô tô
                         </span>
                     @elseif ($isElec)
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[#f0edfa] text-[#6a51ae]">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[#f0edfa] text-[#6a51ae]">
                             ELECTRIC · Xe điện
                         </span>
                     @elseif ($isBike)
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-gray-100 text-[#52697c]">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-gray-100 text-[#6b7280]">
                             BICYCLE · Xe đạp
                         </span>
                     @else
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[#e8f1ff] text-[#2864ad]">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[#e8f1ff] text-[#2864ad]">
                             MOTORBIKE · Xe máy
                         </span>
                     @endif
                 </div>
 
                 <!-- Căn hộ: 160px -->
-                <div class="w-[160px] min-w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-medium text-[#122d40]">
+                <div class="w-[160px] min-w-[130px] font-medium text-[#111827]">
                     {{ $aptNumber }}
                 </div>
 
-                <!-- Thao tác: flex-1 (Tất cả mở dạng Popup Modal) -->
-                <div class="flex-1 min-w-[220px] px-3 h-full flex items-center space-x-2 text-[14px]">
+                <!-- Thao tác: flex-1 -->
+                <div class="flex-1 min-w-[200px] flex items-center gap-1.5 text-[13px]">
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openVehicleDetailModal({{ $veh->VehicleId }});"
-                        class="text-[#2864ad] hover:text-[#205391] hover:underline font-medium cursor-pointer transition-colors"
+                        title="Xem chi tiết"
+                        class="p-1.5 text-[#0e4d3c] hover:bg-[#e4efe9] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Xem
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span class="sr-only">Xem Chi tiết</span>
                     </button>
-                    <span class="text-[#52697c]">/</span>
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openEditVehicleModal({{ $veh->VehicleId }});"
-                        class="text-[#2864ad] hover:text-[#205391] hover:underline font-medium cursor-pointer transition-colors"
+                        title="Chỉnh sửa"
+                        class="p-1.5 text-[#374151] hover:text-[#0e4d3c] hover:bg-[#f3f4f6] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Sửa
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="sr-only">Sửa</span>
                     </button>
-                    <span class="text-[#52697c]">/</span>
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openCancelVehicleModal({{ $veh->VehicleId }});"
-                        class="text-rose-600 hover:text-rose-700 hover:underline font-medium cursor-pointer transition-colors"
+                        title="Hủy đăng ký / Hủy thẻ"
+                        class="p-1.5 text-rose-600 hover:text-rose-700 hover:bg-rose-50 rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Hủy đăng ký
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span class="sr-only">Hủy thẻ Hủy đăng ký</span>
                     </button>
                 </div>
             </div>

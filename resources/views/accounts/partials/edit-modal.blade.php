@@ -16,27 +16,27 @@
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="accountEditPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Header -->
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#0E4D3C] tracking-wider uppercase select-none">
                         CHỈNH SỬA
                     </span>
                     <button
                         type="button"
                         onclick="closeAccountEditModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="account-edit-title">
+                <h3 class="text-[18px] sm:text-[20px] font-bold text-[#111827] tracking-tight mt-1" id="account-edit-title">
                     Chỉnh sửa tài khoản
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5" id="edit_user_subtitle">
+                <p class="text-[13px] text-[#6B7280] mt-0.5" id="edit_user_subtitle">
                     Tên đăng nhập được giữ nguyên.
                 </p>
             </div>
@@ -44,28 +44,28 @@
             <!-- Form -->
             <form id="accountEditForm" onsubmit="event.preventDefault(); submitAccountEdit();">
                 <input type="hidden" id="edit_acc_id">
-                <div class="px-7 py-5 space-y-4">
+                <div class="p-6 space-y-4">
                     <!-- Hàng 1: Họ tên & Điện thoại -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Họ và tên <span class="text-rose-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 id="edit_acc_name"
                                 required
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Điện thoại
                             </label>
                             <input
                                 type="text"
                                 id="edit_acc_phone"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
@@ -73,23 +73,23 @@
                     <!-- Hàng 2: Email & Căn cước -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Email
                             </label>
                             <input
                                 type="email"
                                 id="edit_acc_email"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Căn cước công dân
                             </label>
                             <input
                                 type="text"
                                 id="edit_acc_citizen_id"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
@@ -97,12 +97,12 @@
                     <!-- Hàng 3: Vai trò & Bộ phận -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Vai trò <span class="text-rose-500">*</span>
                             </label>
                             <select
                                 id="edit_acc_role"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                             >
                                 <option value="Quản lý">Quản lý</option>
                                 <option value="Kỹ thuật">Kỹ thuật</option>
@@ -112,42 +112,42 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Bộ phận
                             </label>
                             <input
                                 type="text"
                                 id="edit_acc_dept"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
 
                     <!-- Mật khẩu mới -->
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Mật khẩu mới (bỏ trống nếu không thay đổi)
                         </label>
                         <input
                             type="password"
                             placeholder="••••••••"
-                            class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] placeholder-slate-400 focus:outline-none focus:border-[#2864ad]"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-slate-400 focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
                 </div>
 
                 <!-- Footer Actions -->
-                <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F8FAF8] border-t border-[#E5E7EB] rounded-b-[16px] flex items-center justify-between">
                     <button
                         type="button"
                         onclick="closeAccountEditModal()"
-                        class="h-[38px] px-5 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                        class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[38px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer shadow-sm"
+                        class="h-[40px] px-5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
                     >
                         Lưu thay đổi
                     </button>

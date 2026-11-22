@@ -9,33 +9,33 @@
     <div
         id="collectInvoiceBackdrop"
         onclick="closeCollectModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="collectInvoicePanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[640px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[640px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Modal Header -->
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         XÁC NHẬN
                     </span>
                     <button
                         type="button"
                         onclick="closeCollectModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="collect-invoice-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="collect-invoice-title">
                     Thu tiền tại quầy
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-1" id="collectModalSubtitle">
+                <p class="text-[13px] text-[#6B7280] mt-1" id="collectModalSubtitle">
                     Hóa đơn #1 · Căn 0101 · Kỳ 01/2026 · Chờ thanh toán
                 </p>
             </div>
@@ -43,74 +43,74 @@
             <!-- Modal Form -->
             <form id="collectInvoiceForm" method="POST" action="" onsubmit="event.preventDefault(); simulateCollectInvoice();">
                 @csrf
-                <div class="px-7 pb-6 space-y-5">
+                <div class="px-6 py-5 space-y-4">
                     <!-- Box: Số tiền cần thu -->
-                    <div class="bg-white border border-[#d9e4ec] rounded-[4px] p-5 flex items-center justify-between">
+                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[10px] p-4 flex items-center justify-between">
                         <div>
-                            <span class="block text-[11px] font-bold text-slate-500 tracking-wider uppercase">
+                            <span class="block text-[11px] font-bold text-[#6B7280] tracking-wider uppercase">
                                 SỐ TIỀN CẦN THU
                             </span>
-                            <span class="block text-[28px] font-bold text-[#122d40] font-mono mt-1" id="collectAmount">
+                            <span class="block text-[26px] font-bold text-[#0E4D3C] font-mono mt-0.5" id="collectAmount">
                                 842.500 đ
                             </span>
                         </div>
-                        <div class="text-right text-[12px] text-[#52697c]">
-                            Hạn: <span id="collectDueDate" class="font-medium">10/02/2026</span>
+                        <div class="text-right text-[12.5px] text-[#6B7280]">
+                            Hạn: <span id="collectDueDate" class="font-bold text-[#111827]">10/02/2026</span>
                         </div>
                     </div>
 
                     <!-- Hàng 1: Trạng thái sau xác nhận & Phương thức thanh toán * -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Trạng thái sau xác nhận
                             </label>
-                            <div class="w-full h-[42px] px-3 bg-[#e6f5ec] border border-[#c3e6cb] text-[#16734b] text-[14px] font-semibold flex items-center rounded-[2px] select-none">
+                            <div class="w-full h-[40px] px-3 bg-[#E4EFE9] border border-[#0E4D3C]/20 text-[#0E4D3C] text-[13.5px] font-semibold flex items-center rounded-[8px] select-none">
                                 Đã thanh toán
                             </div>
                         </div>
 
                         <div>
-                            <label for="collect_method" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label for="collect_method" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Phương thức thanh toán <span class="text-rose-600">*</span>
                             </label>
                             <div class="relative">
-                                <select id="collect_method" required class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer">
+                                <select id="collect_method" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
                                     <option value="CASH">Tiền mặt / Chuyển khoản ▾</option>
                                     <option value="BANK_TRANSFER">Chuyển khoản ngân hàng</option>
                                     <option value="QR">Quét mã VietQR</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">▾</div>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Hàng 2: Thời điểm thu · tự ghi lúc xác nhận -->
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Thời điểm thu · tự ghi lúc xác nhận
                         </label>
                         <input
                             type="text"
                             readonly
                             placeholder="Thời điểm thu thực tế khi lưu thành công"
-                            class="w-full h-[42px] px-3 bg-slate-50 border border-[#d9e4ec] text-[14px] text-[#52697c] placeholder-[#8a9ba8] cursor-not-allowed select-none focus:outline-none"
+                            class="w-full h-[40px] px-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#6B7280] placeholder-[#9CA3AF] cursor-not-allowed select-none focus:outline-none"
                         />
                     </div>
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                     <button
                         type="button"
                         onclick="closeCollectModal()"
-                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                        class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                        class="h-[38px] px-6 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                     >
                         Xác nhận đã thu
                     </button>
@@ -172,6 +172,8 @@
 
     function simulateCollectInvoice() {
         closeCollectModal();
-        alert('Đã xác nhận thu tiền hóa đơn thành công (Demo UI)!');
+        if (window.showToast) {
+            window.showToast('Đã xác nhận thu tiền hóa đơn thành công!');
+        }
     }
 </script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="h-full bg-[#f3f7fa]">
+<html lang="vi" class="h-full bg-[#f8faf8]">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,20 +24,15 @@
                             sans: ['Inter', 'sans-serif'],
                         },
                         colors: {
-                            'ggmb-navy': '#122D40',
-                            'ggmb-body': '#334B5D',
-                            'ggmb-muted': '#52697C',
-                            'ggmb-border': '#D9E4EC',
-                            'ggmb-bluesoft': '#E8F1FF',
-                            'ggmb-primary': '#2864AD',
-                            'ggmb-canvas': '#F3F7FA',
-                            'ggmb-success': '#16734B',
-                            'ggmb-success-soft': '#E6F5EC',
-                            'ggmb-violet': '#6A51AE',
-                            'ggmb-violet-soft': '#F0EDFA',
-                            'ggmb-warning': '#985B06',
-                            'ggmb-warning-soft': '#FFF4DB',
-                            'ggmb-chrome': '#E4EDF3',
+                            'ggmb-forest': '#0e4d3c',
+                            'ggmb-sage': '#e4efe9',
+                            'ggmb-canvas': '#f8faf8',
+                            'ggmb-caramel': '#8f5316',
+                            'ggmb-paid': '#115e43',
+                            'ggmb-border': '#e5e7eb',
+                            'ggmb-heading': '#111827',
+                            'ggmb-body': '#374151',
+                            'ggmb-muted': '#6b7280',
                         }
                     }
                 }
@@ -51,12 +46,12 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#f3f7fa] text-[#334b5d] antialiased flex flex-row">
+<body class="min-h-screen bg-[#f8faf8] text-[#374151] antialiased flex flex-row">
     <!-- Reusable Sidebar -->
     @include('layouts.sidebar', ['active' => $active ?? 'overview'])
 
     <!-- Main Container -->
-    <div class="flex-1 min-w-0 flex flex-col min-h-screen">
+    <div class="flex-1 min-w-0 flex flex-col min-h-screen bg-[#f8faf8]">
         <!-- Reusable Header -->
         @include('layouts.header', ['breadcrumbs' => $breadcrumbs ?? ['GGMB', 'Tổng quan']])
 
@@ -73,7 +68,7 @@
         @include('layouts.footer')
     </div>
 
-    <!-- Global Toast Notification Container -->
+    <!-- Global Toast Notification Container (Bo góc 8px) -->
     <div id="globalToastContainer" class="fixed bottom-5 right-5 z-[100] flex flex-col space-y-2 pointer-events-none"></div>
 
     <script>
@@ -82,14 +77,14 @@
             if (!container) return;
 
             const toast = document.createElement('div');
-            toast.className = 'pointer-events-auto flex items-center justify-between px-4 py-3 rounded-[4px] shadow-lg border text-[13px] font-medium transition-all duration-300 transform translate-y-4 opacity-0 max-w-sm';
+            toast.className = 'pointer-events-auto flex items-center justify-between px-4 py-3 rounded-[8px] shadow-sm border text-[13px] font-medium transition-all duration-300 transform translate-y-4 opacity-0 max-w-sm';
 
             if (type === 'danger' || type === 'error') {
                 toast.classList.add('bg-[#fdf2f2]', 'border-[#fecaca]', 'text-[#b91c1c]');
             } else if (type === 'info') {
-                toast.classList.add('bg-[#e8f1ff]', 'border-[#b9d5ff]', 'text-[#2864ad]');
+                toast.classList.add('bg-[#e8f1ff]', 'border-[#b9d5ff]', 'text-[#0e4d3c]');
             } else {
-                toast.classList.add('bg-[#e6f5ec]', 'border-[#c3e6cb]', 'text-[#16734b]');
+                toast.classList.add('bg-[#e6f5ec]', 'border-[#c3e6cb]', 'text-[#115e43]');
             }
 
             toast.innerHTML = `

@@ -1,4 +1,4 @@
-<!-- Slide-over Drawer: Chi tiết thông báo (Bám sát Ảnh 10) -->
+<!-- Slide-over Drawer: Chi tiết thông báo -->
 <div
     id="notificationDetailDrawer"
     class="fixed inset-0 z-50 overflow-hidden hidden"
@@ -16,55 +16,55 @@
     <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
         <div
             id="notifDrawerPanel"
-            class="w-screen max-w-[580px] bg-white border-l border-[#d9e4ec] shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out translate-x-full"
+            class="w-screen max-w-[580px] bg-white border-l border-[#E5E7EB] shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out translate-x-full"
         >
-            <!-- Drawer Header (Bám sát Ảnh 10) -->
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec] shrink-0">
+            <!-- Drawer Header -->
+            <div class="px-6 py-4 border-b border-[#E5E7EB] bg-[#F2F6F4] shrink-0">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#0E4D3C] tracking-wider uppercase select-none">
                         CHI TIẾT
                     </span>
                     <button
                         type="button"
                         onclick="closeNotificationDetailDrawer()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="notifDrawerHeaderId">
+                <h3 class="text-[18px] sm:text-[20px] font-bold text-[#111827] tracking-tight mt-1" id="notifDrawerHeaderId">
                     Chi tiết thông báo #1
                 </h3>
             </div>
 
-            <!-- Drawer Body (Bám sát Ảnh 10) -->
-            <div class="flex-1 overflow-y-auto p-7 space-y-5">
+            <!-- Drawer Body -->
+            <div class="flex-1 overflow-y-auto p-6 space-y-5">
                 <!-- Tiêu đề thông báo -->
                 <div>
-                    <h4 class="text-[16px] font-bold text-[#122d40] leading-snug" id="notifDrawerTitle">
+                    <h4 class="text-[16px] font-bold text-[#111827] leading-snug" id="notifDrawerTitle">
                         Thông báo lịch bảo trì thang máy
                     </h4>
-                    <p class="text-[13px] text-[#334b5d] mt-2 leading-[22px]" id="notifDrawerBody">
+                    <p class="text-[13.5px] text-[#374151] mt-2 leading-[22px]" id="notifDrawerBody">
                         Thang máy tòa A bảo trì ngày 08/02/2026, 08:00–11:00. Vui lòng sử dụng thang bộ trong thời gian này.
                     </p>
                 </div>
 
-                <!-- Meta info (Bám sát Ảnh 10) -->
-                <div class="space-y-1 text-[12px] text-[#52697c] pb-4 border-b border-slate-100">
-                    <p><span class="font-medium text-[#334b5d]">Người tạo:</span> <span id="notifDrawerCreator">Nguyễn Minh Quản lý</span></p>
-                    <p><span class="font-medium text-[#334b5d]">Ngày tạo:</span> <span id="notifDrawerDate">01/02/2026 08:00</span></p>
-                    <p><span class="font-medium text-[#334b5d]">Phạm vi nhận:</span> <span id="notifDrawerScope">Toàn tòa A · GGMB Residence</span></p>
+                <!-- Meta info -->
+                <div class="space-y-1.5 text-[12.5px] text-[#6B7280] pb-4 border-b border-[#E5E7EB]">
+                    <p><span class="font-medium text-[#374151]">Người tạo:</span> <span id="notifDrawerCreator" class="text-[#111827]">Nguyễn Minh Quản lý</span></p>
+                    <p><span class="font-medium text-[#374151]">Ngày tạo:</span> <span id="notifDrawerDate" class="text-[#111827]">01/02/2026 08:00</span></p>
+                    <p><span class="font-medium text-[#374151]">Phạm vi nhận:</span> <span id="notifDrawerScope" class="text-[#111827]">Toàn tòa A · GGMB Residence</span></p>
                 </div>
 
-                <!-- Segmented Tabs Filter: Tất cả / Đã đọc / Chưa đọc (Bám sát Ảnh 10) -->
+                <!-- Segmented Tabs Filter: Tất cả / Đã đọc / Chưa đọc -->
                 <div>
                     <div class="flex items-center gap-2 select-none">
                         <button
                             type="button"
                             id="tabAll"
                             onclick="filterRecipients('all')"
-                            class="flex-1 h-[36px] bg-[#2864ad] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer"
+                            class="flex-1 h-[36px] bg-[#0E4D3C] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                         >
                             Tất cả (<span id="countAll">30</span>)
                         </button>
@@ -72,7 +72,7 @@
                             type="button"
                             id="tabRead"
                             onclick="filterRecipients('read')"
-                            class="flex-1 h-[36px] bg-white border border-[#d9e4ec] text-[#334b5d] hover:bg-slate-50 text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer"
+                            class="flex-1 h-[36px] bg-white border border-[#E5E7EB] text-[#374151] hover:bg-[#F9FBFA] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                         >
                             Đã đọc (<span id="countRead">10</span>)
                         </button>
@@ -80,42 +80,42 @@
                             type="button"
                             id="tabUnread"
                             onclick="filterRecipients('unread')"
-                            class="flex-1 h-[36px] bg-white border border-[#d9e4ec] text-[#334b5d] hover:bg-slate-50 text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer"
+                            class="flex-1 h-[36px] bg-white border border-[#E5E7EB] text-[#374151] hover:bg-[#F9FBFA] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                         >
                             Chưa đọc (<span id="countUnread">20</span>)
                         </button>
                     </div>
                 </div>
 
-                <!-- Bảng danh sách người nhận (Bám sát Ảnh 10) -->
-                <div class="border border-[#d9e4ec] rounded-[4px] overflow-hidden">
+                <!-- Bảng danh sách người nhận -->
+                <div class="border border-[#E5E7EB] rounded-[10px] overflow-hidden">
                     <!-- Table Header -->
-                    <div class="bg-[#f0f4f8] border-b border-[#d9e4ec] flex h-[38px] items-center text-[12px] font-semibold text-[#52697c]">
-                        <div class="w-[50px] px-3 border-r border-[#d9e4ec] h-full flex items-center">STT</div>
-                        <div class="flex-1 px-3 border-r border-[#d9e4ec] h-full flex items-center">Họ tên</div>
-                        <div class="w-[110px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Đã đọc</div>
+                    <div class="bg-[#F2F6F4] border-b border-[#E5E7EB] flex h-[38px] items-center text-[12px] font-semibold text-[#374151]">
+                        <div class="w-[50px] px-3 border-r border-[#E5E7EB] h-full flex items-center">STT</div>
+                        <div class="flex-1 px-3 border-r border-[#E5E7EB] h-full flex items-center">Họ tên</div>
+                        <div class="w-[110px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Đã đọc</div>
                         <div class="w-[110px] px-3 h-full flex items-center">Thao tác</div>
                     </div>
                     <!-- Table Body -->
-                    <div id="recipientsTableBody" class="divide-y divide-[#d9e4ec] text-[13px] text-[#334b5d]">
+                    <div id="recipientsTableBody" class="divide-y divide-[#E5E7EB] text-[13px] text-[#374151]">
                         <!-- Rendered dynamically -->
                     </div>
                 </div>
             </div>
 
-            <!-- Drawer Footer (Đóng bên trái, Sửa thông báo bên phải - Bám sát Ảnh 10) -->
-            <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between bg-white shrink-0">
+            <!-- Drawer Footer -->
+            <div class="px-6 py-4 border-t border-[#E5E7EB] flex items-center justify-between bg-white shrink-0">
                 <button
                     type="button"
                     onclick="closeNotificationDetailDrawer()"
-                    class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                    class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                 >
                     Đóng
                 </button>
                 <button
                     type="button"
                     onclick="editFromNotificationDrawer()"
-                    class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                    class="h-[40px] px-5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                 >
                     Sửa thông báo
                 </button>
@@ -195,15 +195,15 @@
 
         // Reset styling
         [tabAll, tabRead, tabUnread].forEach(tab => {
-            tab.className = "flex-1 h-[36px] bg-white border border-[#d9e4ec] text-[#334b5d] hover:bg-slate-50 text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer";
+            tab.className = "flex-1 h-[36px] bg-white border border-[#E5E7EB] text-[#374151] hover:bg-[#F9FBFA] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer";
         });
 
         if (type === 'read') {
-            tabRead.className = "flex-1 h-[36px] bg-[#2864ad] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer";
+            tabRead.className = "flex-1 h-[36px] bg-[#0E4D3C] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer";
         } else if (type === 'unread') {
-            tabUnread.className = "flex-1 h-[36px] bg-[#2864ad] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer";
+            tabUnread.className = "flex-1 h-[36px] bg-[#0E4D3C] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer";
         } else {
-            tabAll.className = "flex-1 h-[36px] bg-[#2864ad] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer";
+            tabAll.className = "flex-1 h-[36px] bg-[#0E4D3C] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer";
         }
 
         renderRecipientsList();
@@ -231,7 +231,7 @@
 
         if (filtered.length === 0) {
             body.innerHTML = `
-                <div class="p-6 text-center text-[#8a9ba8] text-[13px]">
+                <div class="p-6 text-center text-[#6B7280] text-[13px]">
                     Không có người nhận nào trong mục này.
                 </div>
             `;
@@ -242,16 +242,16 @@
         filtered.forEach((r, idx) => {
             const isRead = r.read;
             const badge = isRead 
-                ? '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[#e6f5ec] text-[#16734b]">Đã đọc</span>'
-                : '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-slate-100 text-[#52697c]">Chưa đọc</span>';
+                ? '<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-[#E4EFE9] text-[#0E4D3C]">Đã đọc</span>'
+                : '<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-gray-100 text-[#6B7280]">Chưa đọc</span>';
 
             html += `
-                <div class="flex h-[42px] items-center hover:bg-[#f8fbfd] transition-colors">
-                    <div class="w-[50px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">${r.stt ?? (idx + 1)}</div>
-                    <div class="flex-1 px-3 border-r border-[#d9e4ec] h-full flex items-center font-medium text-[#122d40] truncate">${r.name}</div>
-                    <div class="w-[110px] px-3 border-r border-[#d9e4ec] h-full flex items-center">${badge}</div>
+                <div class="flex h-[42px] items-center hover:bg-[#F9FBFA] transition-colors">
+                    <div class="w-[50px] px-3 border-r border-[#E5E7EB] h-full flex items-center font-normal">${r.stt ?? (idx + 1)}</div>
+                    <div class="flex-1 px-3 border-r border-[#E5E7EB] h-full flex items-center font-medium text-[#111827] truncate">${r.name}</div>
+                    <div class="w-[110px] px-3 border-r border-[#E5E7EB] h-full flex items-center">${badge}</div>
                     <div class="w-[110px] px-3 h-full flex items-center">
-                        <button type="button" onclick="alert('Xem chi tiết người nhận: ${r.name}');" class="text-[#2864ad] hover:text-[#205391] hover:underline font-medium text-[13px] cursor-pointer">
+                        <button type="button" onclick="alert('Xem chi tiết người nhận: ${r.name}');" class="text-[#0E4D3C] hover:underline font-medium text-[13px] cursor-pointer">
                             Xem chi tiết
                         </button>
                     </div>

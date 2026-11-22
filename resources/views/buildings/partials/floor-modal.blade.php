@@ -11,50 +11,50 @@
     <div
         id="createFloorBackdrop"
         onclick="closeCreateFloorModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="createFloorPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[540px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[540px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         CẤU TRÚC
                     </span>
                     <button
                         type="button"
                         onclick="closeCreateFloorModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                     >&times;</button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="create-floor-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="create-floor-title">
                     Thêm tầng mới
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5">
+                <p class="text-[13px] text-[#6B7280] mt-0.5">
                     Thêm tầng vào tòa nhà {{ $selectedBuilding->BuildingName ?? 'GGMB Residence · Tòa A' }}.
                 </p>
             </div>
 
             <form id="createFloorForm" onsubmit="event.preventDefault(); submitCreateFloor();">
-                <div class="px-7 py-5 space-y-4">
+                <div class="px-6 py-5 space-y-4">
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Tòa nhà
                         </label>
                         <input
                             type="text"
                             value="{{ $selectedBuilding->BuildingName ?? 'GGMB Residence · Tòa A' }}"
                             readonly
-                            class="w-full h-[40px] px-3 bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#52697c] select-none cursor-not-allowed"
+                            class="w-full h-[38px] px-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#6B7280] select-none cursor-not-allowed"
                         />
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Số tầng <span class="text-rose-500">*</span>
                             </label>
                             <input
@@ -65,11 +65,11 @@
                                 max="99"
                                 value="6"
                                 placeholder="Ví dụ: 6"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[38px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Số căn dự kiến
                             </label>
                             <input
@@ -78,35 +78,35 @@
                                 min="1"
                                 max="30"
                                 value="8"
-                                class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                                class="w-full h-[38px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Ghi chú
                         </label>
                         <input
                             type="text"
                             id="create_floor_note"
                             placeholder="Khu căn hộ tiêu chuẩn"
-                            class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                            class="w-full h-[38px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
                 </div>
 
-                <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                     <button
                         type="button"
                         onclick="closeCreateFloorModal()"
-                        class="h-[38px] px-5 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                        class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[38px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer shadow-sm"
+                        class="h-[38px] px-6 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
                     >
                         Tạo tầng
                     </button>
@@ -129,50 +129,50 @@
     <div
         id="editFloorBackdrop"
         onclick="closeEditFloorModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="editFloorPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[540px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[540px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         CHỈNH SỬA
                     </span>
                     <button
                         type="button"
                         onclick="closeEditFloorModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                     >&times;</button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="edit-floor-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="edit-floor-title">
                     Chỉnh sửa tầng
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5" id="editFloorSubtitle">
+                <p class="text-[13px] text-[#6B7280] mt-0.5" id="editFloorSubtitle">
                     Cập nhật thông tin số tầng.
                 </p>
             </div>
 
             <form id="editFloorForm" onsubmit="event.preventDefault(); submitEditFloor();">
                 <input type="hidden" id="edit_floor_id">
-                <div class="px-7 py-5 space-y-4">
+                <div class="px-6 py-5 space-y-4">
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Mã tầng
                         </label>
                         <input
                             type="text"
                             id="edit_floor_code_display"
                             readonly
-                            class="w-full h-[40px] px-3 bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#52697c] select-none cursor-not-allowed"
+                            class="w-full h-[38px] px-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#6B7280] select-none cursor-not-allowed"
                         />
                     </div>
 
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Số tầng <span class="text-rose-500">*</span>
                         </label>
                         <input
@@ -181,22 +181,22 @@
                             required
                             min="1"
                             max="99"
-                            class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]"
+                            class="w-full h-[38px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
                 </div>
 
-                <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                     <button
                         type="button"
                         onclick="closeEditFloorModal()"
-                        class="h-[38px] px-5 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                        class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[38px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer shadow-sm"
+                        class="h-[38px] px-6 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
                     >
                         Lưu thay đổi
                     </button>
@@ -219,51 +219,51 @@
     <div
         id="deleteFloorBackdrop"
         onclick="closeDeleteFloorModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="deleteFloorPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[480px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[480px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-rose-500 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-rose-600 tracking-wider uppercase select-none">
                         XÁC NHẬN
                     </span>
                     <button
                         type="button"
                         onclick="closeDeleteFloorModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                     >&times;</button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="del-floor-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="del-floor-title">
                     Xóa tầng này?
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-1" id="deleteFloorMessage">
+                <p class="text-[13px] text-[#6B7280] mt-1" id="deleteFloorMessage">
                     Bạn có chắc chắn muốn xóa tầng này khỏi tòa nhà?
                 </p>
             </div>
 
-            <div class="px-7 pb-5">
-                <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-[4px] text-[13px] text-rose-700">
+            <div class="px-6 py-4">
+                <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-[8px] text-[13px] text-rose-700">
                     Lưu ý: Chỉ được xóa tầng khi không còn căn hộ nào thuộc tầng đó. Nếu đã có căn hộ, vui lòng chuyển căn hộ sang tầng khác trước.
                 </div>
             </div>
 
-            <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                 <button
                     type="button"
                     onclick="closeDeleteFloorModal()"
-                    class="h-[38px] px-5 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                    class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                 >
                     Hủy bỏ
                 </button>
                 <button
                     type="button"
                     onclick="confirmDeleteFloor()"
-                    class="h-[38px] px-6 bg-rose-600 hover:bg-rose-700 text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer shadow-sm"
+                    class="h-[38px] px-6 bg-rose-600 hover:bg-rose-700 text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
                 >
                     Xác nhận xóa
                 </button>
@@ -285,60 +285,60 @@
     <div
         id="detailFloorBackdrop"
         onclick="closeDetailFloorModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="detailFloorPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[540px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[540px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         THÔNG TIN TẦNG
                     </span>
                     <button
                         type="button"
                         onclick="closeDetailFloorModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                     >&times;</button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="detail_floor_title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="detail_floor_title">
                     Chi tiết tầng
                 </h3>
             </div>
 
-            <div class="px-7 py-5 space-y-4 text-[13px]">
+            <div class="px-6 py-5 space-y-4 text-[13.5px]">
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase">Mã tầng</span>
-                        <span class="block text-[14px] font-medium text-[#122d40] mt-1" id="detail_floor_id">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase">Mã tầng</span>
+                        <span class="block text-[14px] font-semibold text-[#111827] mt-1" id="detail_floor_id">—</span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase">Tên số tầng</span>
-                        <span class="block text-[14px] font-medium text-[#122d40] mt-1" id="detail_floor_num">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase">Tên số tầng</span>
+                        <span class="block text-[14px] font-semibold text-[#111827] mt-1" id="detail_floor_num">—</span>
                     </div>
                 </div>
 
                 <div>
-                    <span class="block text-[11px] font-bold text-[#52697c] uppercase">Tòa nhà</span>
-                    <span class="block text-[14px] text-[#122d40] mt-1" id="detail_floor_building">—</span>
+                    <span class="block text-[11px] font-bold text-[#6B7280] uppercase">Tòa nhà</span>
+                    <span class="block text-[14px] text-[#111827] mt-1 font-medium" id="detail_floor_building">—</span>
                 </div>
 
-                <div class="p-3 bg-[#f8fafc] border border-dashed border-[#d9e4ec] rounded-[4px] space-y-1">
-                    <span class="block text-[11px] font-bold text-slate-500 uppercase">Căn hộ thuộc tầng</span>
-                    <div class="text-[12px] text-[#334b5d]" id="detail_floor_apartments">
+                <div class="p-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] space-y-1">
+                    <span class="block text-[11px] font-bold text-[#6B7280] uppercase">Căn hộ thuộc tầng</span>
+                    <div class="text-[13px] text-[#374151]" id="detail_floor_apartments">
                         Gồm 8 căn hộ: 01, 02, 03, 04, 05, 06, 07, 08.
                     </div>
                 </div>
             </div>
 
-            <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-end">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-end rounded-b-[16px]">
                 <button
                     type="button"
                     onclick="closeDetailFloorModal()"
-                    class="h-[38px] px-6 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                    class="h-[38px] px-6 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                 >
                     Đóng
                 </button>
@@ -360,51 +360,51 @@
     <div
         id="deleteBuildingBackdrop"
         onclick="closeDeleteBuildingModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="deleteBuildingPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[480px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[480px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-rose-500 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-rose-600 tracking-wider uppercase select-none">
                         XÁC NHẬN
                     </span>
                     <button
                         type="button"
                         onclick="closeDeleteBuildingModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                     >&times;</button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="del-bld-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="del-bld-title">
                     Xóa tòa nhà này?
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-1">
+                <p class="text-[13px] text-[#6B7280] mt-1">
                     Bạn có chắc chắn muốn xóa tòa nhà <strong>{{ $selectedBuilding->BuildingName ?? 'GGMB Residence · Tòa A' }}</strong>?
                 </p>
             </div>
 
-            <div class="px-7 pb-5">
-                <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-[4px] text-[13px] text-rose-700">
+            <div class="px-6 py-4">
+                <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-[8px] text-[13px] text-rose-700">
                     Hệ thống chỉ cho phép xóa tòa nhà khi không còn căn hộ hoặc cư dân cư trú.
                 </div>
             </div>
 
-            <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                 <button
                     type="button"
                     onclick="closeDeleteBuildingModal()"
-                    class="h-[38px] px-5 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                    class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                 >
                     Hủy bỏ
                 </button>
                 <button
                     type="button"
                     onclick="confirmDeleteBuilding()"
-                    class="h-[38px] px-6 bg-rose-600 hover:bg-rose-700 text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer shadow-sm"
+                    class="h-[38px] px-6 bg-rose-600 hover:bg-rose-700 text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
                 >
                     Xác nhận xóa tòa
                 </button>
@@ -461,17 +461,17 @@
 
             const row = document.createElement('div');
             row.id = `floor-row-${newId}`;
-            row.className = 'bg-white border-b last:border-b-0 border-[#d9e4ec] flex h-[48px] items-center text-[#334b5d] text-[14px] hover:bg-[#f8fbfd] transition-all animate-in fade-in duration-300';
+            row.className = 'bg-white border-b last:border-b-0 border-[#E5E7EB] flex h-[48px] items-center text-[#374151] text-[13.5px] hover:bg-[#F9FBFA] transition-all animate-in fade-in duration-300';
             row.innerHTML = `
-                <div class="w-[90px] min-w-[90px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">${newId}</div>
-                <div class="flex-1 px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal truncate">${bldName}</div>
-                <div class="w-[173px] min-w-[173px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal floor-num">${num}</div>
+                <div class="w-[90px] min-w-[90px] px-3 border-r border-[#E5E7EB] h-full flex items-center font-normal">${newId}</div>
+                <div class="flex-1 px-3 border-r border-[#E5E7EB] h-full flex items-center font-normal truncate">${bldName}</div>
+                <div class="w-[173px] min-w-[173px] px-3 border-r border-[#E5E7EB] h-full flex items-center font-normal floor-num">${num}</div>
                 <div class="w-[274px] min-w-[274px] px-3 h-full flex items-center space-x-2">
-                    <button type="button" onclick="openDetailFloorModal('${newId}', '${num}', '${bldName}')" class="text-[#2864ad] hover:underline cursor-pointer">Xem</button>
-                    <span class="text-[#52697c]">/</span>
-                    <button type="button" onclick="openEditFloorModal('${newId}', '${num}')" class="text-[#2864ad] hover:underline cursor-pointer">Sửa</button>
-                    <span class="text-[#52697c]">/</span>
-                    <button type="button" onclick="openDeleteFloorModal('${newId}', '${num}')" class="text-rose-600 hover:underline cursor-pointer">Xóa</button>
+                    <button type="button" onclick="openDetailFloorModal('${newId}', '${num}', '${bldName}')" class="text-[#0E4D3C] hover:underline cursor-pointer font-medium">Xem</button>
+                    <span class="text-[#9CA3AF]">/</span>
+                    <button type="button" onclick="openEditFloorModal('${newId}', '${num}')" class="text-[#0E4D3C] hover:underline cursor-pointer font-medium">Sửa</button>
+                    <span class="text-[#9CA3AF]">/</span>
+                    <button type="button" onclick="openDeleteFloorModal('${newId}', '${num}')" class="text-rose-600 hover:underline cursor-pointer font-medium">Xóa</button>
                 </div>
             `;
             tableContainer.appendChild(row);
@@ -593,7 +593,7 @@
         document.getElementById('detail_floor_id').innerText = id;
         document.getElementById('detail_floor_num').innerText = `Tầng ${floorNum}`;
         document.getElementById('detail_floor_building').innerText = bldName;
-        document.getElementById('detail_floor_apartments').innerText = `Gồm 8 căn hộ: ${floorNum.padStart(2, '0')}01, ${floorNum.padStart(2, '0')}02, ${floorNum.padStart(2, '0')}03, ${floorNum.padStart(2, '0')}04, ${floorNum.padStart(2, '0')}05, ${floorNum.padStart(2, '0')}06, ${floorNum.padStart(2, '0')}07, ${floorNum.padStart(2, '0')}08.`;
+        document.getElementById('detail_floor_apartments').innerText = `Gồm 8 căn hộ: ${floorNum.toString().padStart(2, '0')}01, ${floorNum.toString().padStart(2, '0')}02, ${floorNum.toString().padStart(2, '0')}03, ${floorNum.toString().padStart(2, '0')}04, ${floorNum.toString().padStart(2, '0')}05, ${floorNum.toString().padStart(2, '0')}06, ${floorNum.toString().padStart(2, '0')}07, ${floorNum.toString().padStart(2, '0')}08.`;
 
         const modal = document.getElementById('detailFloorModal');
         const backdrop = document.getElementById('detailFloorBackdrop');

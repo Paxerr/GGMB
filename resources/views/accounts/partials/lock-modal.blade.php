@@ -16,73 +16,73 @@
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="accountLockPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[560px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[560px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Header -->
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-rose-500 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#B91C1C] tracking-wider uppercase select-none">
                         BẢO MẬT & TRUY CẬP
                     </span>
                     <button
                         type="button"
                         onclick="closeAccountLockModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#b91c1c] mt-1" id="lock-modal-title">
+                <h3 class="text-[18px] sm:text-[20px] font-bold text-[#B91C1C] tracking-tight mt-1" id="lock-modal-title">
                     Khóa tài khoản
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5" id="lock_account_subtitle">
+                <p class="text-[13px] text-[#6B7280] mt-0.5" id="lock_account_subtitle">
                     Tài khoản sẽ bị vô hiệu hóa quyền đăng nhập.
                 </p>
             </div>
 
             <!-- Body Content -->
-            <div class="px-7 py-6 space-y-5">
+            <div class="p-6 space-y-4">
                 <input type="hidden" id="lock_account_id">
 
                 <!-- 2 Cột: Trạng thái hiện tại & Sau xác nhận -->
-                <div class="grid grid-cols-2 gap-6 p-4 bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px]">
+                <div class="grid grid-cols-2 gap-4 p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px]">
                     <div>
-                        <span class="block text-[11px] font-semibold text-[#52697c] uppercase tracking-wide">
+                        <span class="block text-[11px] font-semibold text-[#6B7280] uppercase tracking-wide">
                             Trạng thái hiện tại
                         </span>
-                        <span class="block text-[14px] font-medium text-[#16734b] mt-1">
+                        <span class="block text-[14px] font-semibold text-[#0E4D3C] mt-1">
                             Đang hoạt động
                         </span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-semibold text-[#52697c] uppercase tracking-wide">
+                        <span class="block text-[11px] font-semibold text-[#6B7280] uppercase tracking-wide">
                             Sau xác nhận
                         </span>
-                        <span class="block text-[14px] font-medium text-[#b91c1c] mt-1">
+                        <span class="block text-[14px] font-semibold text-[#B91C1C] mt-1">
                             Bị khóa
                         </span>
                     </div>
                 </div>
 
-                <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-[4px] text-[13px] text-rose-700 leading-relaxed">
+                <div class="p-3.5 bg-rose-50 border border-rose-200 rounded-[8px] text-[13px] text-rose-700 leading-relaxed">
                     Lưu ý: Sau khi bị khóa, người dùng này sẽ không thể đăng nhập vào ứng dụng cư dân hoặc cổng quản trị cho đến khi được mở khóa.
                 </div>
             </div>
 
             <!-- Footer Actions -->
-            <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+            <div class="px-6 py-4 bg-[#F8FAF8] border-t border-[#E5E7EB] rounded-b-[16px] flex items-center justify-between">
                 <button
                     type="button"
                     onclick="closeAccountLockModal()"
-                    class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                    class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                 >
                     Hủy
                 </button>
                 <button
                     type="button"
                     onclick="confirmAccountLock()"
-                    class="h-[40px] px-6 bg-[#b91c1c] hover:bg-[#991b1b] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                    class="h-[40px] px-5 bg-[#B91C1C] hover:bg-[#991B1B] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                 >
                     Xác nhận khóa
                 </button>
@@ -109,73 +109,73 @@
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="accountUnlockPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[560px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[560px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Header -->
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-[#16734b] tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#0E4D3C] tracking-wider uppercase select-none">
                         BẢO MẬT & TRUY CẬP
                     </span>
                     <button
                         type="button"
                         onclick="closeAccountUnlockModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="unlock-modal-title">
+                <h3 class="text-[18px] sm:text-[20px] font-bold text-[#111827] tracking-tight mt-1" id="unlock-modal-title">
                     Mở khóa tài khoản
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5" id="unlock_account_subtitle">
+                <p class="text-[13px] text-[#6B7280] mt-0.5" id="unlock_account_subtitle">
                     Khôi phục quyền truy cập hệ thống cho tài khoản.
                 </p>
             </div>
 
             <!-- Body Content -->
-            <div class="px-7 py-6 space-y-5">
+            <div class="p-6 space-y-4">
                 <input type="hidden" id="unlock_account_id">
 
                 <!-- 2 Cột: Trạng thái hiện tại & Sau xác nhận -->
-                <div class="grid grid-cols-2 gap-6 p-4 bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px]">
+                <div class="grid grid-cols-2 gap-4 p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px]">
                     <div>
-                        <span class="block text-[11px] font-semibold text-[#52697c] uppercase tracking-wide">
+                        <span class="block text-[11px] font-semibold text-[#6B7280] uppercase tracking-wide">
                             Trạng thái hiện tại
                         </span>
-                        <span class="block text-[14px] font-medium text-[#b91c1c] mt-1">
+                        <span class="block text-[14px] font-semibold text-[#B91C1C] mt-1">
                             Bị khóa
                         </span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-semibold text-[#52697c] uppercase tracking-wide">
+                        <span class="block text-[11px] font-semibold text-[#6B7280] uppercase tracking-wide">
                             Sau xác nhận
                         </span>
-                        <span class="block text-[14px] font-medium text-[#16734b] mt-1">
+                        <span class="block text-[14px] font-semibold text-[#0E4D3C] mt-1">
                             Đang hoạt động
                         </span>
                     </div>
                 </div>
 
-                <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-[4px] text-[13px] text-[#16734b] leading-relaxed">
+                <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-[8px] text-[13px] text-[#0E4D3C] leading-relaxed">
                     Sau khi mở khóa, người dùng có thể sử dụng lại tên đăng nhập và mật khẩu hiện có để đăng nhập bình thường.
                 </div>
             </div>
 
             <!-- Footer Actions -->
-            <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+            <div class="px-6 py-4 bg-[#F8FAF8] border-t border-[#E5E7EB] rounded-b-[16px] flex items-center justify-between">
                 <button
                     type="button"
                     onclick="closeAccountUnlockModal()"
-                    class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                    class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                 >
                     Hủy
                 </button>
                 <button
                     type="button"
                     onclick="confirmAccountUnlock()"
-                    class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                    class="h-[40px] px-5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                 >
                     Xác nhận mở khóa
                 </button>
@@ -234,7 +234,7 @@
             const statusEl = row.querySelector('.acc-status');
             if (statusEl) {
                 statusEl.innerText = 'Bị khóa';
-                statusEl.classList.add('text-rose-600', 'font-medium');
+                statusEl.classList.add('text-[#B91C1C]', 'font-semibold');
             }
 
             // Cập nhật nút khóa/mở khóa
@@ -245,16 +245,15 @@
                 const lockBtn = actionsEl.querySelector('.btn-lock-toggle');
                 if (lockBtn) {
                     lockBtn.innerText = 'Mở khóa';
-                    lockBtn.className = 'text-[#2864ad] hover:underline font-medium cursor-pointer btn-lock-toggle';
+                    lockBtn.className = 'text-[#0E4D3C] hover:underline font-medium cursor-pointer btn-lock-toggle';
                     lockBtn.onclick = () => openAccountUnlockModal(currentLockAccount);
                 }
             }
         }
 
-        const name = currentLockAccount.name;
         closeAccountLockModal();
         if (window.showToast) {
-            window.showToast(`Đã khóa tài khoản ${name} thành công!`, 'danger');
+            window.showToast(`Đã khóa tài khoản ${currentLockAccount.name} thành công.`, 'danger');
         }
     }
 
@@ -305,7 +304,8 @@
             const statusEl = row.querySelector('.acc-status');
             if (statusEl) {
                 statusEl.innerText = 'Hoạt động';
-                statusEl.classList.remove('text-rose-600', 'font-medium');
+                statusEl.classList.remove('text-[#B91C1C]');
+                statusEl.classList.add('text-[#0E4D3C]');
             }
 
             // Cập nhật nút khóa/mở khóa
@@ -316,16 +316,15 @@
                 const lockBtn = actionsEl.querySelector('.btn-lock-toggle');
                 if (lockBtn) {
                     lockBtn.innerText = 'Khóa';
-                    lockBtn.className = 'text-[#b91c1c] hover:underline font-medium cursor-pointer btn-lock-toggle';
+                    lockBtn.className = 'text-[#B91C1C] hover:underline font-medium cursor-pointer btn-lock-toggle';
                     lockBtn.onclick = () => openAccountLockModal(currentLockAccount);
                 }
             }
         }
 
-        const name = currentLockAccount.name;
         closeAccountUnlockModal();
         if (window.showToast) {
-            window.showToast(`Đã mở khóa tài khoản ${name} thành công!`);
+            window.showToast(`Đã mở khóa tài khoản ${currentLockAccount.name} thành công.`);
         }
     }
 </script>

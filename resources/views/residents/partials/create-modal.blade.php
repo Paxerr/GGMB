@@ -16,27 +16,27 @@
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="createResidentPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[688px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[688px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Modal Header (Bám sát thiết kế) -->
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-7 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         THÔNG TIN
                     </span>
                     <button
                         type="button"
                         onclick="closeCreateResidentModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="modal-title">
+                <h3 class="text-[20px] font-bold text-[#111827] mt-1" id="modal-title">
                     Tạo cư dân mới
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-1">
+                <p class="text-[13px] text-[#6B7280] mt-0.5">
                     Tạo tài khoản cư dân và tiếp nhận vào căn hộ; * là trường bắt buộc.
                 </p>
             </div>
@@ -58,7 +58,7 @@
                                 value="{{ old('user_name') }}"
                                 required
                                 placeholder="Ví dụ: cudan01"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[42px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
@@ -72,7 +72,7 @@
                                 value="{{ old('full_name') }}"
                                 required
                                 placeholder="Ví dụ: Nguyễn Văn An"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[42px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
@@ -89,7 +89,7 @@
                                 name="password"
                                 required
                                 placeholder="Tối thiểu 6 ký tự"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[42px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
@@ -102,7 +102,7 @@
                                 name="citizen_id"
                                 value="{{ old('citizen_id') }}"
                                 placeholder="Số CCCD 12 chữ số"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[42px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
@@ -119,7 +119,7 @@
                                 name="phone"
                                 value="{{ old('phone') }}"
                                 placeholder="Ví dụ: 0910000010"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[42px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
@@ -132,7 +132,7 @@
                                 name="email"
                                 value="{{ old('email') }}"
                                 placeholder="nguyenan@email.com"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[42px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
@@ -148,7 +148,7 @@
                                     id="create_apartment_id"
                                     name="apartment_id"
                                     required
-                                    class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                                    class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                                 >
                                     <option value="" disabled selected>Chọn căn hộ tiếp nhận…</option>
                                     @foreach ($apartments as $apt)
@@ -172,24 +172,24 @@
                                 id="create_start_date"
                                 name="start_date"
                                 value="{{ old('start_date', date('Y-m-d')) }}"
-                                class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad]"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                     </div>
                 </div>
 
-                <!-- Modal Footer (Hủy bên trái, Tiếp nhận cư dân bên phải - Chuẩn Figma) -->
-                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                <!-- Modal Footer -->
+                <div class="px-7 py-4 border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px] bg-white">
                     <button
                         type="button"
                         onclick="closeCreateResidentModal()"
-                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                        class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                        class="h-[40px] px-5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                     >
                         Tiếp nhận cư dân
                     </button>

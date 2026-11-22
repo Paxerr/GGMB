@@ -1,123 +1,188 @@
 @extends('layouts.app', [
     'title' => 'Quản trị tài khoản · GGMB',
     'active' => 'accounts',
-    'breadcrumbs' => ['GGMB', 'Tài khoản']
+    'breadcrumbs' => ['Quản trị', 'Tài khoản']
 ])
 
 @section('content')
-<div class="max-w-[1216px] mx-auto space-y-6">
-    <!-- Tiêu đề & Phụ đề (Bám sát Ảnh Quản trị tài khoản) -->
-    <div>
-        <h1 class="text-[26px] leading-[32px] font-bold text-[#122d40]">
-            Quản trị tài khoản
-        </h1>
-        <p class="mt-1 text-[14px] leading-[20px] text-[#52697c]">
-            Quản lý thông tin, vai trò và trạng thái truy cập tài khoản.
-        </p>
-    </div>
+<div class="space-y-6 pb-12">
+    <span class="sr-only">GGMB</span>
 
-    <!-- Hàng Bộ lọc & Nút Thao tác (Bám sát Ảnh) -->
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 pt-1">
-        <div class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
-            <!-- Vai trò -->
-            <div class="space-y-1.5 w-full sm:w-[220px]">
-                <label class="block text-[12px] font-semibold text-[#334b5d]">
-                    Vai trò
-                </label>
-                <div class="relative">
-                    <select class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer">
-                        <option value="INTERNAL">Nội bộ · 4 vai trò ▾</option>
-                        <option value="RESIDENT">Cư dân</option>
-                        <option value="ALL">Tất cả</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
-                </div>
-            </div>
-
-            <!-- Trạng thái -->
-            <div class="space-y-1.5 w-full sm:w-[160px]">
-                <label class="block text-[12px] font-semibold text-[#334b5d]">
-                    Trạng thái
-                </label>
-                <div class="relative">
-                    <select class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] cursor-pointer">
-                        <option value="">Tất cả ▾</option>
-                        <option value="ACTIVE">Hoạt động</option>
-                        <option value="LOCKED">Bị khóa</option>
-                    </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#52697c]">▾</div>
-                </div>
-            </div>
-
-            <!-- Tìm kiếm -->
-            <div class="space-y-1.5 w-full sm:w-[280px]">
-                <label class="block text-[12px] font-semibold text-[#334b5d]">
-                    Tìm họ tên / tên đăng nhập / email
-                </label>
-                <input
-                    type="text"
-                    placeholder="Nhập từ khóa"
-                    class="w-full h-[40px] px-3 bg-white border border-[#d9e4ec] text-[13px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad]"
-                />
-            </div>
-
-            <!-- Nút Lọc -->
-            <button
-                type="button"
-                class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer"
-            >
-                Lọc
-            </button>
+    <!-- Breadcrumb & Tiêu đề -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <nav class="flex items-center text-[12px] text-[#6B7280] space-x-1.5 mb-1.5">
+                <span>Quản trị</span>
+                <span>/</span>
+                <span class="text-[#111827] font-medium">Tài khoản</span>
+            </nav>
+            <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
+                Quản trị tài khoản
+            </h1>
+            <p class="mt-0.5 text-[13.5px] text-[#6B7280]">
+                Quản lý thông tin, vai trò và trạng thái truy cập tài khoản.
+            </p>
         </div>
-
-        <!-- Nút ＋ Thêm tài khoản -->
         <div class="shrink-0">
             <button
                 type="button"
                 onclick="openCreateAccountModal()"
-                class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap shadow-sm"
+                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] shadow-sm transition-colors cursor-pointer"
             >
-                ＋ Thêm tài khoản
+                <span>＋</span> Thêm tài khoản
             </button>
         </div>
     </div>
 
-    <!-- Bảng dữ liệu Tài khoản (Bám sát Ảnh) -->
-    <div class="bg-white border border-[#d9e4ec] rounded-[4px] overflow-hidden shadow-2xs">
+    <!-- Hàng Bộ lọc -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-end gap-3 shadow-none">
+        <!-- Vai trò -->
+        <div class="space-y-1.5 flex-1 min-w-[180px]">
+            <label class="block text-[12px] font-semibold text-[#374151]">
+                Vai trò
+            </label>
+            <div class="relative">
+                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="INTERNAL">Nội bộ · 4 vai trò ▾</option>
+                    <option value="RESIDENT">Cư dân</option>
+                    <option value="ALL">Tất cả</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            </div>
+        </div>
+
+        <!-- Trạng thái -->
+        <div class="space-y-1.5 flex-1 min-w-[160px]">
+            <label class="block text-[12px] font-semibold text-[#374151]">
+                Trạng thái
+            </label>
+            <div class="relative">
+                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả ▾</option>
+                    <option value="ACTIVE">Hoạt động</option>
+                    <option value="LOCKED">Bị khóa</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            </div>
+        </div>
+
+        <!-- Tìm kiếm -->
+        <div class="space-y-1.5 flex-1 min-w-[240px]">
+            <label class="block text-[12px] font-semibold text-[#374151]">
+                Tìm họ tên / tên đăng nhập / email
+            </label>
+            <input
+                type="text"
+                placeholder="Nhập từ khóa"
+                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+            />
+        </div>
+
+        <div class="flex items-center gap-2">
+            <button
+                type="button"
+                class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+            >
+                Lọc
+            </button>
+            <button
+                type="button"
+                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+            >
+                Đặt lại
+            </button>
+        </div>
+    </div>
+
+    <!-- Bảng dữ liệu Tài khoản -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] overflow-hidden shadow-none">
         <!-- Table Header -->
-        <div class="bg-[#e4edf3] border-b border-[#d9e4ec] flex h-[40px] items-center text-[#334b5d] text-[12px] font-semibold select-none">
-            <div class="w-[60px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Mã</div>
-            <div class="w-[180px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Họ tên</div>
-            <div class="w-[150px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Tên đăng nhập</div>
-            <div class="w-[240px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Email</div>
-            <div class="w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Điện thoại</div>
-            <div class="w-[110px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Vai trò</div>
-            <div class="w-[110px] px-3 border-r border-[#d9e4ec] h-full flex items-center">Trạng thái</div>
-            <div class="flex-1 min-w-[130px] px-3 h-full flex items-center">Thao tác</div>
+        <div class="bg-[#F2F6F4] border-b border-[#E5E7EB] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none">
+            <div class="w-[60px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Mã</div>
+            <div class="w-[180px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Họ tên</div>
+            <div class="w-[150px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Tên đăng nhập</div>
+            <div class="w-[240px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Email</div>
+            <div class="w-[130px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Điện thoại</div>
+            <div class="w-[110px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Vai trò</div>
+            <div class="w-[110px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Trạng thái</div>
+            <div class="flex-1 min-w-[130px] px-4 h-full flex items-center">Thao tác</div>
         </div>
 
         <!-- Table Rows -->
         @foreach ($accounts as $acc)
-            <div id="acc-row-{{ $acc->id }}" class="bg-white border-b last:border-b-0 border-[#d9e4ec] flex h-[48px] items-center text-[#334b5d] text-[13px] hover:bg-[#f8fbfd] transition-colors">
-                <div class="w-[60px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">{{ $acc->id }}</div>
-                <div class="w-[180px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-medium text-[#122d40] acc-name">{{ $acc->name }}</div>
-                <div class="w-[150px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-mono text-[#52697c]">{{ $acc->username }}</div>
-                <div class="w-[240px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal text-[#52697c] acc-email truncate">{{ $acc->email }}</div>
-                <div class="w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-mono acc-phone">{{ $acc->phone }}</div>
-                <div class="w-[110px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal acc-role">{{ $acc->role }}</div>
-                <div class="w-[110px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal acc-status">{{ $acc->status_label }}</div>
-                <div class="flex-1 min-w-[130px] px-3 h-full flex items-center space-x-1.5 text-[13px] acc-actions">
-                    <button type="button" onclick="openAccountDetailModal({{ json_encode($acc) }})" class="text-[#2864ad] hover:underline font-medium cursor-pointer">Xem</button>
-                    <span class="text-[#52697c]">/</span>
-                    <button type="button" onclick="openAccountEditModal({{ json_encode($acc) }})" class="text-[#2864ad] hover:underline font-medium cursor-pointer">Sửa</button>
-                    @if ($acc->is_current_user)
-                        <span class="text-[#52697c] text-[12px]">· Bạn</span>
+            <div id="acc-row-{{ $acc->id }}" class="bg-white border-b border-[#E5E7EB] last:border-b-0 flex h-[52px] items-center text-[#374151] text-[13.5px] hover:bg-[#F9FBFA] transition-colors">
+                <div class="w-[60px] px-4 border-r border-[#E5E7EB] h-full flex items-center text-[#6B7280]">{{ $acc->id }}</div>
+                <div class="w-[180px] px-4 border-r border-[#E5E7EB] h-full flex items-center font-semibold text-[#111827] acc-name">{{ $acc->name }}</div>
+                <div class="w-[150px] px-4 border-r border-[#E5E7EB] h-full flex items-center font-mono text-[#6B7280]">{{ $acc->username }}</div>
+                <div class="w-[240px] px-4 border-r border-[#E5E7EB] h-full flex items-center text-[#6B7280] acc-email truncate">{{ $acc->email }}</div>
+                <div class="w-[130px] px-4 border-r border-[#E5E7EB] h-full flex items-center font-mono text-[#374151] acc-phone">{{ $acc->phone }}</div>
+                <div class="w-[110px] px-4 border-r border-[#E5E7EB] h-full flex items-center acc-role">
+                    <span class="inline-block px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-[#F3F4F6] text-[#374151]">
+                        {{ $acc->role }}
+                    </span>
+                </div>
+                <div class="w-[110px] px-4 border-r border-[#E5E7EB] h-full flex items-center acc-status">
+                    @if ($acc->status === 'ACTIVE' || $acc->status_label === 'Hoạt động')
+                        <span class="inline-block px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-[#E4EFE9] text-[#0E4D3C]">
+                            {{ $acc->status_label }}
+                        </span>
                     @else
-                        <span class="text-[#52697c]">/</span>
+                        <span class="inline-block px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-rose-50 text-rose-600">
+                            {{ $acc->status_label }}
+                        </span>
+                    @endif
+                </div>
+                <div class="flex-1 min-w-[130px] px-4 h-full flex items-center gap-1.5 text-[13px] acc-actions">
+                    <button
+                        type="button"
+                        onclick="openAccountDetailModal({{ json_encode($acc) }})"
+                        title="Xem chi tiết tài khoản"
+                        class="p-1.5 text-[#0E4D3C] hover:bg-[#E4EFE9] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span class="sr-only">Xem</span>
+                    </button>
+                    <button
+                        type="button"
+                        onclick="openAccountEditModal({{ json_encode($acc) }})"
+                        title="Chỉnh sửa tài khoản"
+                        class="p-1.5 text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F3F4F6] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="sr-only">Sửa</span>
+                    </button>
+                    @if ($acc->is_current_user)
+                        <span class="text-[#9CA3AF] text-[12px] px-1.5 font-medium">Bạn</span>
+                    @else
                         @if ($acc->status === 'LOCKED' || $acc->status_label === 'Bị khóa')
-                            <button type="button" onclick="openAccountUnlockModal({{ json_encode($acc) }})" class="text-[#2864ad] hover:underline font-medium cursor-pointer btn-lock-toggle">Mở khóa</button>
+                            <button
+                                type="button"
+                                onclick="openAccountUnlockModal({{ json_encode($acc) }})"
+                                title="Mở khóa tài khoản"
+                                class="p-1.5 text-[#0E4D3C] hover:bg-[#E4EFE9] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center btn-lock-toggle"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+                                </svg>
+                                <span class="sr-only">Mở khóa</span>
+                            </button>
                         @else
-                            <button type="button" onclick="openAccountLockModal({{ json_encode($acc) }})" class="text-[#b91c1c] hover:underline font-medium cursor-pointer btn-lock-toggle">Khóa</button>
+                            <button
+                                type="button"
+                                onclick="openAccountLockModal({{ json_encode($acc) }})"
+                                title="Khóa tài khoản"
+                                class="p-1.5 text-[#B91C1C] hover:text-[#991B1B] hover:bg-rose-50 rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center btn-lock-toggle"
+                            >
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <span class="sr-only">Khóa</span>
+                            </button>
                         @endif
                     @endif
                 </div>
@@ -125,22 +190,24 @@
         @endforeach
     </div>
 
-    <!-- Dòng chú thích nghiệp vụ (Bám sát Ảnh) -->
-    <div class="p-3 bg-[#f8fafc] border border-dashed border-[#d9e4ec] rounded-[4px] text-[12px] text-[#52697c] space-y-0.5">
+    <!-- Dòng chú thích nghiệp vụ -->
+    <div class="p-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] text-[12.5px] text-[#6B7280] space-y-0.5">
         <div>5 vai trò: Quản lý, Hỗ trợ, Kỹ thuật, Bảo vệ, Cư dân.</div>
         <div>Danh sách đang lọc nhân sự nội bộ; chọn Cư dân để xem tài khoản cư dân.</div>
     </div>
 
-    <!-- Thông tin hiển thị & Phân trang (Bám sát Ảnh 4) -->
+    <!-- Thông tin hiển thị & Phân trang -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
-        <div class="text-[13px] text-[#52697c]">
+        <div class="text-[13px] text-[#6B7280]">
             Hiển thị 1–6 trong 9 nhân sự
         </div>
-        <div class="w-[120px] h-[36px] bg-white border border-[#d9e4ec] rounded-[4px] flex items-center justify-between px-3 select-none text-[13px] text-[#334b5d]">
-            <span class="text-[#a6bece]">‹</span>
-            <span class="font-semibold text-[#122d40] border-b-2 border-[#2864ad] pb-0.5">1</span>
-            <span class="text-[#334b5d]">2</span>
-            <span class="text-[#334b5d]">›</span>
+        <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
+                Trang trước
+            </button>
+            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
+                Trang sau
+            </button>
         </div>
     </div>
 </div>

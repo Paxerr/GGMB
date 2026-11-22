@@ -10,33 +10,33 @@
     <div
         id="editVehicleBackdrop"
         onclick="closeEditVehicleModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="editVehiclePanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[600px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[600px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Modal Header -->
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#6B7280] tracking-wider uppercase select-none">
                         THÔNG TIN
                     </span>
                     <button
                         type="button"
                         onclick="closeEditVehicleModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="edit-vehicle-title">
+                <h3 class="text-[18px] font-bold text-[#111827] mt-1" id="edit-vehicle-title">
                     Chỉnh sửa phương tiện
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-1" id="editVehicleSubtitle">
+                <p class="text-[13px] text-[#6B7280] mt-1" id="editVehicleSubtitle">
                     Cập nhật thông tin gắn với căn hộ.
                 </p>
             </div>
@@ -45,11 +45,11 @@
             <form id="editVehicleForm" method="POST" action="" onsubmit="handleEditVehicleSubmit(event)">
                 @csrf
                 @method('PUT')
-                <div class="px-7 pb-6 space-y-4">
+                <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Căn hộ * & Loại xe * (2 cột) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="edit_apartment_id" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label for="edit_apartment_id" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Căn hộ *
                             </label>
                             <div class="relative">
@@ -57,7 +57,7 @@
                                     id="edit_apartment_id"
                                     name="ApartmentId"
                                     required
-                                    class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                                    class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                                 >
                                     @foreach ($apartments as $apt)
                                         <option value="{{ $apt->ApartmentId }}">
@@ -65,14 +65,14 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
                                     ▾
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <label for="edit_vehicle_type" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                            <label for="edit_vehicle_type" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Loại xe *
                             </label>
                             <div class="relative">
@@ -80,14 +80,14 @@
                                     id="edit_vehicle_type"
                                     name="VehicleType"
                                     required
-                                    class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                                    class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                                 >
                                     <option value="MOTORBIKE">Xe máy · MOTORBIKE</option>
                                     <option value="CAR">Ô tô · CAR</option>
                                     <option value="ELECTRIC_BIKE">Xe máy điện · ELECTRIC</option>
                                     <option value="BICYCLE">Xe đạp · BICYCLE</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
                                     ▾
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
 
                     <!-- Hàng 2: Biển số * (Full width) -->
                     <div>
-                        <label for="edit_license_plate" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                        <label for="edit_license_plate" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Biển số *
                         </label>
                         <input
@@ -105,23 +105,23 @@
                             name="LicensePlate"
                             required
                             placeholder="Nhập biển số đúng định dạng"
-                            class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] text-[#334b5d] placeholder-[#8a9ba8] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] uppercase"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] uppercase"
                         />
                     </div>
                 </div>
 
                 <!-- Modal Footer -->
-                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                     <button
                         type="button"
                         onclick="closeEditVehicleModal()"
-                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                        class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                     >
                         Hủy
                     </button>
                     <button
                         type="submit"
-                        class="h-[40px] px-6 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                        class="h-[38px] px-6 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                     >
                         Lưu thay đổi
                     </button>
@@ -207,7 +207,7 @@
                 if (plateCell) plateCell.textContent = plate;
                 const typeCell = row.children[2];
                 if (typeCell) {
-                    typeCell.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-[#e8f1ff] text-[#2864ad]">${typeText}</span>`;
+                    typeCell.innerHTML = `<span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-[#E4EFE9] text-[#0E4D3C]">${typeText}</span>`;
                 }
             }
         }

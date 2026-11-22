@@ -9,29 +9,29 @@
 >
     <!-- Modal Card Container (Width: 688px max) -->
     <div
-        class="relative w-full max-w-[688px] bg-white border border-solid border-[#d9e4ec] shadow-2xl rounded-[4px] overflow-hidden transition-all my-8"
+        class="relative w-full max-w-[688px] bg-white border border-[#E5E7EB] shadow-2xl rounded-[16px] overflow-hidden transition-all my-8"
         onclick="event.stopPropagation()"
         data-name="03 · Modal"
     >
         <!-- Modal Header -->
-        <div class="px-6 pt-4 pb-3 border-b border-[#d9e4ec]">
+        <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
             <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-[#52697c]">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-[#6B7280]">
                     BIỂU MẪU / MODAL
                 </span>
                 <button
                     type="button"
                     onclick="closeEditApartmentModal()"
-                    class="text-[26px] leading-none text-[#52697c] hover:text-[#122d40] transition-colors cursor-pointer p-1"
+                    class="text-[24px] leading-none text-[#6B7280] hover:text-[#111827] transition-colors cursor-pointer p-1"
                     aria-label="Đóng"
                 >
                     &times;
                 </button>
             </div>
-            <h2 id="editModalApartmentTitle" class="text-[22px] font-bold text-[#122d40] mt-1">
+            <h2 id="editModalApartmentTitle" class="text-[20px] font-bold text-[#111827] mt-1">
                 Chỉnh sửa căn hộ {{ isset($editApartment) ? $editApartment->ApartmentNumber : '0101' }}
             </h2>
-            <p id="editModalApartmentSubtitle" class="text-[13px] text-[#52697c] mt-0.5">
+            <p id="editModalApartmentSubtitle" class="text-[13px] text-[#6B7280] mt-0.5">
                 ApartmentId = {{ isset($editApartment) ? $editApartment->ApartmentId : '1' }} · FloorId = {{ isset($editApartment) ? $editApartment->FloorId : '1' }} · Status = {{ isset($editApartment) ? $editApartment->Status : 'OCCUPIED' }}
             </p>
         </div>
@@ -59,7 +59,7 @@
                         required
                         maxlength="20"
                         placeholder="Nhập tối đa 20 ký tự"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] rounded-[4px] text-[14px] leading-[20px] text-[#334b5d] placeholder:text-[#52697c] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] transition-colors"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] transition-colors"
                     >
                     @error('ApartmentNumber')
                         <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
@@ -68,7 +68,7 @@
 
                 <!-- Trạng thái · Status * -->
                 <div>
-                    <label for="editModalStatus" class="block text-[12px] font-semibold text-[#334b5d] mb-1.5">
+                    <label for="editModalStatus" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                         Trạng thái · Status <span class="text-red-500">*</span>
                     </label>
                     <div class="relative">
@@ -76,7 +76,7 @@
                             id="editModalStatus"
                             name="Status"
                             required
-                            class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] rounded-[4px] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                         >
                             <option value="OCCUPIED" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'OCCUPIED' ? 'selected' : '' }}>OCCUPIED · Đang ở</option>
                             <option value="VACANT" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'VACANT' ? 'selected' : '' }}>VACANT · Trống</option>
@@ -232,7 +232,7 @@
                         rows="3"
                         maxlength="500"
                         placeholder="Nhập mô tả, có thể để trống"
-                        class="w-full p-3 bg-white border border-solid border-[#d9e4ec] rounded-[4px] text-[14px] leading-[20px] text-[#334b5d] placeholder:text-[#52697c] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] transition-colors resize-y"
+                        class="w-full p-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder:text-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] transition-colors resize-y"
                     >{{ old('Description', isset($editApartment) ? $editApartment->Description : 'Căn hộ tầng 1, số 01') }}</textarea>
                     @error('Description')
                         <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
@@ -241,17 +241,17 @@
             </div>
 
             <!-- Modal Footer Actions -->
-            <div class="h-[72px] px-6 border-t border-[#d9e4ec] flex items-center justify-between bg-white flex-shrink-0">
+            <div class="h-[68px] px-6 border-t border-[#E5E7EB] flex items-center justify-between bg-white rounded-b-[16px] flex-shrink-0">
                 <button
                     type="button"
                     onclick="closeEditApartmentModal()"
-                    class="w-[136px] h-[40px] border border-[#d9e4ec] bg-white hover:bg-gray-50 text-[#334b5d] rounded-[4px] font-medium text-[14px] transition-colors cursor-pointer flex items-center justify-center select-none"
+                    class="px-4 h-[40px] border border-[#E5E7EB] bg-white hover:bg-[#F9FBFA] text-[#374151] rounded-[8px] font-medium text-[13.5px] transition-colors cursor-pointer flex items-center justify-center select-none"
                 >
                     Đóng / Hủy
                 </button>
                 <button
                     type="submit"
-                    class="w-[204px] h-[40px] bg-[#2864ad] hover:bg-[#205391] text-white rounded-[4px] font-semibold text-[14px] transition-colors cursor-pointer flex items-center justify-center select-none"
+                    class="px-5 h-[40px] bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white rounded-[8px] font-semibold text-[13.5px] transition-colors cursor-pointer flex items-center justify-center select-none shadow-sm"
                 >
                     Lưu thay đổi
                 </button>

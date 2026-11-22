@@ -16,88 +16,88 @@
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="accountDetailPanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[620px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Header -->
-            <div class="px-7 pt-6 pb-4 border-b border-[#d9e4ec]">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-slate-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-[#0E4D3C] tracking-wider uppercase select-none">
                         THÔNG TIN TÀI KHOẢN
                     </span>
                     <button
                         type="button"
                         onclick="closeAccountDetailModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#122d40] mt-1" id="account-detail-title">
+                <h3 class="text-[18px] sm:text-[20px] font-bold text-[#111827] tracking-tight mt-1" id="account-detail-title">
                     Chi tiết tài khoản
                 </h3>
-                <p class="text-[13px] text-[#52697c] mt-0.5" id="detail_user_subtitle">
+                <p class="text-[13px] text-[#6B7280] mt-0.5" id="detail_user_subtitle">
                     Hồ sơ chi tiết và phân quyền tài khoản
                 </p>
             </div>
 
             <!-- Body Details -->
-            <div class="px-7 py-6 space-y-5 text-[13px]">
+            <div class="p-6 space-y-5 text-[13px]">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Họ và tên</span>
-                        <span class="block text-[14px] font-semibold text-[#122d40] mt-1" id="detail_name">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Họ và tên</span>
+                        <span class="block text-[15px] font-semibold text-[#111827] mt-1" id="detail_name">—</span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Tên đăng nhập</span>
-                        <span class="block text-[14px] font-mono text-[#122d40] mt-1" id="detail_username">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Tên đăng nhập</span>
+                        <span class="block text-[14px] font-mono font-medium text-[#111827] mt-1" id="detail_username">—</span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Email</span>
-                        <span class="block text-[13px] text-[#122d40] mt-1" id="detail_email">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Email</span>
+                        <span class="block text-[13.5px] text-[#374151] mt-1" id="detail_email">—</span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Điện thoại</span>
-                        <span class="block text-[13px] font-mono text-[#122d40] mt-1" id="detail_phone">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Điện thoại</span>
+                        <span class="block text-[13.5px] font-mono text-[#374151] mt-1" id="detail_phone">—</span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Vai trò</span>
-                        <span class="block text-[13px] text-[#122d40] mt-1" id="detail_role">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Vai trò</span>
+                        <span class="block text-[13.5px] font-medium text-[#111827] mt-1" id="detail_role">—</span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Trạng thái</span>
-                        <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded text-[12px] font-medium" id="detail_status_badge">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Trạng thái</span>
+                        <span class="inline-flex items-center px-2.5 py-0.5 mt-1 rounded-[6px] text-[12px] font-semibold" id="detail_status_badge">—</span>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Căn cước</span>
-                        <span class="block text-[13px] font-mono text-[#122d40] mt-1" id="detail_citizen_id">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Căn cước</span>
+                        <span class="block text-[13.5px] font-mono text-[#374151] mt-1" id="detail_citizen_id">—</span>
                     </div>
                     <div>
-                        <span class="block text-[11px] font-bold text-[#52697c] uppercase tracking-wide">Bộ phận</span>
-                        <span class="block text-[13px] text-[#122d40] mt-1" id="detail_dept">—</span>
+                        <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wide">Bộ phận</span>
+                        <span class="block text-[13.5px] text-[#374151] mt-1" id="detail_dept">—</span>
                     </div>
                 </div>
 
-                <div class="p-3 bg-[#f8fafc] border border-dashed border-[#d9e4ec] rounded-[4px] text-[12px] text-[#52697c]" id="detail_note_box">
-                    Ghi chú: <span id="detail_note">Không có ghi chú.</span>
+                <div class="p-3.5 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[12px] text-[#6B7280]" id="detail_note_box">
+                    Ghi chú: <span id="detail_note" class="text-[#374151]">Không có ghi chú.</span>
                 </div>
             </div>
 
             <!-- Footer Actions -->
-            <div class="px-7 py-4 bg-[#f8fafc] border-t border-[#d9e4ec] flex items-center justify-between">
+            <div class="px-6 py-4 bg-[#F8FAF8] border-t border-[#E5E7EB] rounded-b-[16px] flex items-center justify-between">
                 <button
                     type="button"
                     onclick="closeAccountDetailModal()"
-                    class="h-[38px] px-5 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] text-[13px] font-medium rounded-[4px] transition-colors cursor-pointer"
+                    class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
                 >
                     Đóng
                 </button>
@@ -107,7 +107,7 @@
                         type="button"
                         id="detailEditBtn"
                         onclick="switchDetailToEdit()"
-                        class="h-[38px] px-5 bg-[#2864ad] hover:bg-[#205391] text-white text-[13px] font-semibold rounded-[4px] transition-colors cursor-pointer shadow-sm"
+                        class="h-[40px] px-5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
                     >
                         Chỉnh sửa
                     </button>
@@ -134,10 +134,10 @@
 
         const statusBadge = document.getElementById('detail_status_badge');
         if (acc.status === 'ACTIVE' || acc.status_label === 'Hoạt động') {
-            statusBadge.className = 'inline-flex items-center px-2 py-0.5 mt-1 rounded text-[12px] font-medium bg-[#e6f5ec] text-[#16734b]';
+            statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 mt-1 rounded-[6px] text-[12px] font-semibold bg-[#E4EFE9] text-[#0E4D3C]';
             statusBadge.innerText = 'Hoạt động';
         } else {
-            statusBadge.className = 'inline-flex items-center px-2 py-0.5 mt-1 rounded text-[12px] font-medium bg-[#fdf2f2] text-[#b91c1c]';
+            statusBadge.className = 'inline-flex items-center px-2.5 py-0.5 mt-1 rounded-[6px] text-[12px] font-semibold bg-rose-50 text-[#B91C1C]';
             statusBadge.innerText = 'Bị khóa';
         }
 
