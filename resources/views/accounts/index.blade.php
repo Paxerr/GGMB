@@ -199,12 +199,6 @@
         @endforeach
     </div>
 
-    <!-- Dòng chú thích nghiệp vụ -->
-    <div class="p-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] text-[12.5px] text-[#6B7280] space-y-0.5">
-        <div>4 vai trò chính: Quản lý, Nhân viên hỗ trợ, Nhân viên kỹ thuật, Cư dân.</div>
-        <div>Danh sách đang lọc nhân sự nội bộ; chọn Cư dân để xem tài khoản cư dân.</div>
-    </div>
-
     <!-- Thông tin hiển thị & Phân trang -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
         <div class="text-[13px] text-[#6B7280]">

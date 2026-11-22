@@ -20,10 +20,8 @@
         </p>
     </div>
 
-    <!-- 2 Columns Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Left: Thông tin chi tiết (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-none">
+    <!-- Thông tin chi tiết -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-none">
             <h2 class="text-[15px] font-bold text-[#111827] mb-5">
                 Thông tin chi tiết
             </h2>
@@ -97,16 +95,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Right: Lưu ý nghiệp vụ (4 cols) -->
-        <div class="lg:col-span-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[16px] p-6 shadow-none text-[13px] text-[#4B5563] space-y-3">
-            <h3 class="font-semibold text-[#111827] text-[14px]">
-                Lưu ý nghiệp vụ
-            </h3>
-            <p class="leading-relaxed">
-                Ghi rõ kết quả xử lý và vật tư sử dụng (nếu có). Ban quản lý sẽ nghiệm thu sau khi gửi kết quả.
-            </p>
         </div>
     </div>
 </div>

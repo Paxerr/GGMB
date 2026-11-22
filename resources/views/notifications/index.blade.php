@@ -153,22 +153,6 @@
         @endforeach
     </div>
 
-    <!-- Informational Scope Box -->
-    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4 space-y-2 text-[13px] text-[#6B7280]">
-        <h4 class="text-[12px] font-bold text-[#111827] uppercase tracking-wider">
-            PHẠM VI GỬI THÔNG BÁO
-        </h4>
-        <div class="space-y-1 text-[#374151] font-mono text-xs">
-            <p>#1 · Toàn tòa A: Lịch bảo trì thang máy</p>
-            <p>#2 · Tất cả cư dân: Nhắc thanh toán phí tháng 02/2026</p>
-            <p>#3 · Tầng 2, Tòa A: Cập nhật xử lý yêu cầu kỹ thuật</p>
-            <p>#4 · Căn hộ 0101: Thông báo riêng</p>
-        </div>
-        <p class="text-[12px] text-[#9CA3AF] pt-1">
-            Chọn Xem để theo dõi người nhận đã đọc hoặc chưa đọc thông báo.
-        </p>
-    </div>
-
     <!-- Pagination & Row Info -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
         <div class="text-[13px] text-[#6B7280]">

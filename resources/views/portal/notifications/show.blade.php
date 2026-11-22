@@ -28,10 +28,8 @@
         </a>
     </div>
 
-    <!-- 2 Columns Layout -->
-    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-        <!-- Left: Thông tin chi tiết (8 cols on xl) -->
-        <div class="xl:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs space-y-6">
+    <!-- Thông tin chi tiết -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs space-y-6">
             <div class="flex items-center justify-between pb-5 border-b border-[#F3F4F6]">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-[8px] bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
@@ -81,20 +79,6 @@
                 <a href="{{ route('portal.tickets') }}" class="px-5 py-2.5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[10px] shadow-xs transition-colors">
                     Liên hệ hỗ trợ
                 </a>
-            </div>
-        </div>
-
-        <!-- Right: Lưu ý nghiệp vụ (4 cols on xl) -->
-        <div class="xl:col-span-4 bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-6 shadow-xs text-[13px] text-[#4B5563] space-y-4">
-            <h3 class="font-bold text-[#111827] text-[15px] pb-3 border-b border-[#F3F4F6] flex items-center gap-2">
-                <span>ℹ️</span>
-                <span>Lưu ý nghiệp vụ</span>
-            </h3>
-            <p class="leading-relaxed">
-                Khi cần trao đổi, gửi yêu cầu hỗ trợ cho ban quản lý; không gửi trả lời vào nội dung thông báo.
-            </p>
-            <div class="p-3 bg-[#F8FAF8] rounded-[10px] border border-[#E5E7EB] text-[12.5px] text-[#6B7280]">
-                Bạn có thể tạo phiếu yêu cầu tại mục <a href="{{ route('portal.tickets') }}" class="text-[#0E4D3C] font-semibold underline">Yêu cầu hỗ trợ</a> để được bộ phận liên quan giải đáp.
             </div>
         </div>
     </div>

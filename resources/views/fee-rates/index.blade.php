@@ -132,19 +132,8 @@
         @endforeach
     </div>
 
-    <!-- Khối mô tả các loại phí -->
-    <div class="space-y-4 pt-1">
-        <div class="p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] text-[13px] text-[#6B7280] space-y-1">
-            <span class="block text-[11px] font-bold text-[#111827] uppercase tracking-wider mb-1">MÔ TẢ CÁC LOẠI PHÍ</span>
-            <div>Điện · Điện năng tiêu thụ</div>
-            <div>Nước · Nước sinh hoạt</div>
-            <div>Phí quản lý · Phí quản lý căn hộ</div>
-            <div>Gửi xe · Phí gửi xe theo tháng</div>
-            <div>Internet · Dịch vụ Internet</div>
-        </div>
-
-        <!-- Thông tin hiển thị & Phân trang -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
+    <!-- Thông tin hiển thị & Phân trang -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
             <div class="text-[13px] text-[#6B7280]">
                 Hiển thị 1–5 trong 5 loại phí
             </div>

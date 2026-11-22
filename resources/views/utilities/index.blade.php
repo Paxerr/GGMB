@@ -202,11 +202,6 @@
         @endforeach
     </div>
 
-    <!-- Dòng chú thích nghiệp vụ (Bám sát Ảnh 1 & 2) -->
-    <div class="p-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#6B7280]">
-        Tiêu thụ = số mới – số kỳ trước; số mới ≥ số kỳ trước. Kiểm tra căn hộ và kỳ trước khi lưu.
-    </div>
-
     <!-- Thanh phân trang & Nút "Nhập chỉ số lần đầu" (Bám sát Ảnh 1 & 2) -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
         <div>

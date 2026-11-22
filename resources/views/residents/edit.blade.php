@@ -35,10 +35,10 @@
         </p>
     </div>
 
-    <!-- Biểu mẫu và hướng dẫn -->
-    <div class="flex flex-col lg:flex-row items-start gap-6 pt-2">
-        <!-- Cột trái: Form Thông tin nghiệp vụ -->
-        <div class="w-full lg:w-[688px] bg-white border border-[#E5E7EB] rounded-[14px] p-6 shrink-0 shadow-none">
+    <!-- Biểu mẫu Thông tin nghiệp vụ -->
+    <div class="pt-2">
+        <!-- Form Thông tin nghiệp vụ -->
+        <div class="w-full max-w-4xl bg-white border border-[#E5E7EB] rounded-[14px] p-6 shadow-none">
             <form action="{{ route('residents.update', $resident->UserId) }}" method="POST">
                 @csrf
                 @method('PUT')
@@ -157,29 +157,6 @@
                     </div>
                 </div>
             </form>
-        </div>
-
-        <!-- Cột phải: Lưu ý chỉnh sửa -->
-        <div class="w-full lg:w-[440px] space-y-4">
-            <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 space-y-4 shadow-none">
-                <h3 class="text-[12px] font-bold text-[#111827] tracking-wider uppercase">
-                    LƯU Ý KHI CHỈNH SỬA
-                </h3>
-
-                <div class="p-3.5 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[10px] space-y-1">
-                    <h4 class="text-[13px] font-bold text-[#111827]">Thông tin cá nhân</h4>
-                    <p class="text-[12.5px] leading-[19px] text-[#6B7280]">
-                        Họ và tên, CCCD và số điện thoại cần chính xác để đối chiếu thông tin trong trường hợp bàn giao tài sản hoặc cấp thẻ cư dân.
-                    </p>
-                </div>
-
-                <div class="p-3.5 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[10px] space-y-1">
-                    <h4 class="text-[13px] font-bold text-[#111827]">Đổi căn hộ cư trú</h4>
-                    <p class="text-[12.5px] leading-[19px] text-[#6B7280]">
-                        Nếu chuyển sang căn hộ mới, quan hệ cư trú tại căn hộ cũ sẽ tự động được đóng lại và tạo quan hệ cư trú mới.
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 </div>
