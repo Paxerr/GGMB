@@ -19,7 +19,7 @@ class VerifyTicketRequest extends FormRequest
     {
         return [
             'notes' => ['nullable', 'string', 'max:500'],
-            'action' => ['nullable', 'string', 'in:RESOLVE,CLOSE'],
+            'action' => ['nullable', 'string', 'in:RESOLVE,CLOSE,REOPEN,PROCESSING'],
         ];
     }
 }

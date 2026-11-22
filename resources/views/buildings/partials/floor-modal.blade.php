@@ -38,7 +38,8 @@
                 </p>
             </div>
 
-            <form id="createFloorForm" onsubmit="event.preventDefault(); submitCreateFloor();">
+            <form id="createFloorForm" method="POST" action="{{ route('buildings.floors.store', $selectedBuilding->BuildingId ?? 1) }}">
+                @csrf
                 <div class="px-6 py-5 space-y-4">
                     <div>
                         <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
@@ -60,6 +61,7 @@
                             <input
                                 type="number"
                                 id="create_floor_number"
+                                name="floor_number"
                                 required
                                 min="1"
                                 max="99"
@@ -156,7 +158,9 @@
                 </p>
             </div>
 
-            <form id="editFloorForm" onsubmit="event.preventDefault(); submitEditFloor();">
+            <form id="editFloorForm" method="POST" action="">
+                @csrf
+                @method('PUT')
                 <input type="hidden" id="edit_floor_id">
                 <div class="px-6 py-5 space-y-4">
                     <div>
@@ -178,6 +182,7 @@
                         <input
                             type="number"
                             id="edit_floor_number"
+                            name="floor_number"
                             required
                             min="1"
                             max="99"
@@ -489,6 +494,10 @@
         document.getElementById('edit_floor_code_display').value = id;
         document.getElementById('edit_floor_number').value = floorNum;
         document.getElementById('editFloorSubtitle').innerText = `Cập nhật thông tin cho tầng ${floorNum} (Mã #${id}).`;
+        const form = document.getElementById('editFloorForm');
+        if (form) {
+            form.action = `/floors/${id}`;
+        }
 
         const modal = document.getElementById('editFloorModal');
         const backdrop = document.getElementById('editFloorBackdrop');
@@ -574,17 +583,13 @@
     }
 
     function confirmDeleteFloor() {
-        if (activeFloorIdToDelete) {
-            const row = document.getElementById(`floor-row-${activeFloorIdToDelete}`);
-            if (row) {
-                row.classList.add('opacity-0', 'scale-95');
-                setTimeout(() => row.remove(), 250);
-            }
-        }
-        closeDeleteFloorModal();
-        if (window.showToast) {
-            window.showToast('Đã xóa tầng thành công!');
-        }
+        if (!activeFloorIdToDelete) return;
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/floors/${activeFloorIdToDelete}`;
+        form.innerHTML = `@csrf @method('DELETE')`;
+        document.body.appendChild(form);
+        form.submit();
     }
 
     // --- DETAIL FLOOR MODAL ---
@@ -660,9 +665,11 @@
     }
 
     function confirmDeleteBuilding() {
-        closeDeleteBuildingModal();
-        if (window.showToast) {
-            window.showToast('Không thể xóa tòa nhà: Vẫn còn căn hộ và cư dân đang sinh sống!', 'error');
-        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/buildings/{{ $selectedBuilding->BuildingId ?? 1 }}`;
+        form.innerHTML = `@csrf @method('DELETE')`;
+        document.body.appendChild(form);
+        form.submit();
     }
 </script>

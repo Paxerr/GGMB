@@ -35,10 +35,19 @@ class AuthController extends Controller
             'password' => $credentials['password'],
             'IsDeleted' => false,
             'Status' => 'ACTIVE',
-        ])) {
+        ], $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/dashboard');
+            $user = Auth::user();
+            $role = strtoupper((string) ($user->Role ?? ''));
+
+            $targetRoute = match ($role) {
+                'RESIDENT' => route('portal.dashboard'),
+                'TECHNICIAN' => route('tech.dashboard'),
+                default => route('dashboard'),
+            };
+
+            return redirect()->intended($targetRoute);
         }
 
         return back()->withErrors([

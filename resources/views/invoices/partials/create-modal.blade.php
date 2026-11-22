@@ -128,10 +128,16 @@
                                 <label class="w-[200px] flex items-center gap-2 cursor-pointer select-none">
                                     <input
                                         type="checkbox"
+                                        name="items[{{ $idx }}][selected]"
+                                        value="1"
                                         class="fee-checkbox rounded-[4px] border-[#E5E7EB] text-[#0E4D3C] focus:ring-0 cursor-pointer"
                                         data-amount="{{ $f['amount'] }}"
                                         onchange="updateTotalInvoiceAmount()"
                                     />
+                                    <input type="hidden" name="items[{{ $idx }}][fee_type_id]" value="{{ $idx + 1 }}">
+                                    <input type="hidden" name="items[{{ $idx }}][unit_price]" value="{{ $f['price'] }}">
+                                    <input type="hidden" name="items[{{ $idx }}][quantity]" value="1">
+                                    <input type="hidden" name="items[{{ $idx }}][amount]" value="{{ $f['amount'] }}">
                                     <span class="font-medium text-[#111827]">{{ $f['name'] }}</span>
                                 </label>
                                 <div class="w-[110px] text-xs text-[#6B7280]">{{ $f['qty'] }}</div>

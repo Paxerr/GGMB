@@ -67,9 +67,9 @@
                                 required
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                             >
-                                <option value="2">2 · Trần Thu Hỗ trợ ▾</option>
-                                <option value="3">3 · Lê Anh Hỗ trợ</option>
-                                <option value="4">4 · Phạm Hà Hỗ trợ</option>
+                                @foreach ($staff as $s)
+                                    <option value="{{ $s->UserId }}">{{ $s->UserId }} · {{ $s->FullName }} ({{ $s->Role }})</option>
+                                @endforeach
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                         </div>
@@ -78,30 +78,18 @@
                     <!-- Danh sách nhân sự hỗ trợ · Phù hợp yêu cầu tài khoản (Bám sát Ảnh 6) -->
                     <div>
                         <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wider mb-2">
-                            NHÂN SỰ HỖ TRỢ · PHÙ HỢP YÊU CẦU TÀI KHOẢN
+                            NHÂN SỰ HỖ TRỢ / KỸ THUẬT
                         </span>
-                        <div class="border border-[#E5E7EB] rounded-[8px] divide-y divide-[#E5E7EB] overflow-hidden text-[13px]">
-                            <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
-                                <div class="flex items-center gap-2.5">
-                                    <input type="radio" name="staff_radio" value="2" checked class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
-                                    <span class="font-semibold text-[#111827]">2 · Trần Thu Hỗ trợ</span>
-                                </div>
-                                <span class="text-[12px] text-[#6B7280]">Chăm sóc cư dân</span>
-                            </label>
-                            <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
-                                <div class="flex items-center gap-2.5">
-                                    <input type="radio" name="staff_radio" value="3" class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
-                                    <span class="font-semibold text-[#111827]">3 · Lê Anh Hỗ trợ</span>
-                                </div>
-                                <span class="text-[12px] text-[#6B7280]">Chăm sóc cư dân</span>
-                            </label>
-                            <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
-                                <div class="flex items-center gap-2.5">
-                                    <input type="radio" name="staff_radio" value="4" class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
-                                    <span class="font-semibold text-[#111827]">4 · Phạm Hà Hỗ trợ</span>
-                                </div>
-                                <span class="text-[12px] text-[#6B7280]">Chăm sóc cư dân</span>
-                            </label>
+                        <div class="border border-[#E5E7EB] rounded-[8px] divide-y divide-[#E5E7EB] overflow-hidden text-[13px] max-h-52 overflow-y-auto">
+                            @foreach ($staff as $index => $s)
+                                <label class="flex items-center justify-between p-3 hover:bg-[#F9FBFA] cursor-pointer transition-colors">
+                                    <div class="flex items-center gap-2.5">
+                                        <input type="radio" name="staff_radio" value="{{ $s->UserId }}" {{ $index === 0 ? 'checked' : '' }} class="text-[#0E4D3C] focus:ring-[#0E4D3C]" />
+                                        <span class="font-semibold text-[#111827]">{{ $s->UserId }} · {{ $s->FullName }}</span>
+                                    </div>
+                                    <span class="text-[12px] text-[#6B7280]">{{ $s->Role === 'TECHNICIAN' ? 'Kỹ thuật viên' : ($s->Role === 'SUPPORT' ? 'Chăm sóc cư dân' : 'Ban quản lý') }}</span>
+                                </label>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -185,4 +173,22 @@
             window.showToast('Phân công người xử lý thành công!');
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const select = document.getElementById('assign_staff_select');
+        const radios = document.querySelectorAll('input[name="staff_radio"]');
+
+        radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (select) select.value = this.value;
+            });
+        });
+
+        if (select) {
+            select.addEventListener('change', function() {
+                const r = document.querySelector(`input[name="staff_radio"][value="${this.value}"]`);
+                if (r) r.checked = true;
+            });
+        }
+    });
 </script>

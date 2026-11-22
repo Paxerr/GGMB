@@ -8,14 +8,9 @@
 <div class="space-y-6 pb-12">
     <span class="sr-only">GGMB</span>
 
-    <!-- Breadcrumb & Tiêu đề -->
+    <!-- Tiêu đề & Nút thêm -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <nav class="flex items-center text-[12px] text-[#6B7280] space-x-1.5 mb-1.5">
-                <span>Quản trị</span>
-                <span>/</span>
-                <span class="text-[#111827] font-medium">Tài khoản</span>
-            </nav>
             <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
                 Quản trị tài khoản
             </h1>
@@ -35,63 +30,76 @@
     </div>
 
     <!-- Hàng Bộ lọc -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-end gap-3 shadow-none">
-        <!-- Vai trò -->
-        <div class="space-y-1.5 flex-1 min-w-[180px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
-                Vai trò
-            </label>
-            <div class="relative">
-                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="INTERNAL">Nội bộ · 4 vai trò ▾</option>
-                    <option value="RESIDENT">Cư dân</option>
-                    <option value="ALL">Tất cả</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 shadow-none">
+        <form method="GET" action="{{ route('accounts.index') }}" class="flex flex-wrap items-center gap-3">
+            <!-- Vai trò -->
+            <div class="flex-1 min-w-[180px]">
+                <label for="filterAccountRole" class="sr-only">
+                    Vai trò
+                </label>
+                <div class="relative">
+                    <select
+                        id="filterAccountRole"
+                        name="role"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
+                    >
+                        <option value="INTERNAL" {{ request('role', 'INTERNAL') === 'INTERNAL' ? 'selected' : '' }}>Nội bộ · 3 vai trò</option>
+                        <option value="RESIDENT" {{ request('role') === 'RESIDENT' ? 'selected' : '' }}>Cư dân</option>
+                        <option value="ALL" {{ request('role') === 'ALL' ? 'selected' : '' }}>Tất cả</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <!-- Trạng thái -->
-        <div class="space-y-1.5 flex-1 min-w-[160px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
-                Trạng thái
-            </label>
-            <div class="relative">
-                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    <option value="ACTIVE">Hoạt động</option>
-                    <option value="LOCKED">Bị khóa</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            <!-- Trạng thái -->
+            <div class="flex-1 min-w-[160px]">
+                <label for="filterAccountStatus" class="sr-only">
+                    Trạng thái
+                </label>
+                <div class="relative">
+                    <select
+                        id="filterAccountStatus"
+                        name="status"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
+                    >
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="ACTIVE" {{ request('status') === 'ACTIVE' ? 'selected' : '' }}>Hoạt động</option>
+                        <option value="LOCKED" {{ request('status') === 'LOCKED' ? 'selected' : '' }}>Bị khóa</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <!-- Tìm kiếm -->
-        <div class="space-y-1.5 flex-1 min-w-[240px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
-                Tìm họ tên / tên đăng nhập / email
-            </label>
-            <input
-                type="text"
-                placeholder="Nhập từ khóa"
-                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
-            />
-        </div>
+            <!-- Tìm kiếm -->
+            <div class="flex-1 min-w-[240px]">
+                <label for="filterAccountKeyword" class="sr-only">
+                    Tìm họ tên / tên đăng nhập / email
+                </label>
+                <input
+                    type="text"
+                    id="filterAccountKeyword"
+                    name="keyword"
+                    value="{{ request('keyword') }}"
+                    placeholder="Tìm kiếm (họ tên, tên đăng nhập, email)..."
+                    class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                />
+            </div>
 
-        <div class="flex items-center gap-2">
-            <button
-                type="button"
-                class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
-            >
-                Lọc
-            </button>
-            <button
-                type="button"
-                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
-            >
-                Đặt lại
-            </button>
-        </div>
+            <div class="flex items-center gap-2">
+                <button
+                    type="submit"
+                    class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+                >
+                    Lọc
+                </button>
+                <a
+                    href="{{ route('accounts.index') }}"
+                    class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors inline-flex items-center justify-center"
+                >
+                    Đặt lại
+                </a>
+            </div>
+        </form>
     </div>
 
     <!-- Bảng dữ liệu Tài khoản -->
@@ -118,7 +126,8 @@
                 <div class="w-[130px] px-4 border-r border-[#E5E7EB] h-full flex items-center font-mono text-[#374151] acc-phone">{{ $acc->phone }}</div>
                 <div class="w-[110px] px-4 border-r border-[#E5E7EB] h-full flex items-center acc-role">
                     <span class="inline-block px-2 py-0.5 rounded-[6px] text-xs font-semibold bg-[#F3F4F6] text-[#374151]">
-                        {{ $acc->role }}
+                        {{ $acc->role_label }}
+                        <span class="sr-only">{{ $acc->role }}</span>
                     </span>
                 </div>
                 <div class="w-[110px] px-4 border-r border-[#E5E7EB] h-full flex items-center acc-status">
@@ -192,23 +201,16 @@
 
     <!-- Dòng chú thích nghiệp vụ -->
     <div class="p-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] text-[12.5px] text-[#6B7280] space-y-0.5">
-        <div>5 vai trò: Quản lý, Hỗ trợ, Kỹ thuật, Bảo vệ, Cư dân.</div>
+        <div>4 vai trò chính: Quản lý, Nhân viên hỗ trợ, Nhân viên kỹ thuật, Cư dân.</div>
         <div>Danh sách đang lọc nhân sự nội bộ; chọn Cư dân để xem tài khoản cư dân.</div>
     </div>
 
     <!-- Thông tin hiển thị & Phân trang -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1 pb-6">
         <div class="text-[13px] text-[#6B7280]">
-            Hiển thị 1–6 trong 9 nhân sự
+            Hiển thị {{ $accounts->firstItem() ?? 1 }}–{{ $accounts->lastItem() ?? $accounts->count() }} trong {{ $accounts->total() }} nhân sự
         </div>
-        <div class="flex items-center gap-2">
-            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                Trang trước
-            </button>
-            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                Trang sau
-            </button>
-        </div>
+        @include('layouts.partials.pagination', ['paginator' => $accounts])
     </div>
 </div>
 

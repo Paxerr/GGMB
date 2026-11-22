@@ -94,11 +94,9 @@
                         <div class="relative">
                             <select name="Role" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                 <option value="Quản lý" {{ $account->role === 'Quản lý' ? 'selected' : '' }}>Quản lý</option>
-                                <option value="Hỗ trợ" {{ $account->role === 'Hỗ trợ' ? 'selected' : '' }}>Hỗ trợ ▾</option>
-                                <option value="Kỹ thuật" {{ $account->role === 'Kỹ thuật' ? 'selected' : '' }}>Kỹ thuật</option>
-                                <option value="Bảo vệ" {{ $account->role === 'Bảo vệ' ? 'selected' : '' }}>Bảo vệ</option>
+                                <option value="Hỗ trợ" {{ $account->role === 'Hỗ trợ' ? 'selected' : '' }}>Nhân viên hỗ trợ</option>
+                                <option value="Kỹ thuật" {{ $account->role === 'Kỹ thuật' ? 'selected' : '' }}>Nhân viên kỹ thuật</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                         </div>
                     </div>
                     <div>

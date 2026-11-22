@@ -24,12 +24,12 @@
     </div>
 
     <!-- Filters & Action Button Row -->
-    <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-4 pt-2">
+    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4 pt-2">
         <!-- 3 Filter Dropdowns -->
-        <form method="GET" action="{{ route('apartments.index') }}" class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
+        <form method="GET" action="{{ route('apartments.index') }}" class="flex flex-wrap items-center gap-3 sm:gap-4 flex-1">
             <!-- Tòa · BuildingId -->
-            <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="buildingIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="w-full sm:w-[260px]">
+                <label for="buildingIdSelect" class="sr-only">
                     Tòa · BuildingId
                 </label>
                 <div class="relative">
@@ -46,15 +46,12 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
             <!-- Tầng · FloorId -->
-            <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="floorIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="w-full sm:w-[260px]">
+                <label for="floorIdSelect" class="sr-only">
                     Tầng · FloorId
                 </label>
                 <div class="relative">
@@ -71,15 +68,12 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
             <!-- Trạng thái · Status -->
-            <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="statusSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="w-full sm:w-[260px]">
+                <label for="statusSelect" class="sr-only">
                     Trạng thái · Status
                 </label>
                 <div class="relative">
@@ -90,13 +84,10 @@
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
                         <option value="">Tất cả trạng thái</option>
-                        <option value="OCCUPIED" {{ request('status') === 'OCCUPIED' ? 'selected' : '' }}>OCCUPIED · Đang ở</option>
-                        <option value="VACANT" {{ request('status') === 'VACANT' ? 'selected' : '' }}>VACANT · Trống</option>
-                        <option value="SUSPENDED" {{ request('status') === 'SUSPENDED' ? 'selected' : '' }}>SUSPENDED · Ngừng hoạt động</option>
+                        <option value="OCCUPIED" {{ request('status') === 'OCCUPIED' ? 'selected' : '' }}>Đang ở (OCCUPIED)</option>
+                        <option value="VACANT" {{ request('status') === 'VACANT' ? 'selected' : '' }}>Trống (VACANT)</option>
+                        <option value="SUSPENDED" {{ request('status') === 'SUSPENDED' ? 'selected' : '' }}>Ngừng hoạt động (SUSPENDED)</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
         </form>
@@ -159,7 +150,8 @@
                         title="Thay đổi trạng thái"
                         class="inline-block px-2.5 py-1 text-xs font-semibold rounded-[6px] transition-opacity cursor-pointer {{ $apt->Status === 'OCCUPIED' ? 'text-[#0e4d3c] bg-[#e4efe9]' : ($apt->Status === 'VACANT' ? 'text-[#8f5316] bg-[#fff4db]' : 'text-[#6b7280] bg-[#f3f4f6]') }}"
                     >
-                        {{ $apt->Status }}
+                        {{ $apt->status_label }}
+                        <span class="sr-only">{{ $apt->Status }}</span>
                     </button>
                 </div>
                 <div class="flex-1 font-normal text-[#6b7280] truncate pr-4">
@@ -204,32 +196,7 @@
             {{ $apartments->firstItem() ?? 1 }}–{{ $apartments->lastItem() ?? count($apartments) }} / {{ $apartments->total() ?? 40 }} căn hộ · <span class="font-medium text-[#111827]">Chọn bản ghi để mở drawer</span>
         </div>
 
-        @if ($apartments->hasPages())
-            <div class="flex items-center space-x-1 border border-[#e5e7eb] bg-white h-[38px] px-2 rounded-[8px] select-none text-[13.5px]">
-                <!-- Previous Button -->
-                @if ($apartments->onFirstPage())
-                    <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed">‹</span>
-                @else
-                    <a href="{{ $apartments->previousPageUrl() }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">‹</a>
-                @endif
-
-                <!-- Page numbers (1, 2, 3...) -->
-                @foreach ($apartments->getUrlRange(1, min(3, $apartments->lastPage())) as $page => $url)
-                    @if ($page == $apartments->currentPage())
-                        <span class="px-2.5 py-1 font-semibold text-[#0e4d3c] bg-[#e4efe9] rounded-[6px]">{{ $page }}</span>
-                    @else
-                        <a href="{{ $url }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">{{ $page }}</a>
-                    @endif
-                @endforeach
-
-                <!-- Next Button -->
-                @if ($apartments->hasMorePages())
-                    <a href="{{ $apartments->nextPageUrl() }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">›</a>
-                @else
-                    <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed">›</span>
-                @endif
-            </div>
-        @endif
+        @include('layouts.partials.pagination', ['paginator' => $apartments])
     </div>
 </div>
 

@@ -251,7 +251,7 @@
                     <div class="flex-1 px-3 border-r border-[#E5E7EB] h-full flex items-center font-medium text-[#111827] truncate">${r.name}</div>
                     <div class="w-[110px] px-3 border-r border-[#E5E7EB] h-full flex items-center">${badge}</div>
                     <div class="w-[110px] px-3 h-full flex items-center">
-                        <button type="button" onclick="alert('Xem chi tiết người nhận: ${r.name}');" class="text-[#0E4D3C] hover:underline font-medium text-[13px] cursor-pointer">
+                        <button type="button" onclick="if (window.showToast) { window.showToast('Người nhận: ${r.name}' + (r.apartment ? ' (' + r.apartment + ')' : ''), 'info'); }" class="text-[#0E4D3C] hover:underline font-medium text-[13px] cursor-pointer">
                             Xem chi tiết
                         </button>
                     </div>

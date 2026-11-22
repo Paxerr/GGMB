@@ -35,11 +35,11 @@
     </div>
 
     <!-- Filter Bar -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-col lg:flex-row items-stretch lg:items-end justify-between gap-4 shadow-none">
-        <form method="GET" action="{{ route('notifications.index') }}" class="flex flex-col sm:flex-row items-stretch sm:items-end gap-3 flex-1">
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 shadow-none">
+        <form method="GET" action="{{ route('notifications.index') }}" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1">
             <!-- Phạm vi -->
-            <div class="space-y-1.5 w-full sm:w-[220px]">
-                <label for="filterScope" class="block text-[12px] font-semibold text-[#374151]">
+            <div class="w-full sm:w-[220px]">
+                <label for="filterScope" class="sr-only">
                     Phạm vi
                 </label>
                 <div class="relative">
@@ -48,26 +48,25 @@
                         name="scope"
                         class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                     >
-                        <option value="">Tất cả phạm vi ▾</option>
+                        <option value="">Tất cả phạm vi</option>
                         <option value="Tòa nhà">Tòa nhà</option>
                         <option value="Tất cả">Tất cả</option>
                         <option value="Tầng">Tầng</option>
                         <option value="Căn hộ">Căn hộ</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                 </div>
             </div>
 
             <!-- Tìm tiêu đề thông báo -->
-            <div class="space-y-1.5 flex-1">
-                <label for="filterSearch" class="block text-[12px] font-semibold text-[#374151]">
+            <div class="flex-1">
+                <label for="filterSearch" class="sr-only">
                     Tìm tiêu đề thông báo
                 </label>
                 <input
                     type="text"
                     id="filterSearch"
                     name="q"
-                    placeholder="Nhập tiêu đề thông báo"
+                    placeholder="Tìm kiếm tiêu đề thông báo..."
                     class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                 />
             </div>
@@ -176,14 +175,7 @@
             Hiển thị 1–4 trong 4 thông báo
         </div>
 
-        <div class="flex items-center gap-2">
-            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                Trang trước
-            </button>
-            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                Trang sau
-            </button>
-        </div>
+        @include('layouts.partials.pagination')
     </div>
 </div>
 

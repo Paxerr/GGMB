@@ -14,14 +14,9 @@
         </div>
     @endif
 
-    <!-- Breadcrumb & Tiêu đề -->
+    <!-- Tiêu đề & Bộ lọc -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-            <nav class="flex items-center text-[12px] text-[#6B7280] space-x-1.5 mb-1.5">
-                <span>Quản trị</span>
-                <span>/</span>
-                <span class="text-[#111827] font-medium">Hóa đơn</span>
-            </nav>
             <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
                 Quản lý hóa đơn
             </h1>
@@ -45,97 +40,114 @@
         <!-- KPI 1: Công nợ -->
         <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-5 shadow-none">
             <span class="block text-[11px] font-bold text-[#8F5316] tracking-wider uppercase">
-                CÔNG NỢ · 28 HÓA ĐƠN
+                CÔNG NỢ · {{ $debtCount ?? 0 }} HÓA ĐƠN
             </span>
             <span class="block text-[26px] font-bold text-[#8F5316] font-mono mt-1">
-                {{ $debtTotal ?? '24.920.000 đ' }}
+                {{ $debtTotal ?? '0 đ' }}
             </span>
         </div>
 
         <!-- KPI 2: Đã thanh toán -->
         <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-5 shadow-none">
             <span class="block text-[11px] font-bold text-[#0E4D3C] tracking-wider uppercase">
-                ĐÃ THANH TOÁN · 8 HÓA ĐƠN
+                ĐÃ THANH TOÁN · {{ $paidCount ?? 0 }} HÓA ĐƠN
             </span>
             <span class="block text-[26px] font-bold text-[#0E4D3C] font-mono mt-1">
-                {{ $paidTotal ?? '6.880.000 đ' }}
+                {{ $paidTotal ?? '0 đ' }}
             </span>
         </div>
 
         <!-- KPI 3: Quá hạn -->
         <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-5 shadow-none">
             <span class="block text-[11px] font-bold text-rose-600 tracking-wider uppercase">
-                QUÁ HẠN · 5 HÓA ĐƠN
+                QUÁ HẠN · {{ $overdueCount ?? 0 }} HÓA ĐƠN
             </span>
             <span class="block text-[26px] font-bold text-rose-600 font-mono mt-1">
-                {{ $overdueTotal ?? '4.457.500 đ' }}
+                {{ $overdueTotal ?? '0 đ' }}
             </span>
         </div>
     </div>
 
     <!-- Hàng Bộ lọc -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-end gap-3 shadow-none">
-        <!-- Kỳ thanh toán -->
-        <div class="space-y-1.5 flex-1 min-w-[180px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
-                Kỳ thanh toán
-            </label>
-            <div class="relative">
-                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    <option value="01/2026">01/2026</option>
-                    <option value="02/2026">02/2026</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 shadow-none">
+        <form method="GET" action="{{ route('invoices.index') }}" class="flex flex-wrap items-center gap-3">
+            <!-- Kỳ thanh toán -->
+            <div class="flex-1 min-w-[180px]">
+                <label for="filterInvoicePeriod" class="sr-only">
+                    Kỳ thanh toán
+                </label>
+                <div class="relative">
+                    <select
+                        id="filterInvoicePeriod"
+                        name="period"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
+                    >
+                        <option value="">Tất cả kỳ thanh toán</option>
+                        <option value="01/2026" {{ request('period') === '01/2026' ? 'selected' : '' }}>01/2026</option>
+                        <option value="02/2026" {{ request('period') === '02/2026' ? 'selected' : '' }}>02/2026</option>
+                        <option value="12/2025" {{ request('period') === '12/2025' ? 'selected' : '' }}>12/2025</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <!-- Trạng thái -->
-        <div class="space-y-1.5 flex-1 min-w-[180px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
-                Trạng thái
-            </label>
-            <div class="relative">
-                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    <option value="PENDING">Chờ thanh toán</option>
-                    <option value="PAID">Đã thanh toán</option>
-                    <option value="OVERDUE">Quá hạn</option>
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            <!-- Trạng thái -->
+            <div class="flex-1 min-w-[180px]">
+                <label for="filterInvoiceStatus" class="sr-only">
+                    Trạng thái
+                </label>
+                <div class="relative">
+                    <select
+                        id="filterInvoiceStatus"
+                        name="status"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
+                    >
+                        <option value="">Tất cả trạng thái</option>
+                        <option value="PENDING" {{ request('status') === 'PENDING' ? 'selected' : '' }}>Chờ thanh toán</option>
+                        <option value="PAID" {{ request('status') === 'PAID' ? 'selected' : '' }}>Đã thanh toán</option>
+                        <option value="OVERDUE" {{ request('status') === 'OVERDUE' ? 'selected' : '' }}>Quá hạn</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <!-- Căn hộ -->
-        <div class="space-y-1.5 flex-1 min-w-[180px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
-                Căn hộ
-            </label>
-            <div class="relative">
-                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    @foreach ($apartments as $apt)
-                        <option value="{{ $apt->ApartmentId }}">{{ $apt->ApartmentNumber }}</option>
-                    @endforeach
-                </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
+            <!-- Căn hộ -->
+            <div class="flex-1 min-w-[180px]">
+                <label for="filterInvoiceApartment" class="sr-only">
+                    Căn hộ
+                </label>
+                <div class="relative">
+                    <select
+                        id="filterInvoiceApartment"
+                        name="apartment_id"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
+                    >
+                        <option value="">Tất cả căn hộ</option>
+                        @foreach ($apartments as $apt)
+                            <option value="{{ $apt->ApartmentId }}" {{ request('apartment_id') == $apt->ApartmentId ? 'selected' : '' }}>
+                                {{ $apt->ApartmentNumber }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <div class="flex items-center gap-2">
-            <button
-                type="button"
-                class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
-            >
-                Áp dụng
-            </button>
-            <button
-                type="button"
-                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
-            >
-                Đặt lại
-            </button>
-        </div>
+            <div class="flex items-center gap-2">
+                <button
+                    type="submit"
+                    class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+                >
+                    Áp dụng
+                </button>
+                <a
+                    href="{{ route('invoices.index') }}"
+                    class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors inline-flex items-center justify-center"
+                >
+                    Đặt lại
+                </a>
+            </div>
+        </form>
     </div>
 
     <!-- Bảng Hóa đơn -->
@@ -232,17 +244,10 @@
     <!-- Chú thích & Phân trang -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
         <div class="text-[13px] text-[#6B7280]">
-            Hiển thị 1–6 trong 40 hóa đơn · Thống kê toàn bộ công nợ theo kỳ thanh toán.
+            Hiển thị {{ $invoices->firstItem() ?? 1 }}–{{ $invoices->lastItem() ?? $invoices->count() }} trong {{ $invoices->total() }} hóa đơn · Thống kê toàn bộ công nợ theo kỳ thanh toán.
         </div>
 
-        <div class="flex items-center gap-2">
-            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                Trang trước
-            </button>
-            <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                Trang sau
-            </button>
-        </div>
+        @include('layouts.partials.pagination', ['paginator' => $invoices])
     </div>
 </div>
 

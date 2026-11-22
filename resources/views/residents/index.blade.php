@@ -26,11 +26,6 @@
 
     <!-- Header Title & Subtitle -->
     <div>
-        <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
-            <span>Quản trị</span>
-            <span class="mx-1 text-[#9ca3af]">/</span>
-            <span class="text-[#374151]">Cư dân</span>
-        </nav>
         <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
             Danh bạ cư dân
         </h1>
@@ -55,10 +50,10 @@
 
     <!-- Filter Card: 3 Filter Dropdowns -->
     <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-4 shadow-none">
-        <form method="GET" action="{{ route('residents.index') }}" class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
+        <form method="GET" action="{{ route('residents.index') }}" class="flex flex-wrap items-center gap-3 sm:gap-4 flex-1">
             <!-- Filter 1: Họ tên / CCCD / SĐT -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label for="keywordInput" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="keywordInput" class="sr-only">
                     Họ tên / CCCD / SĐT
                 </label>
                 <div class="relative">
@@ -67,7 +62,7 @@
                         id="keywordInput"
                         name="keyword"
                         value="{{ request('keyword') }}"
-                        placeholder="Nhập từ khóa…"
+                        placeholder="Tìm kiếm cư dân (Họ tên, SĐT, CCCD)..."
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c]"
                     />
                     @if (request('keyword'))
@@ -79,8 +74,8 @@
             </div>
 
             <!-- Filter 2: Căn hộ · ApartmentId -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label for="apartmentIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="apartmentIdSelect" class="sr-only">
                     Căn hộ · ApartmentId
                 </label>
                 <div class="relative">
@@ -90,22 +85,19 @@
                         onchange="this.form.submit()"
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
-                        <option value="">Tất cả ▾</option>
+                        <option value="">Tất cả căn hộ</option>
                         @foreach ($apartments as $apt)
                             <option value="{{ $apt->ApartmentId }}" {{ request('apartment_id') == $apt->ApartmentId ? 'selected' : '' }}>
                                 {{ $apt->ApartmentNumber }}
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
             <!-- Filter 3: Trạng thái cư trú -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label for="statusSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="statusSelect" class="sr-only">
                     Trạng thái cư trú
                 </label>
                 <div class="relative">
@@ -115,13 +107,10 @@
                         onchange="this.form.submit()"
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
-                        <option value="">Tất cả ▾</option>
+                        <option value="">Tất cả trạng thái</option>
                         <option value="ACTIVE" {{ request('status') === 'ACTIVE' ? 'selected' : '' }}>Đang cư trú</option>
                         <option value="INACTIVE" {{ request('status') === 'INACTIVE' ? 'selected' : '' }}>Đã rời đi</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
@@ -141,26 +130,26 @@
     <!-- Data Table (Bảng dữ liệu) -->
     <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none" data-name="Bảng dữ liệu">
         <!-- Table Header (Tiêu đề cột) -->
-        <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none px-4">
-            <div class="w-[80px] min-w-[80px]">
+        <div class="bg-[#f2f6f4] border-b border-[#d9e4ec] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none">
+            <div class="w-[80px] min-w-[80px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
                 UserId
             </div>
-            <div class="flex-1 min-w-[160px]">
+            <div class="flex-1 min-w-[160px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
                 Họ tên
             </div>
-            <div class="w-[180px] min-w-[160px]">
+            <div class="w-[180px] min-w-[160px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
                 CCCD
             </div>
-            <div class="w-[160px] min-w-[140px]">
+            <div class="w-[160px] min-w-[140px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
                 Điện thoại
             </div>
-            <div class="w-[100px] min-w-[100px]">
+            <div class="w-[100px] min-w-[100px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
                 Căn hộ
             </div>
-            <div class="w-[140px] min-w-[130px]">
+            <div class="w-[140px] min-w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
                 Cư trú
             </div>
-            <div class="w-[180px] min-w-[160px] text-[#0e4d3c]">
+            <div class="w-[180px] min-w-[160px] px-3 h-full flex items-center text-[#0e4d3c]">
                 Thao tác
             </div>
         </div>
@@ -219,12 +208,12 @@
                 </div>
 
                 <!-- Căn hộ: 100px -->
-                <div class="w-[100px] min-w-[100px] px-3 border-r border-[#e5e7eb] h-full flex items-center font-normal">
+                <div class="w-[100px] min-w-[100px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
                     {{ $apartmentNum }}
                 </div>
 
                 <!-- Cư trú: 140px -->
-                <div class="w-[140px] min-w-[130px] px-3 border-r border-[#e5e7eb] h-full flex items-center font-normal">
+                <div class="w-[140px] min-w-[130px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openStatusResidentModal({{ $resident->UserId }})"
@@ -287,35 +276,7 @@
             Trang {{ $residents->currentPage() }}/{{ $residents->lastPage() }} · {{ $residents->total() }} bản ghi hiện có
         </div>
 
-        @if ($residents->hasPages())
-            <div class="flex items-center space-x-1 border border-[#e5e7eb] bg-white h-[38px] px-2 rounded-[8px] select-none text-[13px] text-[#374151]">
-                {{-- Nút Trước ‹ --}}
-                @if ($residents->onFirstPage())
-                    <span class="px-2 text-gray-300 cursor-not-allowed">‹</span>
-                @else
-                    <a href="{{ $residents->previousPageUrl() }}" class="px-2 text-[#374151] hover:text-[#0e4d3c] transition-colors" rel="prev">‹</a>
-                @endif
-
-                @foreach ($residents->getUrlRange(1, min(5, $residents->lastPage())) as $page => $url)
-                    @if ($page == $residents->currentPage())
-                        <span class="px-2.5 py-1 font-semibold text-[#0e4d3c] bg-[#e4efe9] rounded-[6px]">
-                            {{ $page }}
-                        </span>
-                    @else
-                        <a href="{{ $url }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">
-                            {{ $page }}
-                        </a>
-                    @endif
-                @endforeach
-
-                {{-- Nút Sau › --}}
-                @if ($residents->hasMorePages())
-                    <a href="{{ $residents->nextPageUrl() }}" class="px-2 text-[#374151] hover:text-[#0e4d3c] transition-colors" rel="next">›</a>
-                @else
-                    <span class="px-2 text-gray-300 cursor-not-allowed">›</span>
-                @endif
-            </div>
-        @endif
+        @include('layouts.partials.pagination', ['paginator' => $residents])
     </div>
 </div>
 

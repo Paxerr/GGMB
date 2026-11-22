@@ -238,7 +238,9 @@
     function sendDrawerReply() {
         const text = document.getElementById('ticketReplyTextarea').value.trim();
         if (!text) {
-            alert('Vui lòng nhập nội dung phản hồi');
+            if (window.showToast) {
+                window.showToast('Vui lòng nhập nội dung phản hồi.', 'error');
+            }
             return;
         }
         if (window.showToast) {

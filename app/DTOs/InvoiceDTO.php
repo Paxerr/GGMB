@@ -26,6 +26,9 @@ readonly class InvoiceDTO
         $total = 0.0;
 
         foreach ($rawItems as $item) {
+            if (isset($item['selected']) && (! $item['selected'] || $item['selected'] === '0')) {
+                continue;
+            }
             $qty = (float) ($item['quantity'] ?? $item['qty'] ?? 1);
             $price = (float) ($item['unit_price'] ?? $item['price'] ?? 0);
             $amount = (float) ($item['amount'] ?? ($qty * $price));

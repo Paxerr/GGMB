@@ -26,11 +26,20 @@ readonly class NotificationDTO
             $rawAptIds[] = (int) $request->validated('ApartmentId');
         }
 
+        $rawTarget = (string) $request->validated('TargetType');
+        $normalizedTarget = match ($rawTarget) {
+            'Tất cả', 'Toàn bộ' => 'ALL',
+            'Tòa nhà' => 'BUILDING',
+            'Tầng' => 'FLOOR',
+            'Căn hộ' => 'APARTMENT',
+            default => strtoupper(trim($rawTarget)),
+        };
+
         return new self(
             createdByUserId: $userId,
             title: trim((string) $request->validated('Title')),
             content: trim((string) $request->validated('Content')),
-            targetType: strtoupper(trim((string) $request->validated('TargetType'))),
+            targetType: $normalizedTarget,
             buildingId: $request->filled('BuildingId') ? (int) $request->validated('BuildingId') : null,
             floorId: $request->filled('FloorId') ? (int) $request->validated('FloorId') : null,
             apartmentIds: array_unique(array_filter($rawAptIds)),

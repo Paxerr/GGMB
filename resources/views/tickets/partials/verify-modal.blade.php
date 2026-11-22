@@ -97,8 +97,9 @@
                     <label class="flex items-start gap-2.5 cursor-pointer select-none">
                         <input
                             type="checkbox"
+                            name="confirmed"
+                            value="1"
                             checked
-                            required
                             class="mt-0.5 rounded-[4px] border-[#E5E7EB] text-[#0E4D3C] focus:ring-[#0E4D3C]"
                         />
                         <div class="text-[12.5px]">
@@ -188,9 +189,11 @@
     }
 
     function returnTicketToProcessing() {
-        closeVerifyTicketModal();
-        if (window.showToast) {
-            window.showToast('Đã trả lại yêu cầu về trạng thái Đang xử lý!');
+        const actionInput = document.getElementById('verifyAction');
+        const form = document.getElementById('verifyTicketForm');
+        if (actionInput && form) {
+            actionInput.value = 'REOPEN';
+            form.submit();
         }
     }
 </script>

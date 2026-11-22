@@ -35,6 +35,10 @@ Route::middleware(['auth'])->group(function (): void {
         Route::post('/buildings', [BuildingController::class, 'store'])->name('buildings.store');
         Route::get('/buildings/{building}/edit', [BuildingController::class, 'edit'])->name('buildings.edit');
         Route::put('/buildings/{building}', [BuildingController::class, 'update'])->name('buildings.update');
+        Route::delete('/buildings/{building}', [BuildingController::class, 'destroy'])->name('buildings.destroy');
+        Route::post('/buildings/{building}/floors', [BuildingController::class, 'storeFloor'])->name('buildings.floors.store');
+        Route::put('/floors/{floor}', [BuildingController::class, 'updateFloor'])->name('floors.update');
+        Route::delete('/floors/{floor}', [BuildingController::class, 'destroyFloor'])->name('floors.destroy');
 
         // Căn hộ
         Route::get('/apartments', [ApartmentController::class, 'index'])->name('apartments.index');

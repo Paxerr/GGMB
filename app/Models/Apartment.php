@@ -41,6 +41,16 @@ class Apartment extends Model
         ];
     }
 
+    public function getStatusLabelAttribute(): string
+    {
+        return match ($this->Status) {
+            'OCCUPIED' => 'Đang ở',
+            'VACANT', 'AVAILABLE' => 'Trống',
+            'SUSPENDED', 'INACTIVE' => 'Ngừng hoạt động',
+            default => $this->Status ?? '',
+        };
+    }
+
     protected static function booted(): void
     {
         static::deleting(function (Apartment $apartment) {

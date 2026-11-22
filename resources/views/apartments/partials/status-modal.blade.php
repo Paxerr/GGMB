@@ -54,7 +54,7 @@
                             Trạng thái hiện tại
                         </label>
                         <div id="statusModalCurrentStatus" class="h-[40px] px-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13.5px] font-medium text-[#111827] flex items-center">
-                            {{ isset($statusApartment) ? $statusApartment->Status : 'Trống' }}
+                            {{ isset($statusApartment) ? ($statusApartment->status_label ?? $statusApartment->Status) : 'Trống' }}
                         </div>
                     </div>
 
@@ -75,9 +75,6 @@
                                 <option value="VACANT">Trống (VACANT)</option>
                                 <option value="OCCUPIED">Đang ở (OCCUPIED)</option>
                             </select>
-                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
-                                ▾
-                            </div>
                         </div>
                     </div>
                 </div>

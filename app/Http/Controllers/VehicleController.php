@@ -45,12 +45,33 @@ class VehicleController extends Controller
 
         $vehicles = $query->orderBy('VehicleId')->paginate(10)->withQueryString();
 
+        $vehiclesMap = $vehicles->getCollection()->mapWithKeys(function (Vehicle $v) {
+            $typeName = match ($v->VehicleType ?? '') {
+                'CAR' => 'Ô tô',
+                'ELECTRIC_BIKE' => 'Xe máy điện',
+                'BICYCLE' => 'Xe đạp',
+                default => 'Xe máy',
+            };
+
+            return [$v->VehicleId => [
+                'vehicleId' => $v->VehicleId,
+                'licensePlate' => $v->LicensePlate,
+                'vehicleType' => $v->VehicleType,
+                'typeName' => $typeName,
+                'apartmentId' => $v->ApartmentId,
+                'apartmentNumber' => $v->apartment?->ApartmentNumber ?? '—',
+                'buildingName' => $v->apartment?->floor?->building?->BuildingName ?? 'Tòa A',
+                'floorNumber' => $v->apartment?->floor?->FloorNumber ?? 1,
+            ]];
+        })->toArray();
+
         $totalVehicles = Vehicle::where('IsDeleted', false)->count();
         $motorbikesCount = Vehicle::where('IsDeleted', false)->where('VehicleType', 'MOTORBIKE')->count();
         $carsCount = Vehicle::where('IsDeleted', false)->where('VehicleType', 'CAR')->count();
 
         return view('vehicles.index', [
             'vehicles' => $vehicles,
+            'vehiclesMap' => $vehiclesMap,
             'apartments' => $apartments,
             'totalVehicles' => $totalVehicles,
             'motorbikesCount' => $motorbikesCount,
@@ -149,7 +170,7 @@ class VehicleController extends Controller
 
         $vehicle->update($dto->toModelArray());
 
-        return redirect()->route('vehicles.show', $id)
+        return redirect()->route('vehicles.index')
             ->with('success', "Cập nhật thông tin phương tiện biển số {$vehicle->LicensePlate} thành công.");
     }
 

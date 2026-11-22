@@ -6,13 +6,8 @@
 
 @section('content')
 <div class="w-full space-y-6">
-    <!-- Breadcrumb & Header Title -->
+    <!-- Header Title -->
     <div>
-        <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
-            <span>Quản trị</span>
-            <span class="mx-1 text-[#9ca3af]">/</span>
-            <span class="text-[#374151]">Tòa & tầng</span>
-        </nav>
         <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
             Quản lý tòa và tầng
         </h1>
@@ -47,9 +42,9 @@
 
     <!-- Filter Card: Tòa nhà dropdown & Buttons Áp dụng, Đặt lại -->
     <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-4 shadow-none">
-        <form method="GET" action="{{ route('buildings.index') }}" class="flex flex-col sm:flex-row items-end gap-3">
-            <div class="flex-1 w-full space-y-1.5">
-                <label for="buildingSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+        <form method="GET" action="{{ route('buildings.index') }}" class="flex flex-col sm:flex-row items-center gap-3">
+            <div class="flex-1 w-full">
+                <label for="buildingSelect" class="sr-only">
                     Tòa nhà
                 </label>
                 <div class="relative">
@@ -64,9 +59,6 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
@@ -166,14 +158,7 @@
         <div class="text-[12px] text-[#6b7280]">
             Trang 1/1 · {{ count($floors) }} bản ghi hiện có
         </div>
-        <div class="flex items-center space-x-2">
-            <button type="button" class="px-4 py-2 bg-white border border-[#e5e7eb] rounded-[8px] text-[13px] font-medium text-[#374151] hover:bg-[#f9fafb] transition-colors cursor-pointer">
-                Trang trước
-            </button>
-            <button type="button" class="px-4 py-2 bg-white border border-[#e5e7eb] rounded-[8px] text-[13px] font-medium text-[#374151] hover:bg-[#f9fafb] transition-colors cursor-pointer">
-                Trang sau
-            </button>
-        </div>
+        @include('layouts.partials.pagination')
     </div>
 
     <!-- Bottom Secondary Actions (Chỉnh sửa tòa, Thêm tầng) -->

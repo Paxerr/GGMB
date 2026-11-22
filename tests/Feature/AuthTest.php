@@ -51,6 +51,48 @@ class AuthTest extends TestCase
     }
 
     /**
+     * Kiểm tra cư dân đăng nhập thành công chuyển hướng đến cổng cư dân.
+     */
+    public function test_resident_redirected_to_resident_portal_after_login(): void
+    {
+        $resident = User::factory()->resident()->create([
+            'UserName' => 'testresident01',
+            'PasswordHash' => Hash::make('password123'),
+            'Status' => 'ACTIVE',
+            'IsDeleted' => false,
+        ]);
+
+        $response = $this->post('/login', [
+            'UserName' => 'testresident01',
+            'password' => 'password123',
+        ]);
+
+        $this->assertAuthenticatedAs($resident);
+        $response->assertRedirect('/portal');
+    }
+
+    /**
+     * Kiểm tra nhân viên kỹ thuật đăng nhập thành công chuyển hướng đến cổng kỹ thuật.
+     */
+    public function test_technician_redirected_to_tech_portal_after_login(): void
+    {
+        $tech = User::factory()->technician()->create([
+            'UserName' => 'testtech01',
+            'PasswordHash' => Hash::make('password123'),
+            'Status' => 'ACTIVE',
+            'IsDeleted' => false,
+        ]);
+
+        $response = $this->post('/login', [
+            'UserName' => 'testtech01',
+            'password' => 'password123',
+        ]);
+
+        $this->assertAuthenticatedAs($tech);
+        $response->assertRedirect('/tech');
+    }
+
+    /**
      * Kiểm tra không thể đăng nhập với mật khẩu sai.
      */
     public function test_users_cannot_authenticate_with_invalid_password(): void

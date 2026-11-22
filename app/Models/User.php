@@ -44,6 +44,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    protected $appends = [
+        'id',
+        'name',
+        'username',
+        'role_label',
+        'status_label',
+        'is_current_user',
+        'citizen_id',
+        'dept',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -138,7 +149,6 @@ class User extends Authenticatable
             'MANAGER' => 'Quản lý',
             'SUPPORT' => 'Hỗ trợ',
             'TECHNICIAN' => 'Kỹ thuật',
-            'SECURITY' => 'Bảo vệ',
             'RESIDENT' => 'Cư dân',
             default => $this->Role ?? '',
         };
@@ -152,6 +162,16 @@ class User extends Authenticatable
             'INACTIVE' => 'Ngừng hoạt động',
             default => $this->Status ?? '',
         };
+    }
+
+    public function getCitizenIdAttribute(): ?string
+    {
+        return $this->attributes['CitizenId'] ?? null;
+    }
+
+    public function getDeptAttribute(): ?string
+    {
+        return $this->attributes['Department'] ?? null;
     }
 
     public function getIsCurrentUserAttribute(): bool

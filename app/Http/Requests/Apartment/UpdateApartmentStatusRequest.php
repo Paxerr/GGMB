@@ -12,6 +12,14 @@ class UpdateApartmentStatusRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $status = $this->input('Status') ?? $this->input('status');
+        $this->merge([
+            'Status' => $status ? strtoupper((string) $status) : null,
+        ]);
+    }
+
     /**
      * @return array<string, ValidationRule|array<mixed>|string>
      */

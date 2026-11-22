@@ -111,11 +111,10 @@
                                 name="Role"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                             >
-                                <option value="Quản lý">Quản lý</option>
-                                <option value="Kỹ thuật">Kỹ thuật</option>
-                                <option value="Hỗ trợ">Hỗ trợ</option>
-                                <option value="Bảo vệ">Bảo vệ</option>
-                                <option value="Cư dân">Cư dân</option>
+                                <option value="MANAGER">Quản lý</option>
+                                <option value="SUPPORT">Nhân viên hỗ trợ</option>
+                                <option value="TECHNICIAN">Nhân viên kỹ thuật</option>
+                                <option value="RESIDENT">Cư dân</option>
                             </select>
                         </div>
                         <div>
@@ -175,7 +174,8 @@
         document.getElementById('edit_acc_phone').value = acc.phone || '';
         document.getElementById('edit_acc_email').value = acc.email || '';
         document.getElementById('edit_acc_citizen_id').value = acc.citizen_id || '079000000001';
-        document.getElementById('edit_acc_role').value = acc.role || 'Quản lý';
+        const roleMap = { 'Quản lý': 'MANAGER', 'Hỗ trợ': 'SUPPORT', 'Kỹ thuật': 'TECHNICIAN', 'Cư dân': 'RESIDENT' };
+        document.getElementById('edit_acc_role').value = roleMap[acc.role] || acc.role || 'SUPPORT';
         document.getElementById('edit_acc_dept').value = acc.dept || 'Ban quản lý chung cư GGMB';
 
         const modal = document.getElementById('accountEditModal');

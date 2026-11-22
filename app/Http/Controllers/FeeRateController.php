@@ -21,9 +21,24 @@ class FeeRateController extends Controller
      */
     public function index(Request $request): View
     {
-        $feeTypes = FeeType::with(['rates' => function ($q): void {
+        $query = FeeType::with(['rates' => function ($q): void {
             $q->orderByDesc('EffectiveFrom')->orderByDesc('FeeRateId');
-        }])->orderBy('FeeTypeId')->get();
+        }])->orderBy('FeeTypeId');
+
+        if ($request->filled('status') && $request->input('status') !== 'ALL') {
+            $isActive = $request->input('status') === 'ACTIVE';
+            $query->where('IsActive', $isActive);
+        }
+
+        if ($request->filled('keyword')) {
+            $kw = trim((string) $request->input('keyword'));
+            $query->where(function ($q) use ($kw): void {
+                $q->where('Name', 'like', "%{$kw}%")
+                    ->orWhere('Code', 'like', "%{$kw}%");
+            });
+        }
+
+        $feeTypes = $query->get();
 
         $feeRates = $feeTypes->map(function (FeeType $ft) {
             $latestRate = $ft->rates->first();
@@ -237,7 +252,7 @@ class FeeRateController extends Controller
         $dto = FeeRateDTO::fromStoreRequest($request, $feeType->FeeTypeId);
         FeeRate::create($dto->toModelArray());
 
-        return redirect()->route('fee-rates.show', $id)
+        return redirect()->route('fee-rates.index')
             ->with('success', "Đã thêm đơn giá mới cho loại phí '{$feeType->Name}'.");
     }
 }

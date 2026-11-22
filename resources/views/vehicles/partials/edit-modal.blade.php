@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="editVehicleForm" method="POST" action="" onsubmit="handleEditVehicleSubmit(event)">
+            <form id="editVehicleForm" method="POST" action="">
                 @csrf
                 @method('PUT')
                 <div class="px-6 py-5 space-y-4">

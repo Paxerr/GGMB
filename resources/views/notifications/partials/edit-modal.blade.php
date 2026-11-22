@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="editNotificationForm" method="POST" action="" onsubmit="event.preventDefault(); simulateEditNotification();">
+            <form id="editNotificationForm" method="POST" action="">
                 @csrf
                 @method('PUT')
                 <div class="p-6 space-y-4">
@@ -155,6 +155,12 @@
 
         if (!modal || !backdrop || !panel) return;
 
+        const notifId = data.id || idOrData;
+        const form = document.getElementById('editNotificationForm');
+        if (form && notifId) {
+            form.action = `/notifications/${notifId}`;
+        }
+
         const title = data.title || 'Thông báo lịch bảo trì thang máy';
         const body = data.body || 'Thang máy tòa A bảo trì ngày 08/02/2026, 08:00–11:00. Vui lòng sử dụng thang bộ trong thời gian này.';
         const scope = data.scope || 'Tòa nhà';
@@ -195,8 +201,6 @@
         closeEditNotificationModal();
         if (window.showToast) {
             window.showToast('Đã lưu thay đổi thông báo thành công!');
-        } else {
-            alert('Đã lưu thay đổi thông báo thành công!');
         }
     }
 </script>

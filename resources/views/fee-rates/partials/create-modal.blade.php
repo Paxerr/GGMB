@@ -162,8 +162,6 @@
         closeCreateFeeModal();
         if (window.showToast) {
             window.showToast(`Đã thêm loại phí ${name} thành công.`);
-        } else {
-            alert(`Đã thêm loại phí ${name} thành công.`);
         }
     }
 </script>

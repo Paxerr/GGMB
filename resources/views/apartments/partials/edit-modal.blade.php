@@ -78,13 +78,10 @@
                             required
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                         >
-                            <option value="OCCUPIED" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'OCCUPIED' ? 'selected' : '' }}>OCCUPIED · Đang ở</option>
-                            <option value="VACANT" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'VACANT' ? 'selected' : '' }}>VACANT · Trống</option>
-                            <option value="SUSPENDED" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'SUSPENDED' ? 'selected' : '' }}>SUSPENDED · Ngừng hoạt động</option>
+                            <option value="OCCUPIED" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'OCCUPIED' ? 'selected' : '' }}>Đang ở (OCCUPIED)</option>
+                            <option value="VACANT" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'VACANT' ? 'selected' : '' }}>Trống (VACANT)</option>
+                            <option value="SUSPENDED" {{ old('Status', isset($editApartment) ? $editApartment->Status : 'OCCUPIED') === 'SUSPENDED' ? 'selected' : '' }}>Ngừng hoạt động (SUSPENDED)</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
-                            ▾
-                        </div>
                     </div>
                     @error('Status')
                         <p class="text-xs text-red-600 mt-1">{{ $message }}</p>

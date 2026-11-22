@@ -64,7 +64,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="editRateForm" method="POST" action="" onsubmit="handleEditRateSubmit(event)">
+            <form id="editRateForm" method="POST" action="">
                 @csrf
                 <div class="p-6 space-y-4">
                     <!-- Loại phí * (không đổi khi sửa) -->
@@ -86,13 +86,16 @@
 
                     <!-- Đơn giá * · VND -->
                     <div>
-                        <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                        <label for="edit_rate_price" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                             Đơn giá * · VND
                         </label>
                         <input
-                            type="text"
+                            type="number"
                             id="edit_rate_price"
-                            value="3.500"
+                            name="UnitPrice"
+                            step="any"
+                            min="0"
+                            value="3500"
                             required
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
@@ -101,25 +104,26 @@
                     <!-- Hàng 2 Cột: Áp dụng từ * & Áp dụng đến -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                            <label for="edit_rate_from" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                                 Áp dụng từ *
                             </label>
                             <input
-                                type="text"
+                                type="date"
                                 id="edit_rate_from"
-                                value="01/01/2025"
+                                name="EffectiveFrom"
+                                value="2025-01-01"
                                 required
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
                         <div>
-                            <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
-                                Áp dụng đến
+                            <label for="edit_rate_to" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                                Áp dụng đến (tùy chọn)
                             </label>
                             <input
-                                type="text"
+                                type="date"
                                 id="edit_rate_to"
-                                value="Không giới hạn"
+                                name="EffectiveTo"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -152,6 +156,15 @@
 </div>
 
 <script>
+    function formatToDateInput(str) {
+        if (!str || str === 'Không giới hạn') return '';
+        const match = str.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+        if (match) {
+            return `${match[3]}-${match[2]}-${match[1]}`;
+        }
+        return str;
+    }
+
     function openEditRateModal(data = {}) {
         const modal = document.getElementById('editRateModal');
         const backdrop = document.getElementById('editRateBackdrop');
@@ -159,10 +172,16 @@
 
         if (!modal || !backdrop || !panel) return;
 
+        const id = data.id || 1;
         const feeName = data.name || 'Điện';
-        const price = (data.price || 3500).toLocaleString('vi-VN');
-        const from = data.effective_from || '01/01/2025';
-        const to = data.effective_to || 'Không giới hạn';
+        const price = data.price !== undefined ? data.price : 3500;
+        const from = formatToDateInput(data.effective_from || '01/01/2025');
+        const to = formatToDateInput(data.effective_to || '');
+
+        const form = document.getElementById('editRateForm');
+        if (form) {
+            form.action = `/fee-rates/${id}/rates`;
+        }
 
         document.getElementById('editRateSubtitle').textContent = `${feeName} · Chỉ người có quyền cấu hình được sửa.`;
         document.getElementById('edit_rate_fee_name').value = feeName;
@@ -204,24 +223,11 @@
             tabCreate.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#0E4D3C] text-white rounded-[6px] transition-colors cursor-pointer';
             tabEdit.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#6B7280] hover:text-[#111827] rounded-[6px] transition-colors cursor-pointer';
             document.getElementById('edit_rate_price').value = '';
-            document.getElementById('edit_rate_from').value = 'dd/mm/yyyy';
-            document.getElementById('edit_rate_to').value = 'Để trống nếu không giới hạn';
+            document.getElementById('edit_rate_from').value = new Date().toISOString().split('T')[0];
+            document.getElementById('edit_rate_to').value = '';
         } else {
             tabEdit.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-semibold bg-[#0E4D3C] text-white rounded-[6px] transition-colors cursor-pointer';
             tabCreate.className = 'flex-1 h-[36px] flex items-center justify-center text-[13px] font-medium text-[#6B7280] hover:text-[#111827] rounded-[6px] transition-colors cursor-pointer';
-            document.getElementById('edit_rate_price').value = '3.500';
-            document.getElementById('edit_rate_from').value = '01/01/2025';
-            document.getElementById('edit_rate_to').value = 'Không giới hạn';
-        }
-    }
-
-    function handleEditRateSubmit(event) {
-        event.preventDefault();
-        const price = document.getElementById('edit_rate_price')?.value || '3.500';
-        closeEditRateModal();
-
-        if (window.showToast) {
-            window.showToast(`Đã lưu đơn giá ${price} đ thành công.`);
         }
     }
 </script>

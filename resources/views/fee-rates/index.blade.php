@@ -41,49 +41,51 @@
     </div>
 
     <!-- Hàng Bộ lọc -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-end gap-3 shadow-none">
+    <form method="GET" action="{{ route('fee-rates.index') }}" class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-center gap-3 shadow-none">
         <!-- Trạng thái áp dụng -->
-        <div class="space-y-1.5 flex-1 min-w-[200px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
+        <div class="flex-1 min-w-[200px]">
+            <label for="filterStatus" class="sr-only">
                 Trạng thái áp dụng
             </label>
             <div class="relative">
-                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="ACTIVE" selected>Đang áp dụng ▾</option>
-                    <option value="INACTIVE">Ngừng sử dụng</option>
-                    <option value="ALL">Tất cả</option>
+                <select id="filterStatus" name="status" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="ACTIVE" {{ request('status', 'ACTIVE') === 'ACTIVE' ? 'selected' : '' }}>Đang áp dụng</option>
+                    <option value="INACTIVE" {{ request('status') === 'INACTIVE' ? 'selected' : '' }}>Ngừng sử dụng</option>
+                    <option value="ALL" {{ request('status') === 'ALL' ? 'selected' : '' }}>Tất cả</option>
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
             </div>
         </div>
 
         <!-- Tìm theo Mã phí / Tên phí -->
-        <div class="space-y-1.5 flex-1 min-w-[260px]">
-            <label class="block text-[12px] font-semibold text-[#374151]">
+        <div class="flex-1 min-w-[260px]">
+            <label for="filterKeyword" class="sr-only">
                 Tìm theo Mã phí / Tên phí
             </label>
             <input
+                id="filterKeyword"
                 type="text"
-                placeholder="Nhập mã hoặc tên loại phí"
+                name="keyword"
+                value="{{ request('keyword') }}"
+                placeholder="Tìm theo mã hoặc tên loại phí..."
                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
             />
         </div>
 
         <div class="flex items-center gap-2">
             <button
-                type="button"
-                class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+                type="submit"
+                class="h-[40px] px-4 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
             >
                 Áp dụng
             </button>
-            <button
-                type="button"
-                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+            <a
+                href="{{ route('fee-rates.index') }}"
+                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer inline-flex items-center"
             >
                 Đặt lại
-            </button>
+            </a>
         </div>
-    </div>
+    </form>
 
     <!-- Bảng dữ liệu Cấu hình biểu phí -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] overflow-hidden shadow-none">
@@ -116,7 +118,7 @@
                 <div class="flex-1 min-w-[140px] px-4 h-full flex items-center gap-1.5 text-[13px]">
                     <button
                         type="button"
-                        onclick="openEditRateModal({name: '{{ $rate->name }}', price: {{ $rate->price }}, effective_from: '{{ $rate->effective_from }}', effective_to: '{{ $rate->effective_to ?? '' }}'})"
+                        onclick="openEditRateModal({id: {{ $rate->id }}, name: '{{ $rate->name }}', price: {{ $rate->price }}, effective_from: '{{ $rate->effective_from }}', effective_to: '{{ $rate->effective_to ?? '' }}'})"
                         title="Chỉnh sửa đơn giá"
                         class="p-1.5 text-[#0E4D3C] hover:bg-[#E4EFE9] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
@@ -147,14 +149,7 @@
                 Hiển thị 1–5 trong 5 loại phí
             </div>
 
-            <div class="flex items-center gap-2">
-                <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                    Trang trước
-                </button>
-                <button class="px-3 py-1.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#374151] hover:bg-[#F9FBFA] transition-colors cursor-pointer">
-                    Trang sau
-                </button>
-            </div>
+            @include('layouts.partials.pagination')
         </div>
     </div>
 </div>

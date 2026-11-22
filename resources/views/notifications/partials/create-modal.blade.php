@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form method="POST" action="{{ route('notifications.store') }}" onsubmit="event.preventDefault(); simulateCreateNotification();">
+            <form method="POST" action="{{ route('notifications.store') }}">
                 @csrf
                 <div class="p-6 space-y-4">
                     <!-- Tiêu đề * -->
@@ -160,8 +160,6 @@
         closeCreateNotificationModal();
         if (window.showToast) {
             window.showToast('Gửi thông báo mới thành công!');
-        } else {
-            alert('Gửi thông báo mới thành công!');
         }
     }
 </script>

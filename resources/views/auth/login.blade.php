@@ -206,13 +206,19 @@
                         </div>
 
                         <!-- Ghi nhớ tài khoản & Quên mật khẩu -->
-                        <div class="flex items-center justify-between text-[12.5px] pt-1">
-                            <label class="flex items-center gap-2 cursor-pointer select-none">
-                                <input type="checkbox" name="remember" id="remember" class="sr-only peer">
-                                <div class="w-8 h-4.5 bg-[#E5E7EB] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3.5 after:w-3.5 after:transition-all peer-checked:bg-[#2563EB] relative"></div>
-                                <span class="text-[#6B7280]">Ghi nhớ tài khoản</span>
+                        <div class="flex items-center justify-between text-[13px] pt-1">
+                            <label for="remember" class="inline-flex items-center gap-2 cursor-pointer select-none group">
+                                <input
+                                    type="checkbox"
+                                    name="remember"
+                                    id="remember"
+                                    class="w-4 h-4 rounded-[4px] border border-[#D1D5DB] text-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 accent-[#2563EB] cursor-pointer"
+                                >
+                                <span class="text-[#4B5563] group-hover:text-[#111827] transition-colors font-medium">
+                                    Ghi nhớ tài khoản
+                                </span>
                             </label>
-                            <a href="#" class="text-[#2563EB] hover:underline font-medium">
+                            <a href="#" class="text-[#2563EB] hover:underline font-medium text-[12.5px]">
                                 Quên mật khẩu?
                             </a>
                         </div>

@@ -35,7 +35,7 @@ class GgmbSeeder extends Seeder
         Building::truncate();
         Building::create([
             'BuildingId' => 1,
-            'BuildingName' => 'GGMB Residence - Toa A',
+            'BuildingName' => 'GGMB Residence - Tòa A',
         ]);
 
         // 2. Floor
@@ -89,8 +89,8 @@ class GgmbSeeder extends Seeder
             ['UserId' => 5, 'UserName' => 'tech01', 'FullName' => 'Nguyễn Văn Kỹ thuật', 'Phone' => '0900000005', 'Email' => 'tech01@ggmb.example', 'CitizenId' => '079000000005', 'Role' => 'TECHNICIAN', 'Department' => 'Kỹ thuật', 'Status' => 'ACTIVE'],
             ['UserId' => 6, 'UserName' => 'tech02', 'FullName' => 'Đỗ Quốc Kỹ thuật', 'Phone' => '0900000006', 'Email' => 'tech02@ggmb.example', 'CitizenId' => '079000000006', 'Role' => 'TECHNICIAN', 'Department' => 'Kỹ thuật', 'Status' => 'ACTIVE'],
             ['UserId' => 7, 'UserName' => 'tech03', 'FullName' => 'Vũ Hoàng Kỹ thuật', 'Phone' => '0900000007', 'Email' => 'tech03@ggmb.example', 'CitizenId' => '079000000007', 'Role' => 'TECHNICIAN', 'Department' => 'Kỹ thuật', 'Status' => 'ACTIVE'],
-            ['UserId' => 8, 'UserName' => 'security01', 'FullName' => 'Bùi Đức Bảo vệ', 'Phone' => '0900000008', 'Email' => 'security01@ggmb.example', 'CitizenId' => '079000000008', 'Role' => 'SECURITY', 'Department' => 'An ninh', 'Status' => 'ACTIVE'],
-            ['UserId' => 9, 'UserName' => 'security02', 'FullName' => 'Phan Nam Bảo vệ', 'Phone' => '0900000009', 'Email' => 'security02@ggmb.example', 'CitizenId' => '079000000009', 'Role' => 'SECURITY', 'Department' => 'An ninh', 'Status' => 'ACTIVE'],
+            ['UserId' => 8, 'UserName' => 'support04', 'FullName' => 'Bùi Đức Hỗ trợ', 'Phone' => '0900000008', 'Email' => 'support04@ggmb.example', 'CitizenId' => '079000000008', 'Role' => 'SUPPORT', 'Department' => 'Chăm sóc cư dân', 'Status' => 'ACTIVE'],
+            ['UserId' => 9, 'UserName' => 'tech04', 'FullName' => 'Phan Nam Kỹ thuật', 'Phone' => '0900000009', 'Email' => 'tech04@ggmb.example', 'CitizenId' => '079000000009', 'Role' => 'TECHNICIAN', 'Department' => 'Kỹ thuật', 'Status' => 'ACTIVE'],
         ];
 
         $residentNames = [

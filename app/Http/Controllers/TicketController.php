@@ -29,11 +29,31 @@ class TicketController extends Controller
             ->orderBy('ApartmentNumber')
             ->get();
 
+        $staff = User::whereIn('Role', ['SUPPORT', 'TECHNICIAN', 'MANAGER'])
+            ->where('IsDeleted', false)
+            ->orderBy('FullName')
+            ->get();
+
+        $creators = User::where('IsDeleted', false)
+            ->orderBy('FullName')
+            ->get();
+
         $query = Ticket::with(['creator', 'apartment', 'assignment.assignedTo', 'attachments'])
             ->where('IsDeleted', false);
 
         if ($request->filled('category') && $request->input('category') !== 'ALL') {
             $query->where('Category', $request->input('category'));
+        }
+
+        if ($request->filled('creator_id')) {
+            $query->where('CreatedByUserId', (int) $request->input('creator_id'));
+        }
+
+        if ($request->filled('assignee_id')) {
+            $assigneeId = (int) $request->input('assignee_id');
+            $query->whereHas('assignment', function ($q) use ($assigneeId): void {
+                $q->where('AssignedToUserId', $assigneeId);
+            });
         }
 
         if ($request->filled('apartment_id')) {
@@ -79,9 +99,12 @@ class TicketController extends Controller
                 'title' => $t->Subject,
                 'description' => $t->Description,
                 'apartment' => $t->apartment?->ApartmentNumber ?? '—',
+                'apartment_id' => $t->ApartmentId,
                 'creator' => $t->creator ? "{$t->creator->UserId} · {$t->creator->FullName}" : 'Cư dân',
                 'creator_name' => $t->creator?->FullName ?? 'Cư dân',
                 'created_at' => $t->CreatedAt ? Carbon::parse($t->CreatedAt)->format('d/m/Y H:i') : '—',
+                'resolved_at' => $t->ResolvedAt ? Carbon::parse($t->ResolvedAt)->format('d/m/Y H:i') : null,
+                'assigned_at' => $t->assignment?->AssignedAt ? Carbon::parse($t->assignment->AssignedAt)->format('d/m/Y H:i') : null,
                 'status' => $t->Status,
                 'status_label' => $statusLabelMap[$t->Status] ?? $t->Status,
                 'assignee' => $assigneeName,
@@ -133,6 +156,8 @@ class TicketController extends Controller
             'tickets' => $tickets,
             'columns' => $columns,
             'apartments' => $apartments,
+            'staff' => $staff,
+            'creators' => $creators,
         ]);
     }
 
@@ -156,11 +181,17 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
 
         $dto = TicketDTO::fromUpdateRequest($request, $ticket->CreatedByUserId, $ticket->ApartmentId);
-        $ticket->update([
+        $updateData = [
             'Subject' => $dto->subject,
             'Description' => $dto->description,
             'Category' => $dto->category,
-        ]);
+        ];
+
+        if ($request->filled('ApartmentId')) {
+            $updateData['ApartmentId'] = (int) $request->input('ApartmentId');
+        }
+
+        $ticket->update($updateData);
 
         return redirect()->route('tickets.index')
             ->with('success', "Cập nhật yêu cầu #{$ticket->TicketId} thành công.");
@@ -203,14 +234,23 @@ class TicketController extends Controller
     {
         $ticket = Ticket::findOrFail($id);
 
-        $action = $request->validated('action') === 'CLOSE' ? 'CLOSED' : 'RESOLVED';
+        $actionInput = (string) $request->validated('action');
+        $action = match ($actionInput) {
+            'CLOSE' => 'CLOSED',
+            'REOPEN', 'PROCESSING' => 'PROCESSING',
+            default => 'RESOLVED',
+        };
 
         $ticket->update([
             'Status' => $action,
-            'ResolvedAt' => now(),
+            'ResolvedAt' => in_array($action, ['CLOSED', 'RESOLVED'], true) ? now() : null,
         ]);
 
-        $label = $action === 'CLOSED' ? 'đóng' : 'xử lý xong';
+        $label = match ($action) {
+            'CLOSED' => 'đóng',
+            'PROCESSING' => 'chuyển lại xử lý',
+            default => 'xử lý xong',
+        };
 
         return redirect()->route('tickets.index')
             ->with('success', "Đã xác nhận {$label} yêu cầu #{$ticket->TicketId}.");

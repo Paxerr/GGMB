@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="cancelVehicleForm" method="POST" action="" onsubmit="handleCancelVehicleSubmit(event)">
+            <form id="cancelVehicleForm" method="POST" action="">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Biển số & Loại xe (2 cột) -->

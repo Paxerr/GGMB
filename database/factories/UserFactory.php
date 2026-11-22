@@ -25,12 +25,44 @@ class UserFactory extends Factory
             'Phone' => fake()->numerify('09########'),
             'Email' => fake()->unique()->safeEmail(),
             'CitizenId' => fake()->numerify('079000######'),
-            'Role' => fake()->randomElement(['MANAGER', 'SUPPORT', 'TECHNICIAN', 'SECURITY', 'RESIDENT']),
-            'Department' => fake()->randomElement(['Ban quản lý', 'Chăm sóc cư dân', 'Kỹ thuật', 'An ninh', null]),
+            'Role' => 'MANAGER',
+            'Department' => 'Ban quản lý',
             'Status' => 'ACTIVE',
             'remember_token' => Str::random(10),
             'IsDeleted' => false,
             'DeletedAt' => null,
         ];
+    }
+
+    public function manager(): static
+    {
+        return $this->state(fn () => [
+            'Role' => 'MANAGER',
+            'Department' => 'Ban quản lý',
+        ]);
+    }
+
+    public function support(): static
+    {
+        return $this->state(fn () => [
+            'Role' => 'SUPPORT',
+            'Department' => 'Chăm sóc cư dân',
+        ]);
+    }
+
+    public function technician(): static
+    {
+        return $this->state(fn () => [
+            'Role' => 'TECHNICIAN',
+            'Department' => 'Kỹ thuật',
+        ]);
+    }
+
+    public function resident(): static
+    {
+        return $this->state(fn () => [
+            'Role' => 'RESIDENT',
+            'Department' => null,
+        ]);
     }
 }

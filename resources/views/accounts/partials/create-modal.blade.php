@@ -71,7 +71,8 @@
                                 type="password"
                                 name="Password"
                                 required
-                                placeholder="Nhập mật khẩu · được che ký tự"
+                                minlength="6"
+                                placeholder="Tối thiểu 6 ký tự · được che"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -138,13 +139,12 @@
                             </label>
                             <div class="relative">
                                 <select name="Role" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
-                                    <option value="" disabled selected>Chọn vai trò ▾</option>
+                                    <option value="" disabled selected>Chọn vai trò</option>
                                     <option value="Quản lý">Quản lý</option>
-                                    <option value="Hỗ trợ">Hỗ trợ</option>
-                                    <option value="Kỹ thuật">Kỹ thuật</option>
-                                    <option value="Bảo vệ">Bảo vệ</option>
+                                    <option value="Hỗ trợ">Nhân viên hỗ trợ</option>
+                                    <option value="Kỹ thuật">Nhân viên kỹ thuật</option>
+                                    <option value="Cư dân">Cư dân</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                             </div>
                         </div>
                         <div>

@@ -39,7 +39,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="editTicketForm" method="POST" action="" onsubmit="event.preventDefault(); simulateEditTicket();">
+            <form id="editTicketForm" method="POST" action="">
                 @csrf
                 @method('PUT')
                 <div class="px-6 py-5 space-y-4">
@@ -51,9 +51,8 @@
                         <input
                             type="text"
                             id="edit_ticket_title"
-                            name="title"
+                            name="Subject"
                             required
-                            value="Không xem được thông báo phí"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
@@ -65,11 +64,11 @@
                         </label>
                         <textarea
                             id="edit_ticket_desc"
-                            name="description"
+                            name="Description"
                             rows="3"
                             required
                             class="w-full px-3 py-2.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
-                        >Không xem được thông báo phí trên cổng cư dân.</textarea>
+                        ></textarea>
                     </div>
 
                     <!-- 2 cột: Nhóm yêu cầu * & Căn hộ liên quan -->
@@ -81,11 +80,11 @@
                             <div class="relative">
                                 <select
                                     id="edit_ticket_cat"
-                                    name="category"
+                                    name="Category"
                                     required
                                     class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                                 >
-                                    <option value="Tài khoản">Tài khoản ▾</option>
+                                    <option value="Tài khoản">Tài khoản</option>
                                     <option value="Phương tiện">Phương tiện</option>
                                     <option value="Kỹ thuật">Kỹ thuật</option>
                                     <option value="Hóa đơn">Hóa đơn</option>
@@ -103,11 +102,11 @@
                             <div class="relative">
                                 <select
                                     id="edit_ticket_apt"
-                                    name="apartment"
+                                    name="ApartmentId"
                                     class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                                 >
                                     @foreach ($apartments as $apt)
-                                        <option value="{{ $apt->ApartmentNumber }}">{{ $apt->ApartmentNumber }} ▾</option>
+                                        <option value="{{ $apt->ApartmentId }}">{{ $apt->ApartmentNumber }}</option>
                                     @endforeach
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
@@ -146,16 +145,22 @@
 
         if (!modal || !backdrop || !panel) return;
 
-        const title = data.title || 'Không xem được thông báo phí';
-        const desc = data.description || 'Không xem được thông báo phí trên cổng cư dân.';
+        const id = data.id || (typeof idOrData === 'number' ? idOrData : 1);
+        const title = data.title || '';
+        const desc = data.description || '';
         const category = data.category || 'Tài khoản';
-        const apt = data.apartment || '0101';
+        const aptId = data.apartment_id || '';
+
+        const form = document.getElementById('editTicketForm');
+        if (form) {
+            form.action = `/tickets/${id}`;
+        }
 
         document.getElementById('edit_ticket_title').value = title;
         document.getElementById('edit_ticket_desc').value = desc;
         document.getElementById('edit_ticket_cat').value = category;
-        if (document.getElementById('edit_ticket_apt')) {
-            document.getElementById('edit_ticket_apt').value = apt;
+        if (document.getElementById('edit_ticket_apt') && aptId) {
+            document.getElementById('edit_ticket_apt').value = aptId;
         }
 
         modal.classList.remove('hidden');

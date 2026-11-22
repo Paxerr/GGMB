@@ -24,9 +24,9 @@ readonly class AccountDTO
         $roleInput = (string) $request->validated('Role');
         $normalizedRole = match ($roleInput) {
             'Quản lý' => 'MANAGER',
-            'Hỗ trợ' => 'SUPPORT',
-            'Kỹ thuật' => 'TECHNICIAN',
-            'Bảo vệ' => 'SECURITY',
+            'Hỗ trợ', 'Nhân viên hỗ trợ' => 'SUPPORT',
+            'Kỹ thuật', 'Nhân viên kỹ thuật' => 'TECHNICIAN',
+            'Cư dân' => 'RESIDENT',
             default => strtoupper($roleInput),
         };
 
@@ -48,9 +48,9 @@ readonly class AccountDTO
         $roleInput = $request->filled('Role') ? (string) $request->validated('Role') : null;
         $normalizedRole = $roleInput ? match ($roleInput) {
             'Quản lý' => 'MANAGER',
-            'Hỗ trợ' => 'SUPPORT',
-            'Kỹ thuật' => 'TECHNICIAN',
-            'Bảo vệ' => 'SECURITY',
+            'Hỗ trợ', 'Nhân viên hỗ trợ' => 'SUPPORT',
+            'Kỹ thuật', 'Nhân viên kỹ thuật' => 'TECHNICIAN',
+            'Cư dân' => 'RESIDENT',
             default => strtoupper($roleInput),
         } : 'SUPPORT';
 

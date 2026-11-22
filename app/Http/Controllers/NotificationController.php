@@ -26,15 +26,35 @@ class NotificationController extends Controller
      */
     public function index(Request $request): View
     {
-        $notifications = Notification::with([
+        $query = Notification::with([
             'creator',
             'recipients.user.apartmentResidents.apartment',
             'targets.building',
             'targets.floor',
             'targets.apartment',
         ])
-            ->where('IsDeleted', false)
-            ->orderByDesc('NotificationId')
+            ->where('IsDeleted', false);
+
+        if ($request->filled('scope') && $request->input('scope') !== 'ALL') {
+            $scope = match ($request->input('scope')) {
+                'Tòa nhà' => 'BUILDING',
+                'Tầng' => 'FLOOR',
+                'Căn hộ' => 'APARTMENT',
+                'Tất cả' => 'ALL',
+                default => strtoupper(trim((string) $request->input('scope'))),
+            };
+            $query->where('TargetType', $scope);
+        }
+
+        if ($request->filled('q')) {
+            $q = trim((string) $request->input('q'));
+            $query->where(function ($sq) use ($q): void {
+                $sq->where('Title', 'like', "%{$q}%")
+                    ->orWhere('Content', 'like', "%{$q}%");
+            });
+        }
+
+        $notifications = $query->orderByDesc('NotificationId')
             ->get()
             ->map(function (Notification $ntf) {
                 $readCount = $ntf->recipients->where('IsRead', true)->count();

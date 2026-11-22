@@ -23,11 +23,16 @@ class AccountController extends Controller
         // Lọc theo vai trò
         $roleFilter = $request->query('role', 'INTERNAL');
         if ($roleFilter === 'INTERNAL') {
-            $query->whereIn('Role', ['MANAGER', 'SUPPORT', 'TECHNICIAN', 'SECURITY']);
+            $query->whereIn('Role', ['MANAGER', 'SUPPORT', 'TECHNICIAN']);
         } elseif ($roleFilter === 'RESIDENT') {
             $query->where('Role', 'RESIDENT');
         } elseif ($roleFilter !== 'ALL' && $roleFilter !== '') {
             $query->where('Role', $roleFilter);
+        }
+
+        // Lọc theo trạng thái
+        if ($request->filled('status')) {
+            $query->where('Status', (string) $request->query('status'));
         }
 
         // Lọc theo từ khóa: Họ tên / Tên đăng nhập / Email
@@ -103,7 +108,12 @@ class AccountController extends Controller
         $dto = AccountDTO::fromUpdateRequest($request, $account->UserName);
         $account->update($dto->toModelArray());
 
-        return redirect()->route('accounts.show', $account->UserId)
+        if ($request->filled('redirect_to') && $request->input('redirect_to') === 'show') {
+            return redirect()->route('accounts.show', $account->UserId)
+                ->with('success', "Đã lưu thay đổi thông tin tài khoản '{$account->UserName}' thành công.");
+        }
+
+        return redirect()->route('accounts.index')
             ->with('success', "Đã lưu thay đổi thông tin tài khoản '{$account->UserName}' thành công.");
     }
 

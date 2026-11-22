@@ -31,7 +31,7 @@
             Căn hộ {{ $selectedApartment->ApartmentNumber ?? '0101' }}
         </h2>
         <p id="drawer-subtitle" class="text-[13px] text-[#6B7280] mt-0.5">
-            ApartmentId = {{ $selectedApartment->ApartmentId ?? '1' }} · FloorId = {{ $selectedApartment->FloorId ?? '1' }} · {{ $selectedApartment->Status ?? 'OCCUPIED' }}
+            ApartmentId = {{ $selectedApartment->ApartmentId ?? '1' }} · FloorId = {{ $selectedApartment->FloorId ?? '1' }} · {{ isset($selectedApartment) ? $selectedApartment->status_label : 'Đang ở' }} <span class="sr-only">{{ $selectedApartment->Status ?? 'OCCUPIED' }}</span>
         </p>
     </div>
 
@@ -92,7 +92,8 @@
                                 </div>
                                 <div class="flex-1 px-3 h-full flex items-center">
                                     <span class="inline-block px-2 py-0.5 text-xs font-semibold rounded-[6px] {{ $res->Status === 'ACTIVE' ? 'bg-[#E4EFE9] text-[#0E4D3C]' : 'bg-gray-100 text-[#6B7280]' }}">
-                                        {{ $res->Status }}
+                                        {{ $res->Status === 'ACTIVE' ? 'Đang cư trú' : 'Đã rời đi' }}
+                                        <span class="sr-only">{{ $res->Status }}</span>
                                     </span>
                                 </div>
                             </div>

@@ -35,89 +35,97 @@
     </div>
 
     <!-- Filter Bar -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-end gap-3 shadow-none">
+    <form method="GET" action="{{ route('tickets.index') }}" class="bg-white border border-[#E5E7EB] rounded-[14px] p-4 flex flex-wrap items-center gap-3 shadow-none">
+        <!-- Từ khóa -->
+        <div class="flex-1 min-w-[200px]">
+            <label for="filterKeyword" class="sr-only">
+                Tìm kiếm
+            </label>
+            <input
+                type="text"
+                id="filterKeyword"
+                name="keyword"
+                value="{{ request('keyword') }}"
+                placeholder="Tìm tiêu đề, mô tả..."
+                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+            />
+        </div>
+
         <!-- Nhóm yêu cầu -->
-        <div class="space-y-1.5 flex-1 min-w-[160px]">
-            <label for="filterCategory" class="block text-[12px] font-semibold text-[#374151]">
+        <div class="flex-1 min-w-[150px]">
+            <label for="filterCategory" class="sr-only">
                 Nhóm yêu cầu
             </label>
             <div class="relative">
-                <select id="filterCategory" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    <option value="Tài khoản">Tài khoản</option>
-                    <option value="Xe">Xe & Đăng ký</option>
-                    <option value="Kỹ thuật">Kỹ thuật</option>
-                    <option value="Hóa đơn">Hóa đơn</option>
-                    <option value="Phản ánh">Phản ánh</option>
-                    <option value="Khác">Khác</option>
+                <select id="filterCategory" name="category" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả nhóm yêu cầu</option>
+                    @foreach (['Tài khoản', 'Phương tiện', 'Xe', 'Kỹ thuật', 'Hóa đơn', 'Phản ánh', 'Khác'] as $cat)
+                        <option value="{{ $cat }}" {{ request('category') === $cat ? 'selected' : '' }}>{{ $cat }}</option>
+                    @endforeach
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
             </div>
         </div>
 
         <!-- Người tạo -->
-        <div class="space-y-1.5 flex-1 min-w-[160px]">
-            <label for="filterCreator" class="block text-[12px] font-semibold text-[#374151]">
+        <div class="flex-1 min-w-[150px]">
+            <label for="filterCreator" class="sr-only">
                 Người tạo
             </label>
             <div class="relative">
-                <select id="filterCreator" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    <option value="Nguyễn An">Nguyễn An (Căn 0101)</option>
-                    <option value="Phan Nam">Phan Nam (Căn 0202)</option>
-                    <option value="Trần Bình">Trần Bình (Căn 0102)</option>
+                <select id="filterCreator" name="creator_id" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả người tạo</option>
+                    @foreach ($creators as $c)
+                        <option value="{{ $c->UserId }}" {{ request('creator_id') == $c->UserId ? 'selected' : '' }}>{{ $c->FullName }}</option>
+                    @endforeach
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
             </div>
         </div>
 
         <!-- Người phụ trách -->
-        <div class="space-y-1.5 flex-1 min-w-[160px]">
-            <label for="filterAssignee" class="block text-[12px] font-semibold text-[#374151]">
+        <div class="flex-1 min-w-[160px]">
+            <label for="filterAssignee" class="sr-only">
                 Người phụ trách
             </label>
             <div class="relative">
-                <select id="filterAssignee" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
-                    <option value="Trần Thu Hỗ trợ">2 · Trần Thu Hỗ trợ</option>
-                    <option value="Lê Anh Hỗ trợ">3 · Lê Anh Hỗ trợ</option>
-                    <option value="Phạm Hà Hỗ trợ">4 · Phạm Hà Hỗ trợ</option>
+                <select id="filterAssignee" name="assignee_id" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả người phụ trách</option>
+                    @foreach ($staff as $s)
+                        <option value="{{ $s->UserId }}" {{ request('assignee_id') == $s->UserId ? 'selected' : '' }}>{{ $s->UserId }} · {{ $s->FullName }}</option>
+                    @endforeach
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
             </div>
         </div>
 
         <!-- Căn hộ -->
-        <div class="space-y-1.5 flex-1 min-w-[160px]">
-            <label for="filterApartment" class="block text-[12px] font-semibold text-[#374151]">
+        <div class="flex-1 min-w-[140px]">
+            <label for="filterApartment" class="sr-only">
                 Căn hộ
             </label>
             <div class="relative">
-                <select id="filterApartment" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                    <option value="">Tất cả ▾</option>
+                <select id="filterApartment" name="apartment_id" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                    <option value="">Tất cả căn hộ</option>
                     @foreach ($apartments as $apt)
-                        <option value="{{ $apt->ApartmentNumber }}">{{ $apt->ApartmentNumber }}</option>
+                        <option value="{{ $apt->ApartmentId }}" {{ request('apartment_id') == $apt->ApartmentId ? 'selected' : '' }}>{{ $apt->ApartmentNumber }}</option>
                     @endforeach
                 </select>
-                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
             </div>
         </div>
 
         <div class="flex items-center gap-2">
             <button
-                type="button"
+                type="submit"
                 class="h-[40px] px-4 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
             >
                 Áp dụng
             </button>
-            <button
-                type="button"
-                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+            <a
+                href="{{ route('tickets.index') }}"
+                class="h-[40px] px-4 bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer inline-flex items-center"
             >
                 Đặt lại
-            </button>
+            </a>
         </div>
-    </div>
+    </form>
 
     <!-- Workflow Description & Stage Indicator -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-[12.5px] text-[#6B7280]">
@@ -261,8 +269,12 @@
     </div>
 
     <!-- Bottom summary -->
-    <div class="text-[13px] text-[#6B7280] pt-1">
-        Hiển thị 12 trong 100 yêu cầu · Chọn yêu cầu để xem chi tiết
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
+        <div class="text-[13px] text-[#6B7280]">
+            Hiển thị {{ $tickets->count() }} yêu cầu · Chọn yêu cầu để xem chi tiết
+        </div>
+
+        @include('layouts.partials.pagination')
     </div>
 </div>
 

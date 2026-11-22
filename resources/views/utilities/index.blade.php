@@ -15,11 +15,6 @@
 
     <!-- Tiêu đề & Phụ đề -->
     <div>
-        <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
-            <span>Quản trị</span>
-            <span class="mx-1 text-[#9ca3af]">/</span>
-            <span class="text-[#374151]">Điện & nước</span>
-        </nav>
         <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
             Sổ chỉ số điện nước
         </h1>
@@ -43,78 +38,108 @@
             </button>
             <button
                 type="button"
-                onclick="alert('Chức năng nhập chỉ số theo kỳ (Demo UI)')"
+                onclick="openFirstTimeModal()"
                 class="px-4 py-2 bg-[#0e4d3c] hover:bg-[#0a3d2f] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-sm"
             >
-                Nhập kỳ
+                ＋ Nhập chỉ số
             </button>
         </div>
     </div>
 
     <!-- Filter Card: 3 Filter Fields -->
     <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-4 shadow-none">
-        <div class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
+        <form method="GET" action="{{ route('utilities.index') }}" class="flex flex-wrap items-center gap-3 sm:gap-4 flex-1">
             <!-- Kỳ ghi -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="filterUtilityPeriod" class="sr-only">
                     Kỳ ghi
                 </label>
                 <div class="relative">
-                    <select class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer">
-                        <option value="02/2026">02/2026 ▾</option>
-                        <option value="01/2026">01/2026 ▾</option>
-                        <option value="12/2025">12/2025 ▾</option>
+                    <select
+                        id="filterUtilityPeriod"
+                        name="period"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
+                    >
+                        <option value="">Tất cả kỳ ghi</option>
+                        <option value="02/2026" {{ request('period') === '02/2026' ? 'selected' : '' }}>02/2026</option>
+                        <option value="01/2026" {{ request('period') === '01/2026' ? 'selected' : '' }}>01/2026</option>
+                        <option value="12/2025" {{ request('period') === '12/2025' ? 'selected' : '' }}>12/2025</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">▾</div>
                 </div>
             </div>
 
-            <!-- Tầng -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
-                    Tầng
+            <!-- Căn hộ -->
+            <div class="flex-1 min-w-[200px]">
+                <label for="filterUtilityApartment" class="sr-only">
+                    Căn hộ
                 </label>
                 <div class="relative">
-                    <select class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer">
-                        <option value="">Tất cả ▾</option>
-                        <option value="1">Tầng 1</option>
-                        <option value="2">Tầng 2</option>
-                        <option value="3">Tầng 3</option>
+                    <select
+                        id="filterUtilityApartment"
+                        name="apartment_id"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
+                    >
+                        <option value="">Tất cả căn hộ</option>
+                        @foreach ($apartments as $apt)
+                            <option value="{{ $apt->ApartmentId }}" {{ request('apartment_id') == $apt->ApartmentId ? 'selected' : '' }}>
+                                {{ $apt->ApartmentNumber }}
+                            </option>
+                        @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">▾</div>
                 </div>
             </div>
 
             <!-- Loại chỉ số -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="filterUtilityType" class="sr-only">
                     Loại chỉ số
                 </label>
                 <div class="relative">
-                    <select class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer">
-                        <option value="ALL">Điện & nước ▾</option>
-                        <option value="Điện">Điện</option>
-                        <option value="Nước">Nước</option>
+                    <select
+                        id="filterUtilityType"
+                        name="type"
+                        onchange="this.form.submit()"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
+                    >
+                        <option value="ALL">Điện & nước</option>
+                        <option value="Điện" {{ request('type') === 'Điện' ? 'selected' : '' }}>Điện</option>
+                        <option value="Nước" {{ request('type') === 'Nước' ? 'selected' : '' }}>Nước</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">▾</div>
                 </div>
             </div>
-        </div>
+
+            <div class="flex items-center gap-2">
+                <button
+                    type="submit"
+                    class="h-[40px] px-4 bg-white border border-[#e5e7eb] hover:bg-[#f9fafb] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+                >
+                    Lọc
+                </button>
+                <a
+                    href="{{ route('utilities.index') }}"
+                    class="h-[40px] px-4 bg-[#f3f4f6] hover:bg-[#e5e7eb] rounded-[8px] text-[13px] font-medium text-[#374151] transition-colors inline-flex items-center justify-center"
+                >
+                    Đặt lại
+                </a>
+            </div>
+        </form>
     </div>
 
     <!-- Bảng dữ liệu Sổ chỉ số -->
     <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none">
         <!-- Table Header -->
-        <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none px-4">
-            <div class="w-[60px] min-w-[50px]">ID</div>
-            <div class="w-[110px] min-w-[90px]">Căn hộ</div>
-            <div class="w-[100px] min-w-[80px]">Loại</div>
-            <div class="w-[120px] min-w-[100px]">Kỳ ghi</div>
-            <div class="w-[100px] min-w-[80px]">Số cũ</div>
-            <div class="w-[100px] min-w-[80px]">Số mới</div>
-            <div class="w-[100px] min-w-[80px]">Tiêu thụ</div>
-            <div class="w-[150px] min-w-[120px]">Người ghi</div>
-            <div class="flex-1 min-w-[160px] text-[#0e4d3c]">Thao tác</div>
+        <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none">
+            <div class="w-[60px] min-w-[50px] px-3 border-r border-[#E5E7EB] h-full flex items-center">ID</div>
+            <div class="w-[110px] min-w-[90px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Căn hộ</div>
+            <div class="w-[100px] min-w-[80px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Loại</div>
+            <div class="w-[120px] min-w-[100px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Kỳ ghi</div>
+            <div class="w-[100px] min-w-[80px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Số cũ</div>
+            <div class="w-[100px] min-w-[80px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Số mới</div>
+            <div class="w-[100px] min-w-[80px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Tiêu thụ</div>
+            <div class="w-[150px] min-w-[120px] px-3 border-r border-[#E5E7EB] h-full flex items-center">Người ghi</div>
+            <div class="flex-1 min-w-[160px] px-3 h-full flex items-center text-[#0e4d3c]">Thao tác</div>
         </div>
 
         <!-- Table Rows -->
@@ -194,15 +219,7 @@
             </button>
         </div>
 
-        <!-- Phân trang chuẩn -->
-        <div class="h-[40px] bg-white border border-[#E5E7EB] rounded-[8px] flex items-center justify-between px-3 select-none text-[13px] text-[#374151] gap-3">
-            <span class="text-[#9CA3AF] cursor-not-allowed">‹</span>
-            <span class="font-semibold text-[#0E4D3C] border-b-2 border-[#0E4D3C] pb-0.5">1</span>
-            <span class="text-[#374151] hover:text-[#0E4D3C] cursor-pointer">2</span>
-            <span class="text-[#9CA3AF]">...</span>
-            <span class="text-[#374151] hover:text-[#0E4D3C] cursor-pointer">8</span>
-            <span class="text-[#374151] hover:text-[#0E4D3C] cursor-pointer">›</span>
-        </div>
+        @include('layouts.partials.pagination', ['paginator' => $readings])
     </div>
 </div>
 

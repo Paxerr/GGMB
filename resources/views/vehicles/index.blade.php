@@ -15,11 +15,6 @@
 
     <!-- Header Title & Subtitle -->
     <div>
-        <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
-            <span>Quản trị</span>
-            <span class="mx-1 text-[#9ca3af]">/</span>
-            <span class="text-[#374151]">Xe & đăng ký</span>
-        </nav>
         <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
             Quản lý xe & đăng ký
             <span class="sr-only">Đăng ký xe mới</span>
@@ -45,10 +40,10 @@
 
     <!-- Filter Card: 3 Filter Fields -->
     <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-4 shadow-none">
-        <form method="GET" action="{{ route('vehicles.index') }}" onsubmit="event.preventDefault();" class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
+        <form method="GET" action="{{ route('vehicles.index') }}" class="flex flex-wrap items-center gap-3 sm:gap-4 flex-1">
             <!-- Filter 1: Biển số -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label for="plateInput" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="plateInput" class="sr-only">
                     Biển số
                 </label>
                 <div class="relative">
@@ -57,8 +52,7 @@
                         id="plateInput"
                         name="license_plate"
                         value="{{ request('license_plate') }}"
-                        oninput="filterVehiclesRealtime()"
-                        placeholder="Nhập biển số…"
+                        placeholder="Tìm kiếm biển số xe…"
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] placeholder:text-[#9ca3af] focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c]"
                     />
                     @if (request('license_plate'))
@@ -70,55 +64,55 @@
             </div>
 
             <!-- Filter 2: Loại xe -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label for="typeSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="typeSelect" class="sr-only">
                     Loại xe
                 </label>
                 <div class="relative">
                     <select
                         id="typeSelect"
                         name="vehicle_type"
-                        onchange="filterVehiclesRealtime()"
+                        onchange="this.form.submit()"
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
-                        <option value="">Tất cả ▾</option>
-                        <option value="MOTORBIKE" {{ request('vehicle_type') === 'MOTORBIKE' ? 'selected' : '' }}>Xe máy · MOTORBIKE</option>
-                        <option value="CAR" {{ request('vehicle_type') === 'CAR' ? 'selected' : '' }}>Ô tô · CAR</option>
-                        <option value="ELECTRIC_BIKE" {{ request('vehicle_type') === 'ELECTRIC_BIKE' ? 'selected' : '' }}>Xe máy điện · ELECTRIC</option>
-                        <option value="BICYCLE" {{ request('vehicle_type') === 'BICYCLE' ? 'selected' : '' }}>Xe đạp · BICYCLE</option>
+                        <option value="">Tất cả loại xe</option>
+                        <option value="MOTORBIKE" {{ request('vehicle_type') === 'MOTORBIKE' ? 'selected' : '' }}>Xe máy</option>
+                        <option value="CAR" {{ request('vehicle_type') === 'CAR' ? 'selected' : '' }}>Ô tô</option>
+                        <option value="ELECTRIC_BIKE" {{ request('vehicle_type') === 'ELECTRIC_BIKE' ? 'selected' : '' }}>Xe máy điện</option>
+                        <option value="BICYCLE" {{ request('vehicle_type') === 'BICYCLE' ? 'selected' : '' }}>Xe đạp</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
             <!-- Filter 3: Căn hộ -->
-            <div class="space-y-1.5 flex-1 min-w-[200px]">
-                <label for="apartmentIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
+            <div class="flex-1 min-w-[200px]">
+                <label for="apartmentIdSelect" class="sr-only">
                     Căn hộ
                 </label>
                 <div class="relative">
                     <select
                         id="apartmentIdSelect"
                         name="apartment_id"
-                        onchange="filterVehiclesRealtime()"
+                        onchange="this.form.submit()"
                         class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
-                        <option value="">Tất cả ▾</option>
+                        <option value="">Tất cả</option>
                         @foreach ($apartments as $apt)
                             <option value="{{ $apt->ApartmentId }}" {{ request('apartment_id') == $apt->ApartmentId ? 'selected' : '' }}>
                                 {{ $apt->ApartmentNumber }}
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
-                        ▾
-                    </div>
                 </div>
             </div>
 
             <div class="flex items-center gap-2">
+                <button
+                    type="submit"
+                    class="h-[40px] px-4 bg-white border border-[#e5e7eb] hover:bg-[#f9fafb] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer"
+                >
+                    Lọc
+                </button>
                 <a
                     href="{{ route('vehicles.index') }}"
                     class="h-[40px] px-4 bg-[#f3f4f6] hover:bg-[#e5e7eb] rounded-[8px] text-[13px] font-medium text-[#374151] transition-colors inline-flex items-center justify-center"
@@ -126,8 +120,6 @@
                     Đặt lại
                 </a>
             </div>
-
-            <button type="submit" class="hidden">Tìm</button>
         </form>
     </div>
 
@@ -207,19 +199,23 @@
                 <div class="w-[220px] min-w-[180px]">
                     @if ($isCar)
                         <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[#e6efe9] text-[#0e4d3c]">
-                            CAR · Ô tô
+                            Ô tô
+                            <span class="sr-only">CAR</span>
                         </span>
                     @elseif ($isElec)
                         <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[#f0edfa] text-[#6a51ae]">
-                            ELECTRIC · Xe điện
+                            Xe máy điện
+                            <span class="sr-only">ELECTRIC_BIKE</span>
                         </span>
                     @elseif ($isBike)
                         <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-gray-100 text-[#6b7280]">
-                            BICYCLE · Xe đạp
+                            Xe đạp
+                            <span class="sr-only">BICYCLE</span>
                         </span>
                     @else
                         <span class="inline-flex items-center px-2.5 py-1 rounded-[6px] text-xs font-semibold bg-[#e8f1ff] text-[#2864ad]">
-                            MOTORBIKE · Xe máy
+                            Xe máy
+                            <span class="sr-only">MOTORBIKE</span>
                         </span>
                     @endif
                 </div>
@@ -281,56 +277,7 @@
             Hiển thị {{ $vehicles->firstItem() ?? 1 }}–{{ $vehicles->lastItem() ?? $vehicles->count() }} trong {{ $totalVehicles ?? 25 }} xe · {{ $motorbikesCount ?? 19 }} xe máy và {{ $carsCount ?? 6 }} ô tô
         </div>
 
-        @if ($vehicles->hasPages())
-            <nav class="w-[196px] h-[40px] bg-white border border-[#d9e4ec] rounded-[4px] flex items-center justify-between px-3 select-none text-[14px] text-[#334b5d]" aria-label="Phân trang">
-                {{-- Nút Trước ‹ --}}
-                @if ($vehicles->onFirstPage())
-                    <span class="text-[#a6bece] cursor-not-allowed">‹</span>
-                @else
-                    <a href="{{ $vehicles->previousPageUrl() }}" class="text-[#334b5d] hover:text-[#2864ad] transition-colors" rel="prev">‹</a>
-                @endif
-
-                {{-- Các số trang --}}
-                @php
-                    $currentPage = $vehicles->currentPage();
-                    $lastPage = $vehicles->lastPage();
-                    $start = max(1, min($currentPage - 1, $lastPage - 2));
-                    $end = min($lastPage, max($start + 2, 3));
-                    if ($lastPage < 3) {
-                        $start = 1;
-                        $end = $lastPage;
-                    }
-                @endphp
-
-                @for ($page = $start; $page <= $end; $page++)
-                    @if ($page == $currentPage)
-                        <span class="font-semibold text-[#122d40] border-b-2 border-[#2864ad] pb-0.5">
-                            {{ $page }}
-                        </span>
-                    @else
-                        <a href="{{ $vehicles->url($page) }}" class="text-[#334b5d] hover:text-[#2864ad] transition-colors">
-                            {{ $page }}
-                        </a>
-                    @endif
-                @endfor
-
-                {{-- Nút Sau › --}}
-                @if ($vehicles->hasMorePages())
-                    <a href="{{ $vehicles->nextPageUrl() }}" class="text-[#334b5d] hover:text-[#2864ad] transition-colors" rel="next">›</a>
-                @else
-                    <span class="text-[#a6bece] cursor-not-allowed">›</span>
-                @endif
-            </nav>
-        @else
-            <!-- Static 196x40 box matching Figma preview when single page -->
-            <div class="w-[196px] h-[40px] bg-white border border-[#d9e4ec] rounded-[4px] flex items-center justify-between px-3 select-none text-[14px] text-[#334b5d]">
-                <span class="text-[#a6bece]">‹</span>
-                <span class="font-semibold text-[#122d40] border-b-2 border-[#2864ad] pb-0.5">1</span>
-                <span class="text-[#334b5d]">2</span>
-                <span class="text-[#334b5d]">3</span>
-                <span class="text-[#a6bece]">›</span>
-            </div>
-        @endif
+        @include('layouts.partials.pagination', ['paginator' => $vehicles])
     </div>
 </div>
 
