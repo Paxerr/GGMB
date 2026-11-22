@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class TicketController extends Controller
@@ -170,6 +171,8 @@ class TicketController extends Controller
         $dto = TicketDTO::fromStoreRequest($request, auth()->id() ?? 1);
         $ticket = Ticket::create($dto->toModelArray());
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -201,6 +204,8 @@ class TicketController extends Controller
         }
 
         $ticket->update($updateData);
+
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
@@ -250,6 +255,8 @@ class TicketController extends Controller
         }
 
         $ticket->update($updateData);
+
+        Cache::forget('dashboard_stats');
 
         $statusLabels = [
             'WAITING' => 'Chờ xử lý',
@@ -302,6 +309,8 @@ class TicketController extends Controller
             'Status' => 'ASSIGNED',
         ]);
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -332,6 +341,8 @@ class TicketController extends Controller
             'Status' => $action,
             'ResolvedAt' => in_array($action, ['CLOSED', 'RESOLVED'], true) ? now() : null,
         ]);
+
+        Cache::forget('dashboard_stats');
 
         $label = match ($action) {
             'CLOSED' => 'đóng',
@@ -365,6 +376,8 @@ class TicketController extends Controller
         $ticket->update([
             'Status' => 'CANCELLED',
         ]);
+
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([

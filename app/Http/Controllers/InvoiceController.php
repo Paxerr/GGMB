@@ -11,9 +11,11 @@ use App\Models\Apartment;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
@@ -183,6 +185,8 @@ class InvoiceController extends Controller
             }
         });
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -219,6 +223,8 @@ class InvoiceController extends Controller
             'PaidAt' => now(),
         ]);
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -234,7 +240,7 @@ class InvoiceController extends Controller
     /**
      * Hủy hóa đơn (SCR-INV-05).
      */
-    public function cancel(int $id, CancelInvoiceRequest $request): RedirectResponse
+    public function cancel(int $id, CancelInvoiceRequest $request): RedirectResponse|JsonResponse
     {
         $invoice = Invoice::findOrFail($id);
 
@@ -245,6 +251,8 @@ class InvoiceController extends Controller
         $invoice->update([
             'Status' => 'CANCELLED',
         ]);
+
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
