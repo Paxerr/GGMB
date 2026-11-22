@@ -102,6 +102,26 @@ class User extends Authenticatable
         return $this->hasMany(NotificationRecipient::class, 'UserId', 'UserId');
     }
 
+    public function getIdAttribute(): int
+    {
+        return (int) ($this->attributes['UserId'] ?? 0);
+    }
+
+    public function getEmailAttribute(): ?string
+    {
+        return $this->attributes['Email'] ?? null;
+    }
+
+    public function getPhoneAttribute(): ?string
+    {
+        return $this->attributes['Phone'] ?? null;
+    }
+
+    public function getRoleAttribute(): ?string
+    {
+        return $this->attributes['Role'] ?? null;
+    }
+
     public function getNameAttribute(): string
     {
         return $this->FullName ?? '';

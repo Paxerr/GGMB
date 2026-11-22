@@ -15,7 +15,7 @@ class ReplyPortalTicketRequest extends FormRequest
     protected function prepareForValidation(): void
     {
         $this->merge([
-            'content' => $this->input('content') ?? $this->input('Content') ?? $this->input('message'),
+            'content' => $this->input('content') ?? $this->input('Content') ?? $this->input('message') ?? $this->input('reply_content'),
         ]);
     }
 

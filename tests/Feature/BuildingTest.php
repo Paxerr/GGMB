@@ -3,12 +3,26 @@
 namespace Tests\Feature;
 
 use App\Models\Building;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class BuildingTest extends TestCase
 {
     use RefreshDatabase;
+
+    private User $adminUser;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->adminUser = User::factory()->create([
+            'Role' => 'MANAGER',
+            'Status' => 'ACTIVE',
+        ]);
+        $this->actingAs($this->adminUser);
+    }
 
     /**
      * Kiểm tra hiển thị màn hình Quản lý tòa và tầng (SCR-BLD-01) bao gồm popup modal thêm & sửa.

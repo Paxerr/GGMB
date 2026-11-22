@@ -15,6 +15,19 @@ class ApartmentTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $adminUser;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->adminUser = User::factory()->create([
+            'Role' => 'MANAGER',
+            'Status' => 'ACTIVE',
+        ]);
+        $this->actingAs($this->adminUser);
+    }
+
     /**
      * Kiểm tra hiển thị màn hình Quản lý căn hộ (SCR-APT-01).
      */

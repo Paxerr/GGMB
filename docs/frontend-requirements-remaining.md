@@ -103,3 +103,4 @@ Tài liệu này tổng hợp danh sách các trường và lưu ý khi kết n�
   * Gửi `POST` đến `{{ route('tech.tasks.complete', $task->id) }}`
   * Kết quả / Ghi chú: `name="content"`
   * Trạng thái: `name="status"` (`RESOLVED`)
+

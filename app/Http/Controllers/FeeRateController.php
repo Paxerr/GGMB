@@ -162,6 +162,8 @@ class FeeRateController extends Controller
             'id' => $feeType->FeeTypeId,
             'name' => $feeType->Name,
             'code' => $feeType->Code,
+            'status' => $feeType->IsActive ? 'ACTIVE' : 'INACTIVE',
+            'status_label' => $feeType->IsActive ? 'Đang sử dụng' : 'Đã ngừng',
         ];
 
         return view('fee-rates.deactivate', [
@@ -192,6 +194,8 @@ class FeeRateController extends Controller
             'id' => $feeType->FeeTypeId,
             'name' => $feeType->Name,
             'code' => $feeType->Code,
+            'status' => $feeType->IsActive ? 'ACTIVE' : 'INACTIVE',
+            'status_label' => $feeType->IsActive ? 'Đang sử dụng' : 'Đã ngừng',
         ];
 
         return view('fee-rates.activate', [

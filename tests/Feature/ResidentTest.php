@@ -14,6 +14,19 @@ class ResidentTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $adminUser;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->adminUser = User::factory()->create([
+            'Role' => 'MANAGER',
+            'Status' => 'ACTIVE',
+        ]);
+        $this->actingAs($this->adminUser);
+    }
+
     /**
      * Kiểm tra hiển thị màn hình Quản lý cư dân (SCR-RES-01).
      */

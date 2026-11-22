@@ -2,13 +2,30 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PortalTest extends TestCase
 {
+    use RefreshDatabase;
+
+    private User $resident;
+
+    private User $tech;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed();
+
+        $this->resident = User::where('UserName', 'resident01')->firstOrFail();
+        $this->tech = User::where('UserName', 'tech03')->firstOrFail();
+    }
+
     public function test_resident_portal_dashboard_loads(): void
     {
-        $response = $this->get('/portal');
+        $response = $this->actingAs($this->resident)->get('/portal');
         $response->assertStatus(200);
         $response->assertSee('Xin chào, Nguyễn An');
         $response->assertSee('HÓA ĐƠN CHỜ THANH TOÁN');
@@ -19,7 +36,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_invoices_loads(): void
     {
-        $response = $this->get('/portal/invoices');
+        $response = $this->actingAs($this->resident)->get('/portal/invoices');
         $response->assertStatus(200);
         $response->assertSee('Hóa đơn & thanh toán');
         $response->assertSee('THÔNG BÁO PHÍ · 01/2026');
@@ -29,7 +46,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_tickets_create_loads(): void
     {
-        $response = $this->get('/portal/tickets');
+        $response = $this->actingAs($this->resident)->get('/portal/tickets');
         $response->assertStatus(200);
         $response->assertSee('Gửi yêu cầu hỗ trợ');
         $response->assertSee('Đèn trong căn hộ bị hỏng');
@@ -38,7 +55,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_ticket_store(): void
     {
-        $response = $this->post('/portal/tickets', [
+        $response = $this->actingAs($this->resident)->post('/portal/tickets', [
             'title' => 'Đèn phòng ngủ không sáng',
             'category' => 'TECHNICAL',
             'description' => 'Bóng đèn trần phòng ngủ chập chờn rồi tắt hẳn.',
@@ -50,7 +67,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_ticket_show_loads(): void
     {
-        $response = $this->get('/portal/tickets/1');
+        $response = $this->actingAs($this->resident)->get('/portal/tickets/1');
         $response->assertStatus(200);
         $response->assertSee('Chi tiết yêu cầu của tôi');
         $response->assertSee('Chờ xử lý · Chưa phân công');
@@ -60,7 +77,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_ticket_reply(): void
     {
-        $response = $this->post('/portal/tickets/1/reply', [
+        $response = $this->actingAs($this->resident)->post('/portal/tickets/1/reply', [
             'reply_content' => 'Tôi đã thử đăng nhập lại nhưng vẫn không thấy.',
         ]);
 
@@ -70,7 +87,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_notification_show_loads(): void
     {
-        $response = $this->get('/portal/notifications/4');
+        $response = $this->actingAs($this->resident)->get('/portal/notifications/4');
         $response->assertStatus(200);
         $response->assertSee('Thông báo riêng căn hộ 0101');
         $response->assertSee('Nguyễn Minh Quản lý · Ban quản lý');
@@ -79,7 +96,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_profile_loads(): void
     {
-        $response = $this->get('/portal/profile');
+        $response = $this->actingAs($this->resident)->get('/portal/profile');
         $response->assertStatus(200);
         $response->assertSee('Thông tin cá nhân');
         $response->assertSee('resident01 · Nguyễn An');
@@ -89,7 +106,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_profile_edit_loads(): void
     {
-        $response = $this->get('/portal/profile/edit');
+        $response = $this->actingAs($this->resident)->get('/portal/profile/edit');
         $response->assertStatus(200);
         $response->assertSee('Cập nhật liên hệ');
         $response->assertSee('0910000010');
@@ -98,7 +115,7 @@ class PortalTest extends TestCase
 
     public function test_resident_portal_profile_update(): void
     {
-        $response = $this->post('/portal/profile', [
+        $response = $this->actingAs($this->resident)->post('/portal/profile', [
             'phone' => '0910000011',
             'email' => 'nguyenan_new@gmail.com',
         ]);
@@ -109,7 +126,7 @@ class PortalTest extends TestCase
 
     public function test_tech_portal_tasks_index_loads(): void
     {
-        $response = $this->get('/tech/tasks');
+        $response = $this->actingAs($this->tech)->get('/tech/tasks');
         $response->assertStatus(200);
         $response->assertSee('Bàn việc hiện trường');
         $response->assertSee('ĐANG XỬ LÝ');
@@ -119,7 +136,7 @@ class PortalTest extends TestCase
 
     public function test_tech_portal_task_show_loads(): void
     {
-        $response = $this->get('/tech/tasks/3');
+        $response = $this->actingAs($this->tech)->get('/tech/tasks/3');
         $response->assertStatus(200);
         $response->assertSee('Chi tiết công việc được giao');
         $response->assertSee('#3 · Đèn hành lang tầng 1 không sáng');
@@ -128,7 +145,7 @@ class PortalTest extends TestCase
 
     public function test_tech_portal_task_complete(): void
     {
-        $response = $this->post('/tech/tasks/3/complete', [
+        $response = $this->actingAs($this->tech)->post('/tech/tasks/3/complete', [
             'result_content' => 'Đã thay mới bóng đèn LED 18W và kiểm tra công tắc hoạt động tốt.',
         ]);
 
@@ -138,7 +155,7 @@ class PortalTest extends TestCase
 
     public function test_tech_portal_utilities_index_loads(): void
     {
-        $response = $this->get('/tech/utilities');
+        $response = $this->actingAs($this->tech)->get('/tech/utilities');
         $response->assertStatus(200);
         $response->assertSee('Ghi điện nước');
         $response->assertSee('NHẬP CHỈ SỐ · 8 CĂN');
@@ -148,7 +165,7 @@ class PortalTest extends TestCase
 
     public function test_tech_portal_utilities_store(): void
     {
-        $response = $this->post('/tech/utilities', [
+        $response = $this->actingAs($this->tech)->post('/tech/utilities', [
             'meters' => [
                 1 => 180,
                 2 => 195,

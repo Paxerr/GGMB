@@ -2,12 +2,26 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
 {
     use RefreshDatabase;
+
+    private User $adminUser;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->adminUser = User::factory()->create([
+            'Role' => 'MANAGER',
+            'Status' => 'ACTIVE',
+        ]);
+        $this->actingAs($this->adminUser);
+    }
 
     /**
      * Kiểm tra màn hình Dashboard (Tổng quan vận hành) hiển thị đúng cấu trúc và các phần riêng biệt.

@@ -91,12 +91,42 @@ class TicketController extends Controller
         });
 
         $columns = [
-            'WAITING' => ['title' => 'Chờ xử lý', 'step' => 'Bước 1 / 5', 'count' => $tickets->where('status', 'WAITING')->count()],
-            'ASSIGNED' => ['title' => 'Đã giao', 'step' => 'Bước 2 / 5', 'count' => $tickets->where('status', 'ASSIGNED')->count()],
-            'PROCESSING' => ['title' => 'Đang xử lý', 'step' => 'Bước 3 / 5', 'count' => $tickets->where('status', 'PROCESSING')->count()],
-            'RESOLVED' => ['title' => 'Đã xử lý', 'step' => 'Bước 4 / 5', 'count' => $tickets->where('status', 'RESOLVED')->count()],
-            'CLOSED' => ['title' => 'Đã đóng', 'step' => 'Bước 5 / 5', 'count' => $tickets->where('status', 'CLOSED')->count()],
-            'CANCELLED' => ['title' => 'Đã hủy', 'step' => 'Dừng xử lý · lưu lịch sử', 'count' => $tickets->where('status', 'CANCELLED')->count()],
+            'WAITING' => [
+                'title' => 'Chờ xử lý',
+                'step' => 'Bước 1 / 5',
+                'count' => $tickets->where('status', 'WAITING')->count(),
+                'remaining' => max(0, $tickets->where('status', 'WAITING')->count() - 2),
+            ],
+            'ASSIGNED' => [
+                'title' => 'Đã giao',
+                'step' => 'Bước 2 / 5',
+                'count' => $tickets->where('status', 'ASSIGNED')->count(),
+                'remaining' => max(0, $tickets->where('status', 'ASSIGNED')->count() - 2),
+            ],
+            'PROCESSING' => [
+                'title' => 'Đang xử lý',
+                'step' => 'Bước 3 / 5',
+                'count' => $tickets->where('status', 'PROCESSING')->count(),
+                'remaining' => max(0, $tickets->where('status', 'PROCESSING')->count() - 2),
+            ],
+            'RESOLVED' => [
+                'title' => 'Đã xử lý',
+                'step' => 'Bước 4 / 5',
+                'count' => $tickets->where('status', 'RESOLVED')->count(),
+                'remaining' => max(0, $tickets->where('status', 'RESOLVED')->count() - 2),
+            ],
+            'CLOSED' => [
+                'title' => 'Đã đóng',
+                'step' => 'Bước 5 / 5',
+                'count' => $tickets->where('status', 'CLOSED')->count(),
+                'remaining' => max(0, $tickets->where('status', 'CLOSED')->count() - 2),
+            ],
+            'CANCELLED' => [
+                'title' => 'Đã hủy',
+                'step' => 'Dừng xử lý · lưu lịch sử',
+                'count' => $tickets->where('status', 'CANCELLED')->count(),
+                'remaining' => max(0, $tickets->where('status', 'CANCELLED')->count() - 2),
+            ],
         ];
 
         return view('tickets.index', [

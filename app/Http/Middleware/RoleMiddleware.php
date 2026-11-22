@@ -32,8 +32,8 @@ class RoleMiddleware
         $allowedRoles = array_map('strtoupper', $roles);
         $userRole = strtoupper((string) ($user->Role ?? ''));
 
-        // Quản lý (MANAGER) có toàn quyền quản trị và giám sát các phân hệ
-        if ($userRole === 'MANAGER') {
+        // Quản lý (MANAGER hoặc ADMIN) có toàn quyền quản trị và giám sát các phân hệ
+        if (in_array($userRole, ['MANAGER', 'ADMIN'], true)) {
             return $next($request);
         }
 

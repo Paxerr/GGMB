@@ -4,7 +4,11 @@ namespace Tests\Feature;
 
 use App\Models\Apartment;
 use App\Models\Building;
+use App\Models\FeeType;
 use App\Models\Floor;
+use App\Models\Invoice;
+use App\Models\Notification;
+use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -31,6 +35,24 @@ class TicketAndNotificationTest extends TestCase
 
     public function test_tickets_index_renders_kanban_board(): void
     {
+        Ticket::create([
+            'CreatedByUserId' => $this->user->UserId,
+            'Subject' => 'Không xem được thông báo phí',
+            'Description' => 'Không xem được thông báo phí trên cổng cư dân.',
+            'Category' => 'ACCOUNT',
+            'Status' => 'WAITING',
+            'IsDeleted' => false,
+        ]);
+
+        Ticket::create([
+            'CreatedByUserId' => $this->user->UserId,
+            'Subject' => 'Đối chiếu tiền điện kỳ 02/2026',
+            'Description' => 'Đối chiếu tiền điện kỳ 02/2026.',
+            'Category' => 'BILLING',
+            'Status' => 'ASSIGNED',
+            'IsDeleted' => false,
+        ]);
+
         $response = $this->actingAs($this->user)->get(route('tickets.index'));
 
         $response->assertStatus(200);
@@ -47,6 +69,20 @@ class TicketAndNotificationTest extends TestCase
 
     public function test_ticket_actions_redirect_successfully(): void
     {
+        $ticket = Ticket::create([
+            'CreatedByUserId' => $this->user->UserId,
+            'Subject' => 'Test',
+            'Description' => 'Test desc',
+            'Category' => 'ACCOUNT',
+            'Status' => 'WAITING',
+            'IsDeleted' => false,
+        ]);
+
+        $assignee = User::factory()->create([
+            'Role' => 'SUPPORT',
+            'Status' => 'ACTIVE',
+        ]);
+
         $storeRes = $this->actingAs($this->user)->post(route('tickets.store'), [
             'title' => 'Test',
             'description' => 'Test desc',
@@ -54,17 +90,17 @@ class TicketAndNotificationTest extends TestCase
         ]);
         $storeRes->assertRedirect(route('tickets.index'));
 
-        $assignRes = $this->actingAs($this->user)->post(route('tickets.assign', 1), [
-            'assignee_id' => 2,
+        $assignRes = $this->actingAs($this->user)->post(route('tickets.assign', $ticket->TicketId), [
+            'assignee_id' => $assignee->UserId,
         ]);
         $assignRes->assertRedirect(route('tickets.index'));
 
-        $verifyRes = $this->actingAs($this->user)->post(route('tickets.verify', 1), [
+        $verifyRes = $this->actingAs($this->user)->post(route('tickets.verify', $ticket->TicketId), [
             'result' => 'OK',
         ]);
         $verifyRes->assertRedirect(route('tickets.index'));
 
-        $cancelRes = $this->actingAs($this->user)->post(route('tickets.cancel', 1), [
+        $cancelRes = $this->actingAs($this->user)->post(route('tickets.cancel', $ticket->TicketId), [
             'reason' => 'Duplicate',
         ]);
         $cancelRes->assertRedirect(route('tickets.index'));
@@ -72,6 +108,22 @@ class TicketAndNotificationTest extends TestCase
 
     public function test_notifications_index_renders_correctly(): void
     {
+        Notification::create([
+            'Title' => 'Thông báo lịch bảo trì thang máy',
+            'Content' => 'Chi tiết bảo trì...',
+            'TargetType' => 'BUILDING',
+            'CreatedByUserId' => $this->user->UserId,
+            'IsDeleted' => false,
+        ]);
+
+        Notification::create([
+            'Title' => 'Nhắc thanh toán phí tháng 02/2026',
+            'Content' => 'Chi tiết thu phí...',
+            'TargetType' => 'ALL',
+            'CreatedByUserId' => $this->user->UserId,
+            'IsDeleted' => false,
+        ]);
+
         $response = $this->actingAs($this->user)->get(route('notifications.index'));
 
         $response->assertStatus(200);
@@ -83,7 +135,13 @@ class TicketAndNotificationTest extends TestCase
 
     public function test_invoice_cancel_action_redirects(): void
     {
-        $response = $this->actingAs($this->user)->post(route('invoices.cancel', 1));
+        $apartment = Apartment::first();
+        $invoice = Invoice::factory()->create([
+            'ApartmentId' => $apartment->ApartmentId,
+            'Status' => 'UNPAID',
+        ]);
+
+        $response = $this->actingAs($this->user)->post(route('invoices.cancel', $invoice->InvoiceId));
 
         $response->assertRedirect(route('invoices.index'));
     }
@@ -98,11 +156,13 @@ class TicketAndNotificationTest extends TestCase
 
     public function test_fee_rates_screens_render(): void
     {
+        $feeType = FeeType::factory()->create();
+
         $resIndex = $this->actingAs($this->user)->get(route('fee-rates.index'));
         $resIndex->assertStatus(200);
         $resIndex->assertSee('Cấu hình biểu phí');
 
-        $resShow = $this->actingAs($this->user)->get(route('fee-rates.show', 1));
+        $resShow = $this->actingAs($this->user)->get(route('fee-rates.show', $feeType->FeeTypeId));
         $resShow->assertStatus(200);
         $resShow->assertSee('Chi tiết loại phí');
 
@@ -110,42 +170,47 @@ class TicketAndNotificationTest extends TestCase
         $resCreate->assertStatus(200);
         $resCreate->assertSee('Thêm loại phí');
 
-        $resEdit = $this->actingAs($this->user)->get(route('fee-rates.edit', 1));
+        $resEdit = $this->actingAs($this->user)->get(route('fee-rates.edit', $feeType->FeeTypeId));
         $resEdit->assertStatus(200);
         $resEdit->assertSee('Chỉnh sửa loại phí');
 
-        $resDeact = $this->actingAs($this->user)->get(route('fee-rates.deactivate', 1));
+        $resDeact = $this->actingAs($this->user)->get(route('fee-rates.deactivate', $feeType->FeeTypeId));
         $resDeact->assertStatus(200);
         $resDeact->assertSee('Ngừng sử dụng loại phí');
 
-        $resAct = $this->actingAs($this->user)->get(route('fee-rates.activate', 1));
+        $resAct = $this->actingAs($this->user)->get(route('fee-rates.activate', $feeType->FeeTypeId));
         $resAct->assertStatus(200);
         $resAct->assertSee('Kích hoạt lại loại phí');
 
-        $resRate = $this->actingAs($this->user)->get(route('fee-rates.rates.create', 1));
+        $resRate = $this->actingAs($this->user)->get(route('fee-rates.rates.create', $feeType->FeeTypeId));
         $resRate->assertStatus(200);
         $resRate->assertSee('Thêm đơn giá mới');
     }
 
     public function test_accounts_screens_render(): void
     {
+        $targetUser = User::factory()->create([
+            'Role' => 'SUPPORT',
+            'Status' => 'ACTIVE',
+        ]);
+
         $resIndex = $this->actingAs($this->user)->get(route('accounts.index'));
         $resIndex->assertStatus(200);
         $resIndex->assertSee('Quản trị tài khoản');
 
-        $resShow = $this->actingAs($this->user)->get(route('accounts.show', 2));
+        $resShow = $this->actingAs($this->user)->get(route('accounts.show', $targetUser->UserId));
         $resShow->assertStatus(200);
         $resShow->assertSee('Chi tiết tài khoản');
 
-        $resEdit = $this->actingAs($this->user)->get(route('accounts.edit', 2));
+        $resEdit = $this->actingAs($this->user)->get(route('accounts.edit', $targetUser->UserId));
         $resEdit->assertStatus(200);
         $resEdit->assertSee('Chỉnh sửa tài khoản');
 
-        $resLock = $this->actingAs($this->user)->get(route('accounts.lock', 2));
+        $resLock = $this->actingAs($this->user)->get(route('accounts.lock', $targetUser->UserId));
         $resLock->assertStatus(200);
         $resLock->assertSee('Khóa tài khoản');
 
-        $resUnlock = $this->actingAs($this->user)->get(route('accounts.unlock', 2));
+        $resUnlock = $this->actingAs($this->user)->get(route('accounts.unlock', $targetUser->UserId));
         $resUnlock->assertStatus(200);
         $resUnlock->assertSee('Mở khóa tài khoản');
     }
