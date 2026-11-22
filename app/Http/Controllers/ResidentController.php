@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -172,6 +173,8 @@ class ResidentController extends Controller
                 ]);
             }
 
+            Cache::forget('dashboard_stats');
+
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -258,6 +261,8 @@ class ResidentController extends Controller
                 }
             }
 
+            Cache::forget('dashboard_stats');
+
             if ($request->expectsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -292,6 +297,8 @@ class ResidentController extends Controller
                     'EndDate' => $newStatus === 'INACTIVE' ? now()->toDateString() : null,
                 ]);
         });
+
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
