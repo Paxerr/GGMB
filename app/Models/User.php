@@ -101,4 +101,41 @@ class User extends Authenticatable
     {
         return $this->hasMany(NotificationRecipient::class, 'UserId', 'UserId');
     }
+
+    public function getNameAttribute(): string
+    {
+        return $this->FullName ?? '';
+    }
+
+    public function getUsernameAttribute(): string
+    {
+        return $this->UserName ?? '';
+    }
+
+    public function getRoleLabelAttribute(): string
+    {
+        return match ($this->Role) {
+            'MANAGER' => 'Quản lý',
+            'SUPPORT' => 'Hỗ trợ',
+            'TECHNICIAN' => 'Kỹ thuật',
+            'SECURITY' => 'Bảo vệ',
+            'RESIDENT' => 'Cư dân',
+            default => $this->Role ?? '',
+        };
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return match ($this->Status) {
+            'ACTIVE' => 'Hoạt động',
+            'LOCKED' => 'Bị khóa',
+            'INACTIVE' => 'Ngừng hoạt động',
+            default => $this->Status ?? '',
+        };
+    }
+
+    public function getIsCurrentUserAttribute(): bool
+    {
+        return auth()->id() === $this->UserId;
+    }
 }

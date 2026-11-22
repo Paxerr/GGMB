@@ -57,4 +57,15 @@ class Vehicle extends Model
     {
         return $this->belongsTo(Apartment::class, 'ApartmentId', 'ApartmentId');
     }
+
+    public function getTypeLabelAttribute(): string
+    {
+        return match ($this->VehicleType) {
+            'CAR' => 'Xe ô tô',
+            'MOTORBIKE' => 'Xe máy',
+            'ELECTRIC_BIKE' => 'Xe máy điện',
+            'BICYCLE' => 'Xe đạp',
+            default => $this->VehicleType ?? '',
+        };
+    }
 }

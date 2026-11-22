@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DTOs\BuildingDTO;
+use App\Http\Requests\Building\StoreBuildingRequest;
+use App\Http\Requests\Building\UpdateBuildingRequest;
 use App\Models\Building;
 use App\Models\Floor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Throwable;
 
 class BuildingController extends Controller
 {
@@ -16,38 +18,20 @@ class BuildingController extends Controller
      */
     public function index(Request $request): View
     {
-        try {
-            $buildings = Building::where('IsDeleted', false)->get();
-            $selectedBuildingId = $request->query('building_id', $buildings->first()?->BuildingId ?? 1);
-            $selectedBuilding = $buildings->firstWhere('BuildingId', $selectedBuildingId) ?? $buildings->first();
+        $buildings = Building::where('IsDeleted', false)->orderBy('BuildingId')->get();
+        $selectedBuildingId = $request->query('building_id', $buildings->first()?->BuildingId);
 
-            $floors = Floor::where('BuildingId', $selectedBuildingId)
+        $selectedBuilding = $selectedBuildingId
+            ? ($buildings->firstWhere('BuildingId', (int) $selectedBuildingId) ?? $buildings->first())
+            : null;
+
+        $floors = $selectedBuilding
+            ? Floor::with('building')
+                ->where('BuildingId', $selectedBuilding->BuildingId)
                 ->where('IsDeleted', false)
                 ->orderBy('FloorNumber')
-                ->get();
-
-            if ($floors->isEmpty()) {
-                $floors = collect([
-                    (object) ['FloorId' => 1, 'FloorNumber' => 1, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                    (object) ['FloorId' => 2, 'FloorNumber' => 2, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                    (object) ['FloorId' => 3, 'FloorNumber' => 3, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                    (object) ['FloorId' => 4, 'FloorNumber' => 4, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                    (object) ['FloorId' => 5, 'FloorNumber' => 5, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                ]);
-            }
-        } catch (Throwable $e) {
-            $buildings = collect([
-                (object) ['BuildingId' => 1, 'BuildingName' => 'GGMB Residence · Tòa A'],
-            ]);
-            $selectedBuilding = $buildings->first();
-            $floors = collect([
-                (object) ['FloorId' => 1, 'FloorNumber' => 1, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                (object) ['FloorId' => 2, 'FloorNumber' => 2, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                (object) ['FloorId' => 3, 'FloorNumber' => 3, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                (object) ['FloorId' => 4, 'FloorNumber' => 4, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-                (object) ['FloorId' => 5, 'FloorNumber' => 5, 'building' => (object) ['BuildingName' => 'GGMB Residence · Tòa A']],
-            ]);
-        }
+                ->get()
+            : collect([]);
 
         return view('buildings.index', [
             'buildings' => $buildings,
@@ -67,27 +51,14 @@ class BuildingController extends Controller
     /**
      * Xử lý lưu thông tin tòa nhà mới vào cơ sở dữ liệu.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreBuildingRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'BuildingName' => ['required', 'string', 'max:100'],
-        ], [
-            'BuildingName.required' => 'Vui lòng nhập tên tòa nhà.',
-            'BuildingName.max' => 'Tên tòa nhà không được vượt quá 100 ký tự.',
-        ]);
+        $dto = BuildingDTO::fromRequest($request);
 
-        try {
-            $building = Building::create([
-                'BuildingName' => $validated['BuildingName'],
-                'IsDeleted' => false,
-            ]);
+        $building = Building::create($dto->toModelArray());
 
-            return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
-                ->with('status', "Tòa nhà '{$building->BuildingName}' đã được tạo thành công.");
-        } catch (Throwable $e) {
-            return redirect()->route('buildings.index')
-                ->with('status', "Đã ghi nhận tạo tòa nhà '{$validated['BuildingName']}'.");
-        }
+        return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
+            ->with('status', "Tòa nhà '{$building->BuildingName}' đã được tạo thành công.");
     }
 
     /**
@@ -103,25 +74,13 @@ class BuildingController extends Controller
     /**
      * Cập nhật thông tin tòa nhà.
      */
-    public function update(Request $request, Building $building): RedirectResponse
+    public function update(UpdateBuildingRequest $request, Building $building): RedirectResponse
     {
-        $validated = $request->validate([
-            'BuildingName' => ['required', 'string', 'max:100'],
-        ], [
-            'BuildingName.required' => 'Vui lòng nhập tên tòa nhà.',
-            'BuildingName.max' => 'Tên tòa nhà không được vượt quá 100 ký tự.',
-        ]);
+        $dto = BuildingDTO::fromRequest($request);
 
-        try {
-            $building->update([
-                'BuildingName' => $validated['BuildingName'],
-            ]);
+        $building->update($dto->toModelArray());
 
-            return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
-                ->with('status', "Tòa nhà '{$building->BuildingName}' đã được cập nhật thành công.");
-        } catch (Throwable $e) {
-            return redirect()->route('buildings.index')
-                ->with('status', "Đã ghi nhận cập nhật tòa nhà '{$validated['BuildingName']}'.");
-        }
+        return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
+            ->with('status', "Tòa nhà '{$building->BuildingName}' đã được cập nhật thành công.");
     }
 }
