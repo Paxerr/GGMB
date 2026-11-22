@@ -14,7 +14,9 @@ use App\Models\NotificationRecipient;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class ResidentPortalController extends Controller
@@ -136,7 +138,7 @@ class ResidentPortalController extends Controller
     /**
      * Tiếp nhận yêu cầu hỗ trợ mới từ Cư dân.
      */
-    public function ticketStore(StorePortalTicketRequest $request): RedirectResponse
+    public function ticketStore(StorePortalTicketRequest $request): RedirectResponse|JsonResponse
     {
         $user = $this->getCurrentResident();
 
@@ -146,6 +148,16 @@ class ResidentPortalController extends Controller
 
         $dto = PortalTicketDTO::fromRequest($request, $user->UserId, $activeResidency?->ApartmentId);
         $ticket = Ticket::create($dto->toModelArray());
+
+        Cache::forget('dashboard_stats');
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Gửi yêu cầu hỗ trợ #{$ticket->TicketId} thành công! Ban quản lý sẽ sớm xử lý.",
+                'data' => $ticket,
+            ]);
+        }
 
         return redirect()->route('portal.tickets')
             ->with('success', "Gửi yêu cầu hỗ trợ #{$ticket->TicketId} thành công! Ban quản lý sẽ sớm xử lý.");
@@ -169,7 +181,7 @@ class ResidentPortalController extends Controller
     /**
      * Gửi phản hồi bổ sung cho yêu cầu.
      */
-    public function ticketReply(ReplyPortalTicketRequest $request, string|int $id): RedirectResponse
+    public function ticketReply(ReplyPortalTicketRequest $request, string|int $id): RedirectResponse|JsonResponse
     {
         $user = $this->getCurrentResident();
         $ticket = Ticket::where('IsDeleted', false)->findOrFail((int) $id);
@@ -180,6 +192,13 @@ class ResidentPortalController extends Controller
             'Content' => (string) $request->validated('content'),
             'CreatedAt' => now(),
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Gửi phản hồi thành công! Thông tin đã được cập nhật tới Ban quản lý.',
+            ]);
+        }
 
         return redirect()->route('portal.tickets.show', $id)
             ->with('success', 'Gửi phản hồi thành công! Thông tin đã được cập nhật tới Ban quản lý.');
@@ -238,12 +257,20 @@ class ResidentPortalController extends Controller
     /**
      * Lưu cập nhật thông tin liên hệ.
      */
-    public function profileUpdate(UpdatePortalProfileRequest $request): RedirectResponse
+    public function profileUpdate(UpdatePortalProfileRequest $request): RedirectResponse|JsonResponse
     {
         $user = $this->getCurrentResident();
         $dto = PortalProfileDTO::fromRequest($request);
 
         $user->update($dto->toModelArray());
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật thông tin liên hệ thành công!',
+                'data' => $user,
+            ]);
+        }
 
         return redirect()->route('portal.profile')
             ->with('success', 'Cập nhật thông tin liên hệ thành công!');

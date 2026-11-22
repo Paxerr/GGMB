@@ -9,8 +9,10 @@ use App\Http\Requests\Building\UpdateBuildingRequest;
 use App\Models\Apartment;
 use App\Models\Building;
 use App\Models\Floor;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class BuildingController extends Controller
@@ -20,7 +22,7 @@ class BuildingController extends Controller
      */
     public function index(Request $request): View
     {
-        $buildings = Building::where('IsDeleted', false)->orderBy('BuildingId')->get();
+        $buildings = Cache::remember('cache_lookup_buildings', 3600, fn () => Building::where('IsDeleted', false)->orderBy('BuildingId')->get());
         $selectedBuildingId = $request->query('building_id', $buildings->first()?->BuildingId);
 
         $selectedBuilding = $selectedBuildingId
@@ -53,11 +55,14 @@ class BuildingController extends Controller
     /**
      * Xử lý lưu thông tin tòa nhà mới vào cơ sở dữ liệu.
      */
-    public function store(StoreBuildingRequest $request): RedirectResponse
+    public function store(StoreBuildingRequest $request): RedirectResponse|JsonResponse
     {
         $dto = BuildingDTO::fromRequest($request);
 
         $building = Building::create($dto->toModelArray());
+
+        Cache::forget('cache_lookup_buildings');
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
@@ -84,11 +89,22 @@ class BuildingController extends Controller
     /**
      * Cập nhật thông tin tòa nhà.
      */
-    public function update(UpdateBuildingRequest $request, Building $building): RedirectResponse
+    public function update(UpdateBuildingRequest $request, Building $building): RedirectResponse|JsonResponse
     {
         $dto = BuildingDTO::fromRequest($request);
 
         $building->update($dto->toModelArray());
+
+        Cache::forget('cache_lookup_buildings');
+        Cache::forget('dashboard_stats');
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Tòa nhà '{$building->BuildingName}' đã được cập nhật thành công.",
+                'data' => $building,
+            ]);
+        }
 
         return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
             ->with('status', "Tòa nhà '{$building->BuildingName}' đã được cập nhật thành công.");
@@ -97,7 +113,7 @@ class BuildingController extends Controller
     /**
      * Xóa tòa nhà (SCR-BLD-04).
      */
-    public function destroy(Building $building): RedirectResponse
+    public function destroy(Building $building): RedirectResponse|JsonResponse
     {
         $hasApartments = Apartment::whereHas('floor', function ($q) use ($building): void {
             $q->where('BuildingId', $building->BuildingId)->where('IsDeleted', false);
@@ -109,6 +125,9 @@ class BuildingController extends Controller
 
         $name = $building->BuildingName;
         $building->delete();
+
+        Cache::forget('cache_lookup_buildings');
+        Cache::forget('dashboard_stats');
 
         if (request()->expectsJson() || request()->ajax()) {
             return response()->json([
@@ -124,7 +143,7 @@ class BuildingController extends Controller
     /**
      * Thêm tầng mới cho tòa nhà.
      */
-    public function storeFloor(Request $request, Building $building): RedirectResponse
+    public function storeFloor(Request $request, Building $building): RedirectResponse|JsonResponse
     {
         $floorNumber = (int) $request->input('floor_number', $request->input('FloorNumber'));
         if ($floorNumber <= 0) {
@@ -146,6 +165,8 @@ class BuildingController extends Controller
             'IsDeleted' => false,
         ]);
 
+        Cache::forget('cache_lookup_buildings');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -161,7 +182,7 @@ class BuildingController extends Controller
     /**
      * Cập nhật thông tin tầng.
      */
-    public function updateFloor(Request $request, Floor $floor): RedirectResponse
+    public function updateFloor(Request $request, Floor $floor): RedirectResponse|JsonResponse
     {
         $floorNumber = (int) $request->input('floor_number', $request->input('FloorNumber'));
         if ($floorNumber <= 0) {
@@ -180,6 +201,8 @@ class BuildingController extends Controller
 
         $floor->update(['FloorNumber' => $floorNumber]);
 
+        Cache::forget('cache_lookup_buildings');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -195,7 +218,7 @@ class BuildingController extends Controller
     /**
      * Xóa tầng.
      */
-    public function destroyFloor(Floor $floor): RedirectResponse
+    public function destroyFloor(Floor $floor): RedirectResponse|JsonResponse
     {
         $hasApartments = Apartment::where('FloorId', $floor->FloorId)
             ->where('IsDeleted', false)
@@ -208,6 +231,8 @@ class BuildingController extends Controller
         $bldId = $floor->BuildingId;
         $num = $floor->FloorNumber;
         $floor->delete();
+
+        Cache::forget('cache_lookup_buildings');
 
         if (request()->expectsJson() || request()->ajax()) {
             return response()->json([

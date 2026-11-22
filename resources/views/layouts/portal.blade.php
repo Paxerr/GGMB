@@ -54,24 +54,40 @@
             <div class="flex items-center space-x-4 sm:space-x-8 min-w-0">
                 <!-- Brand / Portal Badge -->
                 @if (($portalType ?? 'resident') === 'tech')
-                    <a href="{{ route('tech.tasks') }}" class="flex items-center gap-2 group shrink-0" title="GGMB Kỹ thuật">
-                        <div class="w-8 h-8 rounded-[8px] bg-[#0E4D3C] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-                            K
+                    <a href="{{ route('tech.tasks') }}" class="flex items-center gap-2.5 group shrink-0" title="GGMB Kỹ thuật">
+                        <div class="w-8 h-8 shrink-0 flex items-center justify-center">
+                            <svg class="w-8 h-8 drop-shadow-xs" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 33V18C10 13.5 13.5 11.5 16.5 14L24 21.5L31.5 14C34.5 11.5 38 13.5 38 18V33" stroke="url(#tech_portal_logo_grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="tech_portal_logo_grad" x1="10" y1="12" x2="38" y2="33" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#00D2FF"/>
+                                        <stop offset="0.5" stop-color="#0066FF"/>
+                                        <stop offset="1" stop-color="#0040E0"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="text-[17px] font-bold text-[#0E4D3C] tracking-tight">GGMB</span>
+                            <span class="text-[19px] font-bold text-[#0E4D3C] tracking-tight">GGMB</span>
                             <span class="text-[11.5px] font-semibold px-2 py-0.5 rounded-full bg-[#E4EFE9] text-[#0E4D3C]">Kỹ thuật</span>
                         </div>
                     </a>
                 @else
                     <a href="{{ route('portal.dashboard') }}" class="flex items-center gap-2.5 group shrink-0" title="GGMB Cổng cư dân">
-                        <div class="w-8 h-8 rounded-[8px] bg-[#0E4D3C] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        <div class="w-8 h-8 shrink-0 flex items-center justify-center">
+                            <svg class="w-8 h-8 drop-shadow-xs" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 33V18C10 13.5 13.5 11.5 16.5 14L24 21.5L31.5 14C34.5 11.5 38 13.5 38 18V33" stroke="url(#res_portal_logo_grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="res_portal_logo_grad" x1="10" y1="12" x2="38" y2="33" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#00D2FF"/>
+                                        <stop offset="0.5" stop-color="#0066FF"/>
+                                        <stop offset="1" stop-color="#0040E0"/>
+                                    </linearGradient>
+                                </defs>
                             </svg>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="text-[17px] font-bold text-[#0E4D3C] tracking-tight">GGMB</span>
+                            <span class="text-[19px] font-bold text-[#0E4D3C] tracking-tight">GGMB</span>
                             <span class="text-[11.5px] font-semibold px-2 py-0.5 rounded-full bg-[#E4EFE9] text-[#0E4D3C]">Cư dân</span>
                         </div>
                     </a>
@@ -187,6 +203,18 @@
                 <!-- Col 1: BQL Chung cư GGMB -->
                 <div>
                     <div class="flex items-center gap-2 mb-3">
+                        <div class="w-6 h-6 shrink-0 flex items-center justify-center">
+                            <svg class="w-6 h-6 drop-shadow-xs" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10 33V18C10 13.5 13.5 11.5 16.5 14L24 21.5L31.5 14C34.5 11.5 38 13.5 38 18V33" stroke="url(#portal_footer_logo_grad)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="portal_footer_logo_grad" x1="10" y1="12" x2="38" y2="33" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#00D2FF"/>
+                                        <stop offset="0.5" stop-color="#0066FF"/>
+                                        <stop offset="1" stop-color="#0040E0"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
                         <span class="text-[16px] font-bold text-[#0E4D3C]">GGMB Residence</span>
                     </div>
                     <p class="text-[#6B7280] leading-relaxed text-[12.5px]">

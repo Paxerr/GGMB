@@ -158,7 +158,7 @@ class PortalTest extends TestCase
         $response = $this->actingAs($this->tech)->get('/tech/utilities');
         $response->assertStatus(200);
         $response->assertSee('Ghi điện nước');
-        $response->assertSee('NHẬP CHỈ SỐ · 8 CĂN');
+        $response->assertSee('NHẬP CHỈ SỐ ·');
         $response->assertSee('0101');
         $response->assertSee('142');
     }

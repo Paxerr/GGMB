@@ -16,14 +16,19 @@ class StoreTechUtilityRequest extends FormRequest
     {
         if ($this->has('meters') && is_array($this->input('meters')) && ! $this->has('readings')) {
             $readings = [];
+            $feeTypeId = (int) ($this->input('fee_type_id') ?? 1);
+            $period = (string) ($this->input('billing_period') ?? now()->format('m/Y'));
+            $prevMeters = (array) $this->input('prev_meters', []);
+
             foreach ($this->input('meters') as $aptId => $curr) {
                 if ($curr !== null && $curr !== '') {
+                    $prev = (float) ($prevMeters[$aptId] ?? 0);
                     $readings[] = [
                         'apartment_id' => (int) $aptId,
-                        'fee_type_id' => 1,
-                        'previous_reading' => 0,
+                        'fee_type_id' => $feeTypeId,
+                        'previous_reading' => $prev,
                         'current_reading' => (float) $curr,
-                        'billing_period' => now()->format('m/Y'),
+                        'billing_period' => $period,
                     ];
                 }
             }

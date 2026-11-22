@@ -12,7 +12,9 @@ use App\Models\MeterReading;
 use App\Models\Ticket;
 use App\Models\TicketResponse;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class TechPortalController extends Controller
@@ -79,7 +81,7 @@ class TechPortalController extends Controller
     /**
      * Gửi kết quả xử lý công việc kỹ thuật.
      */
-    public function taskComplete(CompleteTaskRequest $request, string|int $id): RedirectResponse
+    public function taskComplete(CompleteTaskRequest $request, string|int $id): RedirectResponse|JsonResponse
     {
         $tech = $this->getCurrentTech();
         $ticket = Ticket::where('IsDeleted', false)->findOrFail((int) $id);
@@ -100,6 +102,16 @@ class TechPortalController extends Controller
             ]);
         }
 
+        Cache::forget('dashboard_stats');
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã cập nhật kết quả xử lý yêu cầu #{$ticket->TicketId} thành công!",
+                'data' => $ticket,
+            ]);
+        }
+
         return redirect()->route('tech.tasks')
             ->with('success', "Đã cập nhật kết quả xử lý yêu cầu #{$ticket->TicketId} thành công!");
     }
@@ -109,17 +121,41 @@ class TechPortalController extends Controller
      */
     public function utilities(): View
     {
+        $feeType = FeeType::where('Name', 'like', '%Điện%')->first()
+            ?? FeeType::where('Code', 'ELEC')->first()
+            ?? FeeType::first();
+
+        $previousPeriod = now()->subMonth()->format('m/Y');
+        $currentPeriod = now()->format('m/Y');
+
         $apartments = Apartment::where('IsDeleted', false)
+            ->with(['meterReadings' => function ($q) use ($feeType): void {
+                if ($feeType) {
+                    $q->where('FeeTypeId', $feeType->FeeTypeId);
+                }
+                $q->orderByDesc('BillingPeriod');
+            }])
             ->orderBy('ApartmentNumber')
             ->get();
 
+        $apartmentsList = $apartments->map(function (Apartment $apt) {
+            $latest = $apt->meterReadings->first();
+            $prev = $latest ? (float) $latest->CurrentReading : 100.0;
+
+            return [
+                'id' => $apt->ApartmentId,
+                'code' => $apt->ApartmentNumber,
+                'prev' => $prev,
+            ];
+        })->toArray();
+
         $feeTypes = FeeType::where('IsActive', true)->get();
 
-        $currentPeriod = now()->format('m/Y');
-
         return view('tech.utilities.index', [
-            'apartments' => $apartments,
+            'apartments' => $apartmentsList,
             'feeTypes' => $feeTypes,
+            'feeType' => $feeType,
+            'previousPeriod' => $previousPeriod,
             'currentPeriod' => $currentPeriod,
         ]);
     }
@@ -127,7 +163,7 @@ class TechPortalController extends Controller
     /**
      * Lưu chỉ số điện nước đã ghi nhận.
      */
-    public function utilitiesStore(StoreTechUtilityRequest $request): RedirectResponse
+    public function utilitiesStore(StoreTechUtilityRequest $request): RedirectResponse|JsonResponse
     {
         $tech = $this->getCurrentTech();
         $dto = TechUtilityDTO::fromRequest($request, $tech->UserId);
@@ -147,6 +183,13 @@ class TechPortalController extends Controller
                     'RecordedAt' => now(),
                 ]
             );
+        }
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã lưu thành công các chỉ số điện nước ghi nhận!',
+            ]);
         }
 
         return redirect()->route('tech.utilities')

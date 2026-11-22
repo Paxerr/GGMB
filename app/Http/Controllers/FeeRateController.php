@@ -12,6 +12,7 @@ use App\Models\FeeType;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class FeeRateController extends Controller
@@ -127,6 +128,8 @@ class FeeRateController extends Controller
             ]);
         }
 
+        Cache::forget('cache_lookup_fee_types');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -169,6 +172,8 @@ class FeeRateController extends Controller
 
         $dto = FeeTypeDTO::fromUpdateRequest($request, $feeType->Code);
         $feeType->update($dto->toModelArray());
+
+        Cache::forget('cache_lookup_fee_types');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([

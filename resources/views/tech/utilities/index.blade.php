@@ -23,27 +23,16 @@
     <div class="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-none">
         <!-- Card Header Info -->
         <div class="text-[15px] font-bold text-[#111827] pb-4 mb-5 border-b border-[#E5E7EB]">
-            Tòa A / Tầng 1 / Điện / 03/2026
+            Tòa A / Tầng 1 / {{ $feeType?->Name ?? 'Điện' }} / {{ $currentPeriod ?? now()->format('m/Y') }}
         </div>
-        <span class="sr-only">NHẬP CHỈ SỐ · 8 CĂN</span>
+        <span class="sr-only">NHẬP CHỈ SỐ · {{ count($apartments) }} CĂN</span>
 
         <form action="{{ route('tech.utilities.store') }}" method="POST" id="meterForm">
             @csrf
+            <input type="hidden" name="fee_type_id" value="{{ $feeType?->FeeTypeId ?? 1 }}">
+            <input type="hidden" name="billing_period" value="{{ $currentPeriod ?? now()->format('m/Y') }}">
 
-            @php
-                $apartments = [
-                    ['id' => 1, 'code' => '0101', 'prev' => 142],
-                    ['id' => 2, 'code' => '0102', 'prev' => 149],
-                    ['id' => 3, 'code' => '0103', 'prev' => 156],
-                    ['id' => 4, 'code' => '0104', 'prev' => 163],
-                    ['id' => 5, 'code' => '0105', 'prev' => 170],
-                    ['id' => 6, 'code' => '0106', 'prev' => 177],
-                    ['id' => 7, 'code' => '0107', 'prev' => 184],
-                    ['id' => 8, 'code' => '0108', 'prev' => 159],
-                ];
-            @endphp
-
-            <!-- 2x4 / Responsive Grid of 8 Apartment Cards -->
+            <!-- Responsive Grid of Apartment Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach ($apartments as $apt)
                     <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 space-y-3">
@@ -57,8 +46,9 @@
                         </div>
 
                         <div class="text-[12px] text-[#6B7280]">
-                            Chỉ số 02/2026: <strong class="text-[#374151]">{{ $apt['prev'] }}</strong>
+                            Chỉ số {{ $previousPeriod ?? 'Kỳ trước' }}: <strong class="text-[#374151]">{{ $apt['prev'] }}</strong>
                         </div>
+                        <input type="hidden" name="prev_meters[{{ $apt['id'] }}]" value="{{ $apt['prev'] }}">
 
                         <div>
                             <input type="number" 
