@@ -215,6 +215,8 @@ class FeeRateController extends Controller
         $feeType = FeeType::findOrFail($id);
         $feeType->update(['IsActive' => false]);
 
+        Cache::forget('cache_lookup_fee_types');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -255,6 +257,8 @@ class FeeRateController extends Controller
         $feeType = FeeType::findOrFail($id);
         $feeType->update(['IsActive' => true]);
 
+        Cache::forget('cache_lookup_fee_types');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -288,6 +292,8 @@ class FeeRateController extends Controller
 
         $dto = FeeRateDTO::fromStoreRequest($request, $feeType->FeeTypeId);
         $rate = FeeRate::create($dto->toModelArray());
+
+        Cache::forget('cache_lookup_fee_types');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
