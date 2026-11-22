@@ -167,12 +167,13 @@ class InvoiceController extends Controller
             throw new BusinessException("Căn hộ này đã có hóa đơn cho kỳ {$dto->billingPeriod}.");
         }
 
-        DB::transaction(function () use ($dto): void {
-            $invoice = Invoice::create($dto->toModelArray());
+        $createdInvoice = null;
+        DB::transaction(function () use ($dto, &$createdInvoice): void {
+            $createdInvoice = Invoice::create($dto->toModelArray());
 
             foreach ($dto->items as $item) {
                 InvoiceItem::create([
-                    'InvoiceId' => $invoice->InvoiceId,
+                    'InvoiceId' => $createdInvoice->InvoiceId,
                     'FeeTypeId' => $item['fee_type_id'],
                     'FeeRateId' => null,
                     'Quantity' => $item['quantity'],
@@ -181,6 +182,14 @@ class InvoiceController extends Controller
                 ]);
             }
         });
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Lập hóa đơn mới thành công.',
+                'data' => $createdInvoice,
+            ]);
+        }
 
         return redirect()->route('invoices.index')
             ->with('success', 'Lập hóa đơn mới thành công.');
@@ -210,6 +219,14 @@ class InvoiceController extends Controller
             'PaidAt' => now(),
         ]);
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Xác nhận thu tiền hóa đơn #{$invoice->InvoiceId} thành công.",
+                'data' => $invoice,
+            ]);
+        }
+
         return redirect()->route('invoices.index')
             ->with('success', "Xác nhận thu tiền hóa đơn #{$invoice->InvoiceId} thành công.");
     }
@@ -228,6 +245,14 @@ class InvoiceController extends Controller
         $invoice->update([
             'Status' => 'CANCELLED',
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã hủy hóa đơn #{$invoice->InvoiceId} thành công.",
+                'data' => $invoice,
+            ]);
+        }
 
         return redirect()->route('invoices.index')
             ->with('success', "Đã hủy hóa đơn #{$invoice->InvoiceId} thành công.");

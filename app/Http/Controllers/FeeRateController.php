@@ -127,6 +127,14 @@ class FeeRateController extends Controller
             ]);
         }
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Thêm loại phí '{$feeType->Name}' thành công.",
+                'data' => $feeType,
+            ]);
+        }
+
         return redirect()->route('fee-rates.index')
             ->with('success', "Thêm loại phí '{$feeType->Name}' thành công.");
     }
@@ -162,6 +170,14 @@ class FeeRateController extends Controller
         $dto = FeeTypeDTO::fromUpdateRequest($request, $feeType->Code);
         $feeType->update($dto->toModelArray());
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Cập nhật thông tin loại phí '{$feeType->Name}' thành công.",
+                'data' => $feeType,
+            ]);
+        }
+
         return redirect()->route('fee-rates.show', $id)
             ->with('success', "Cập nhật thông tin loại phí '{$feeType->Name}' thành công.");
     }
@@ -193,6 +209,14 @@ class FeeRateController extends Controller
     {
         $feeType = FeeType::findOrFail($id);
         $feeType->update(['IsActive' => false]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã ngừng áp dụng loại phí '{$feeType->Name}'.",
+                'data' => $feeType,
+            ]);
+        }
 
         return redirect()->route('fee-rates.index')
             ->with('success', "Đã ngừng áp dụng loại phí '{$feeType->Name}'.");
@@ -226,6 +250,14 @@ class FeeRateController extends Controller
         $feeType = FeeType::findOrFail($id);
         $feeType->update(['IsActive' => true]);
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã kích hoạt áp dụng lại loại phí '{$feeType->Name}'.",
+                'data' => $feeType,
+            ]);
+        }
+
         return redirect()->route('fee-rates.index')
             ->with('success', "Đã kích hoạt áp dụng lại loại phí '{$feeType->Name}'.");
     }
@@ -250,7 +282,15 @@ class FeeRateController extends Controller
         $feeType = FeeType::findOrFail($id);
 
         $dto = FeeRateDTO::fromStoreRequest($request, $feeType->FeeTypeId);
-        FeeRate::create($dto->toModelArray());
+        $rate = FeeRate::create($dto->toModelArray());
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã thêm đơn giá mới cho loại phí '{$feeType->Name}'.",
+                'data' => $rate,
+            ]);
+        }
 
         return redirect()->route('fee-rates.index')
             ->with('success', "Đã thêm đơn giá mới cho loại phí '{$feeType->Name}'.");

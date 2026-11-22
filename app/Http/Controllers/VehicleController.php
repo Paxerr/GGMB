@@ -97,6 +97,14 @@ class VehicleController extends Controller
 
         $vehicle = Vehicle::create($dto->toModelArray());
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đăng ký phương tiện biển số {$vehicle->LicensePlate} thành công.",
+                'data' => $vehicle,
+            ]);
+        }
+
         return redirect()->route('vehicles.index')
             ->with('success', "Đăng ký phương tiện biển số {$vehicle->LicensePlate} thành công.");
     }
@@ -170,6 +178,14 @@ class VehicleController extends Controller
 
         $vehicle->update($dto->toModelArray());
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Cập nhật thông tin phương tiện biển số {$vehicle->LicensePlate} thành công.",
+                'data' => $vehicle,
+            ]);
+        }
+
         return redirect()->route('vehicles.index')
             ->with('success', "Cập nhật thông tin phương tiện biển số {$vehicle->LicensePlate} thành công.");
     }
@@ -212,6 +228,14 @@ class VehicleController extends Controller
         $plate = $vehicle->LicensePlate;
 
         $vehicle->delete();
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã hủy đăng ký phương tiện biển số {$plate} thành công.",
+                'data' => $vehicle,
+            ]);
+        }
 
         return redirect()->route('vehicles.index')
             ->with('success', "Đã hủy đăng ký phương tiện biển số {$plate} thành công.");

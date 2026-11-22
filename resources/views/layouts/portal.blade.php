@@ -49,9 +49,9 @@
 <body class="min-h-screen bg-[#F8FAF8] text-[#374151] antialiased flex flex-col justify-between selection:bg-[#E4EFE9] selection:text-[#0E4D3C]">
     <!-- Top Modern Portal Header -->
     <header class="bg-white/95 backdrop-blur-md border-b border-[#E5E7EB] sticky top-0 z-30 select-none transition-shadow duration-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[64px] flex items-center justify-between">
+        <div class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 h-[64px] flex items-center justify-between gap-4">
             <!-- Left: Brand + Role Badge + Navigation Tabs -->
-            <div class="flex items-center space-x-6 sm:space-x-8">
+            <div class="flex items-center space-x-4 sm:space-x-8 min-w-0">
                 <!-- Brand / Portal Badge -->
                 @if (($portalType ?? 'resident') === 'tech')
                     <a href="{{ route('tech.tasks') }}" class="flex items-center gap-2 group shrink-0" title="GGMB Kỹ thuật">
@@ -155,7 +155,7 @@
     </div>
 
     <!-- Main Container -->
-    <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-6 sm:py-8">
         @if (session('success'))
             <div class="mb-6 p-4 bg-[#E4EFE9] border border-[#B8D5C7] text-[#0E4D3C] text-[13.5px] rounded-[12px] flex items-center justify-between shadow-2xs">
                 <div class="flex items-center gap-2.5">
@@ -180,8 +180,8 @@
     </main>
 
     <!-- Modern Building Resident Footer -->
-    <footer class="bg-white border-t border-[#E5E7EB] mt-16 pt-10 pb-8 px-4 sm:px-6 lg:px-8 select-none">
-        <div class="max-w-7xl mx-auto">
+    <footer class="bg-white border-t border-[#E5E7EB] mt-12 pt-10 pb-8 px-4 sm:px-6 lg:px-8 xl:px-10 select-none">
+        <div class="w-full max-w-[1600px] mx-auto">
             <!-- 4-column Links Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-[#F3F4F6] text-[13px]">
                 <!-- Col 1: BQL Chung cư GGMB -->
@@ -297,6 +297,155 @@
                 }
             }, 4000);
         };
+    </script>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.showToast) {
+                    window.showToast(@json(session('success')), 'success');
+                }
+            });
+        </script>
+    @endif
+
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.showToast) {
+                    window.showToast(@json(session('error')), 'error');
+                }
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.showToast) {
+                    @foreach ($errors->all() as $err)
+                        window.showToast(@json($err), 'error');
+                    @endforeach
+                }
+            });
+        </script>
+    @endif
+
+    <script>
+        (function() {
+            document.addEventListener('submit', async function(e) {
+                const form = e.target;
+                if (!form || form.tagName !== 'FORM') return;
+
+                const methodAttr = (form.getAttribute('method') || 'GET').toUpperCase();
+                if (methodAttr === 'GET' && !form.dataset.ajax) {
+                    return;
+                }
+
+                const isModalOrDrawer = form.closest('[role="dialog"]') ||
+                                        form.closest('[id$="Modal"]') ||
+                                        form.closest('[id$="Drawer"]') ||
+                                        form.dataset.ajax === 'true';
+
+                if (!isModalOrDrawer) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                }
+
+                try {
+                    const action = form.action || window.location.href;
+                    const method = (form.querySelector('input[name="_method"]')?.value || methodAttr || 'POST').toUpperCase();
+                    const formData = new FormData(form);
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                    const response = await fetch(action, {
+                        method: method === 'GET' ? 'GET' : 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': csrfToken || '',
+                        },
+                        body: formData
+                    });
+
+                    let data = {};
+                    const contentType = response.headers.get('content-type') || '';
+                    if (contentType.includes('application/json')) {
+                        data = await response.json();
+                    } else {
+                        data = { success: response.ok, message: 'Thao tác thành công!' };
+                    }
+
+                    if (!response.ok) {
+                        if (response.status === 422 && data.errors) {
+                            const errorList = Object.values(data.errors).flat();
+                            errorList.forEach(err => {
+                                if (window.showToast) window.showToast(err, 'error');
+                            });
+                        } else {
+                            if (window.showToast) {
+                                window.showToast(data.message || 'Thao tác không thành công.', 'error');
+                            }
+                        }
+                        return;
+                    }
+
+                    const modalEl = form.closest('[id$="Modal"]');
+                    if (modalEl && modalEl.id) {
+                        const closeFnName = 'close' + modalEl.id.charAt(0).toUpperCase() + modalEl.id.slice(1);
+                        if (typeof window[closeFnName] === 'function') {
+                            window[closeFnName]();
+                        } else {
+                            modalEl.classList.add('hidden');
+                        }
+                    }
+
+                    if (window.showToast) {
+                        window.showToast(data.message || 'Thao tác thành công!', 'success');
+                    }
+
+                    if (!form.querySelector('input[name="_method"]')) {
+                        form.reset();
+                    }
+
+                    // Refresh content
+                    const res = await fetch(window.location.href, {
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    if (res.ok) {
+                        const htmlText = await res.text();
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(htmlText, 'text/html');
+                        const currentMain = document.querySelector('main');
+                        const newMain = doc.querySelector('main');
+                        if (currentMain && newMain) {
+                            currentMain.innerHTML = newMain.innerHTML;
+                        }
+                    }
+
+                } catch (err) {
+                    console.error('Portal AJAX Submit Error:', err);
+                    if (window.showToast) {
+                        window.showToast(err.message || 'Lỗi kết nối máy chủ.', 'error');
+                    }
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                        submitBtn.innerHTML = originalBtnHtml;
+                    }
+                }
+            });
+        })();
     </script>
 </body>
 </html>

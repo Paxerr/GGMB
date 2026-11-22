@@ -21,10 +21,8 @@
         </p>
     </div>
 
-    <!-- 2 Columns Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-        <!-- Left: Form thông tin cần cung cấp (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-xs">
+    <!-- Form thông tin cần cung cấp -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs">
             <div class="flex items-center gap-2.5 pb-5 border-b border-[#F3F4F6] mb-6">
                 <div class="w-8 h-8 rounded-[8px] bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-bold">
                     <svg class="w-4 h-4 text-[#0E4D3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
@@ -64,20 +62,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Right: Lưu ý nghiệp vụ (4 cols) -->
-        <div class="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs text-[13px] text-[#4B5563] space-y-4">
-            <h3 class="font-bold text-[#111827] text-[15px] pb-3 border-b border-[#F3F4F6] flex items-center gap-2">
-                <span>🛡️</span>
-                <span>Lưu ý nghiệp vụ</span>
-            </h3>
-            <p class="leading-relaxed">
-                Thông tin liên hệ được sử dụng để nhận thông báo phí và liên lạc khẩn cấp từ ban quản lý.
-            </p>
-            <div class="p-3 bg-[#F8FAF8] rounded-[10px] border border-[#E5E7EB] text-[12.5px] text-[#6B7280] leading-relaxed">
-                Vui lòng cung cấp chính xác email và số điện thoại đang hoạt động để không bỏ lỡ các thông báo quan trọng từ BQL tòa nhà.
-            </div>
         </div>
     </div>
 </div>

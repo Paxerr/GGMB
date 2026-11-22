@@ -29,9 +29,9 @@
     </div>
 
     <!-- 2 Columns Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-        <!-- Left: Thông tin chi tiết (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-xs space-y-6">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <!-- Left: Thông tin chi tiết (8 cols on xl) -->
+        <div class="xl:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs space-y-6">
             <div class="flex items-center justify-between pb-5 border-b border-[#F3F4F6]">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-[8px] bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
@@ -84,8 +84,8 @@
             </div>
         </div>
 
-        <!-- Right: Lưu ý nghiệp vụ (4 cols) -->
-        <div class="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs text-[13px] text-[#4B5563] space-y-4">
+        <!-- Right: Lưu ý nghiệp vụ (4 cols on xl) -->
+        <div class="xl:col-span-4 bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-6 shadow-xs text-[13px] text-[#4B5563] space-y-4">
             <h3 class="font-bold text-[#111827] text-[15px] pb-3 border-b border-[#F3F4F6] flex items-center gap-2">
                 <span>ℹ️</span>
                 <span>Lưu ý nghiệp vụ</span>

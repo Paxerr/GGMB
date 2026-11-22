@@ -7,6 +7,7 @@ use App\Exceptions\BusinessException;
 use App\Http\Requests\Account\StoreAccountRequest;
 use App\Http\Requests\Account\UpdateAccountRequest;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -76,11 +77,19 @@ class AccountController extends Controller
     /**
      * Lưu tài khoản mới vào cơ sở dữ liệu.
      */
-    public function store(StoreAccountRequest $request): RedirectResponse
+    public function store(StoreAccountRequest $request): RedirectResponse|JsonResponse
     {
         $dto = AccountDTO::fromStoreRequest($request);
 
         $account = User::create($dto->toModelArray());
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã tạo tài khoản '{$account->UserName}' ({$account->FullName}) thành công.",
+                'data' => $account,
+            ]);
+        }
 
         return redirect()->route('accounts.index')
             ->with('success', "Đã tạo tài khoản '{$account->UserName}' ({$account->FullName}) thành công.");
@@ -101,12 +110,20 @@ class AccountController extends Controller
     /**
      * Cập nhật thông tin tài khoản.
      */
-    public function update(int $id, UpdateAccountRequest $request): RedirectResponse
+    public function update(int $id, UpdateAccountRequest $request): RedirectResponse|JsonResponse
     {
         $account = User::where('IsDeleted', false)->findOrFail($id);
 
         $dto = AccountDTO::fromUpdateRequest($request, $account->UserName);
         $account->update($dto->toModelArray());
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã lưu thay đổi thông tin tài khoản '{$account->UserName}' thành công.",
+                'data' => $account,
+            ]);
+        }
 
         if ($request->filled('redirect_to') && $request->input('redirect_to') === 'show') {
             return redirect()->route('accounts.show', $account->UserId)
@@ -132,7 +149,7 @@ class AccountController extends Controller
     /**
      * Xác nhận khóa tài khoản với kiểm tra quy định nghiệp vụ.
      */
-    public function confirmLock(int $id, Request $request): RedirectResponse
+    public function confirmLock(int $id, Request $request): RedirectResponse|JsonResponse
     {
         $account = User::where('IsDeleted', false)->findOrFail($id);
 
@@ -154,6 +171,14 @@ class AccountController extends Controller
         }
 
         $account->update(['Status' => 'LOCKED']);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã khóa tài khoản '{$account->UserName}' thành công.",
+                'data' => $account,
+            ]);
+        }
 
         return redirect()->route('accounts.index')
             ->with('success', "Đã khóa tài khoản '{$account->UserName}' thành công.");

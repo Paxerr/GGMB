@@ -80,7 +80,7 @@
     </div>
 
     <!-- Data Table (Bo góc 14px, header xanh nhạt #f2f6f4) -->
-    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none" data-name="Bảng dữ liệu">
+    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-x-auto shadow-none" data-name="Bảng dữ liệu">
         <!-- Table Header -->
         <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none px-4">
             <div class="w-[100px] min-w-[100px]">

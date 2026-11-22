@@ -172,7 +172,7 @@ class ResidentController extends Controller
                 ]);
             }
 
-            if ($request->wantsJson()) {
+            if ($request->expectsJson() || $request->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Tiếp nhận cư dân thành công!',
@@ -221,7 +221,7 @@ class ResidentController extends Controller
 
         $dto = ResidentDTO::fromUpdateRequest($request);
 
-        return DB::transaction(function () use ($resident, $dto) {
+        return DB::transaction(function () use ($resident, $dto, $request) {
             $resident->update([
                 'FullName' => $dto->fullName,
                 'CitizenId' => $dto->citizenId ?? $resident->CitizenId,
@@ -258,6 +258,14 @@ class ResidentController extends Controller
                 }
             }
 
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Cập nhật thông tin cư dân thành công!',
+                    'data' => $resident,
+                ]);
+            }
+
             return redirect()->route('residents.show', $resident->UserId)
                 ->with('success', 'Cập nhật thông tin cư dân thành công!');
         });
@@ -284,6 +292,14 @@ class ResidentController extends Controller
                     'EndDate' => $newStatus === 'INACTIVE' ? now()->toDateString() : null,
                 ]);
         });
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã cập nhật trạng thái cư trú của {$resident->FullName} thành công.",
+                'data' => $resident,
+            ]);
+        }
 
         return redirect()->route('residents.index')
             ->with('success', "Đã cập nhật trạng thái cư trú của {$resident->FullName} thành công.");

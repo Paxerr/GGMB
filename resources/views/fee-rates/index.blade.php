@@ -88,7 +88,7 @@
     </form>
 
     <!-- Bảng dữ liệu Cấu hình biểu phí -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[14px] overflow-hidden shadow-none">
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] overflow-x-auto shadow-none">
         <!-- Table Header -->
         <div class="bg-[#F2F6F4] border-b border-[#E5E7EB] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none">
             <div class="w-[120px] min-w-[90px] px-4 border-r border-[#E5E7EB] h-full flex items-center">Mã phí / Giá</div>

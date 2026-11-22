@@ -128,7 +128,7 @@
     </div>
 
     <!-- Data Table (Bảng dữ liệu) -->
-    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none" data-name="Bảng dữ liệu">
+    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-x-auto shadow-none" data-name="Bảng dữ liệu">
         <!-- Table Header (Tiêu đề cột) -->
         <div class="bg-[#f2f6f4] border-b border-[#d9e4ec] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none">
             <div class="w-[80px] min-w-[80px] px-3 border-r border-[#d9e4ec] h-full flex items-center">

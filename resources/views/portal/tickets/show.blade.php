@@ -29,9 +29,9 @@
     </div>
 
     <!-- Progress Status Stepper -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs">
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-6 shadow-xs overflow-x-auto">
         <div class="text-[12.5px] font-semibold text-[#6B7280] uppercase tracking-wider mb-4">Tiến trình xử lý</div>
-        <div class="grid grid-cols-4 gap-2 text-center text-xs">
+        <div class="min-w-[440px] grid grid-cols-4 gap-2 text-center text-xs">
             <div class="space-y-1.5">
                 <div class="w-8 h-8 mx-auto rounded-full bg-[#0E4D3C] text-white flex items-center justify-center font-bold text-xs shadow-2xs">✓</div>
                 <div class="font-bold text-[#0E4D3C]">Tiếp nhận</div>
@@ -55,10 +55,8 @@
         </div>
     </div>
 
-    <!-- 2 Columns Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-        <!-- Left: Thông tin chi tiết & Form phản hồi (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-xs space-y-6">
+    <!-- Thông tin chi tiết & Form phản hồi -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs space-y-6">
             <div class="flex items-center justify-between pb-4 border-b border-[#F3F4F6]">
                 <h2 class="text-[17px] font-bold text-[#111827]">
                     Thông tin chi tiết
@@ -118,23 +116,6 @@
                     </button>
                 </div>
             </form>
-        </div>
-
-        <!-- Right: Lưu ý nghiệp vụ (4 cols) -->
-        <div class="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs text-[13px] text-[#4B5563] space-y-4">
-            <h3 class="font-bold text-[#111827] text-[15px] pb-3 border-b border-[#F3F4F6] flex items-center gap-2">
-                <span>ℹ️</span>
-                <span>Lưu ý nghiệp vụ</span>
-            </h3>
-            <p class="leading-relaxed">
-                Yêu cầu đang chờ bộ phận tiếp nhận; thông tin phân công sẽ xuất hiện khi được cập nhật.
-            </p>
-            <div class="p-3 bg-[#F8FAF8] rounded-[10px] border border-[#E5E7EB] text-[12.5px] text-[#6B7280]">
-                Chỉnh sửa trước khi phân công →
-            </div>
-            <p class="leading-relaxed text-[12.5px] text-[#6B7280]">
-                Mọi phản hồi tại đây sẽ được thông báo trực tiếp đến Kỹ thuật viên phụ trách tòa nhà.
-            </p>
         </div>
     </div>
 </div>

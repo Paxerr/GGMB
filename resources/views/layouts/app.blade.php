@@ -157,7 +157,7 @@
 
         <!-- Page Dynamic Body Content (Vùng duy nhất cuộn khi lăn chuột) -->
         <main class="flex-1 overflow-y-auto flex flex-col">
-            <div class="flex-1 p-6 sm:p-8">
+            <div class="flex-1 p-4 sm:p-6 lg:p-7">
                 @if (isset($slot))
                     {{ $slot }}
                 @else
@@ -247,6 +247,171 @@
             });
         </script>
     @endif
+
+    <!-- Global AJAX Form Submission & Zero-F5 Page Content Refresh -->
+    <script>
+        (function() {
+            window.refreshPageContent = async function() {
+                try {
+                    const res = await fetch(window.location.href, {
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    });
+                    if (!res.ok) return;
+                    const htmlText = await res.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlText, 'text/html');
+
+                    const currentMainContent = document.querySelector('main > div');
+                    const newMainContent = doc.querySelector('main > div');
+
+                    if (currentMainContent && newMainContent) {
+                        currentMainContent.innerHTML = newMainContent.innerHTML;
+
+                        // Re-initialize custom dropdowns on newly inserted elements
+                        if (typeof window.initCustomDropdowns === 'function') {
+                            window.initCustomDropdowns();
+                        }
+
+                        // Re-eval scripts that populate data maps
+                        doc.querySelectorAll('script').forEach(s => {
+                            const code = s.textContent;
+                            if (code.includes('window.ticketsMap') || code.includes('window.residentsMap') || code.includes('window.vehiclesMap')) {
+                                try {
+                                    eval(code);
+                                } catch (e) {}
+                            }
+                        });
+
+                        // Re-init Kanban drag and drop if available
+                        if (typeof window.initKanbanDragDrop === 'function') {
+                            window.initKanbanDragDrop();
+                        }
+                    }
+                } catch (e) {
+                    console.error('Lỗi làm mới nội dung trang:', e);
+                }
+            };
+
+            document.addEventListener('submit', async function(e) {
+                const form = e.target;
+                if (!form || form.tagName !== 'FORM') return;
+
+                // Do not intercept standard GET search/filter forms
+                const methodAttr = (form.getAttribute('method') || 'GET').toUpperCase();
+                if (methodAttr === 'GET' && !form.dataset.ajax) {
+                    return;
+                }
+
+                // Intercept if form is inside a modal, drawer, or has data-ajax="true"
+                const isModalOrDrawer = form.closest('[role="dialog"]') ||
+                                        form.closest('[id$="Modal"]') ||
+                                        form.closest('[id$="Drawer"]') ||
+                                        form.dataset.ajax === 'true';
+
+                if (!isModalOrDrawer) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                }
+
+                try {
+                    const action = form.action || window.location.href;
+                    const method = (form.querySelector('input[name="_method"]')?.value || methodAttr || 'POST').toUpperCase();
+                    const formData = new FormData(form);
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                    const response = await fetch(action, {
+                        method: method === 'GET' ? 'GET' : 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': csrfToken || '',
+                        },
+                        body: formData
+                    });
+
+                    let data = {};
+                    const contentType = response.headers.get('content-type') || '';
+                    if (contentType.includes('application/json')) {
+                        data = await response.json();
+                    } else {
+                        data = { success: response.ok, message: 'Thao tác thành công!' };
+                    }
+
+                    if (!response.ok) {
+                        if (response.status === 422 && data.errors) {
+                            const errorList = Object.values(data.errors).flat();
+                            errorList.forEach(err => {
+                                if (window.showToast) window.showToast(err, 'error');
+                            });
+                        } else {
+                            if (window.showToast) {
+                                window.showToast(data.message || 'Thao tác không thành công.', 'error');
+                            }
+                        }
+                        return;
+                    }
+
+                    // On success:
+                    // 1. Close modal or drawer
+                    const modalEl = form.closest('[id$="Modal"]');
+                    if (modalEl && modalEl.id) {
+                        const closeFnName = 'close' + modalEl.id.charAt(0).toUpperCase() + modalEl.id.slice(1);
+                        if (typeof window[closeFnName] === 'function') {
+                            window[closeFnName]();
+                        } else {
+                            modalEl.classList.add('hidden');
+                        }
+                    }
+
+                    const drawerEl = form.closest('[id$="Drawer"]');
+                    if (drawerEl && drawerEl.id) {
+                        const closeDrawerFn = 'close' + drawerEl.id.charAt(0).toUpperCase() + drawerEl.id.slice(1);
+                        if (typeof window[closeDrawerFn] === 'function') {
+                            window[closeDrawerFn]();
+                        } else {
+                            drawerEl.classList.add('hidden');
+                        }
+                    }
+
+                    // 2. Show toast
+                    if (window.showToast) {
+                        window.showToast(data.message || 'Thao tác thành công!', 'success');
+                    }
+
+                    // 3. Reset form if create form
+                    if (!form.querySelector('input[name="_method"]')) {
+                        form.reset();
+                    }
+
+                    // 4. Update page content seamlessly without F5
+                    await window.refreshPageContent();
+
+                } catch (err) {
+                    console.error('AJAX Submit Error:', err);
+                    if (window.showToast) {
+                        window.showToast(err.message || 'Lỗi kết nối máy chủ.', 'error');
+                    }
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                        submitBtn.innerHTML = originalBtnHtml;
+                    }
+                }
+            });
+        })();
+    </script>
 
     <!-- Sidebar Toggle Script -->
     <script>

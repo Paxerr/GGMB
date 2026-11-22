@@ -128,7 +128,7 @@
     </div>
 
     <!-- Bảng dữ liệu Sổ chỉ số -->
-    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none">
+    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-x-auto shadow-none">
         <!-- Table Header -->
         <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none">
             <div class="w-[60px] min-w-[50px] px-3 border-r border-[#E5E7EB] h-full flex items-center">ID</div>

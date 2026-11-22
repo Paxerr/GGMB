@@ -67,9 +67,9 @@
     </div>
 
     <!-- Main 2-column layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-        <!-- Left: Thông báo phí (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-xs">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <!-- Left: Thông báo phí (8 cols on xl) -->
+        <div class="xl:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs">
             <!-- Invoice Header -->
             <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#F3F4F6] gap-4">
                 <div>
@@ -136,8 +136,8 @@
             </div>
         </div>
 
-        <!-- Right: Thanh toán với ban quản lý (4 cols) -->
-        <div class="lg:col-span-4 space-y-5">
+        <!-- Right: Thanh toán với ban quản lý (4 cols on xl) -->
+        <div class="xl:col-span-4 space-y-5">
             <!-- Box hướng dẫn chuyển khoản -->
             <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs space-y-4">
                 <div class="flex items-center gap-2 pb-3 border-b border-[#F3F4F6]">
@@ -154,22 +154,22 @@
                 </p>
 
                 <!-- Bank Info Box -->
-                <div class="p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] space-y-2 text-[12.5px]">
-                    <div class="flex justify-between items-center text-[#6B7280]">
-                        <span>Ngân hàng:</span>
-                        <strong class="text-[#111827]">Vietcombank (VCB)</strong>
+                <div class="p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] space-y-2.5 text-[12.5px]">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[#6B7280]">
+                        <span class="text-[12px]">Ngân hàng:</span>
+                        <strong class="text-[#111827] sm:text-right">Vietcombank (VCB)</strong>
                     </div>
-                    <div class="flex justify-between items-center text-[#6B7280]">
-                        <span>Số tài khoản:</span>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[#6B7280]">
+                        <span class="text-[12px]">Số tài khoản:</span>
                         <strong class="text-[#0E4D3C] font-mono text-[14px]">0123 4567 8900</strong>
                     </div>
-                    <div class="flex justify-between items-center text-[#6B7280]">
-                        <span>Chủ tài khoản:</span>
-                        <strong class="text-[#111827] text-right">BQL CHUNG CƯ GGMB</strong>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[#6B7280]">
+                        <span class="text-[12px]">Chủ tài khoản:</span>
+                        <strong class="text-[#111827] sm:text-right break-words">BAN QUẢN LÝ CHUNG CƯ GGMB</strong>
                     </div>
-                    <div class="pt-2 border-t border-[#E5E7EB] flex justify-between items-center text-[#6B7280]">
-                        <span>Nội dung CK:</span>
-                        <span class="font-mono bg-white px-2 py-0.5 border border-[#B8D5C7] rounded text-[#0E4D3C] font-bold">
+                    <div class="pt-2 border-t border-[#E5E7EB] flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[#6B7280]">
+                        <span class="text-[12px]">Nội dung CK:</span>
+                        <span class="font-mono bg-white px-2 py-0.5 border border-[#B8D5C7] rounded text-[#0E4D3C] font-bold self-start sm:self-auto">
                             CAN0101 HD1
                         </span>
                     </div>

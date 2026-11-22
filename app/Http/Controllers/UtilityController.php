@@ -102,6 +102,14 @@ class UtilityController extends Controller
             'RecordedAt' => now(),
         ]);
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã đính chính chỉ số cho căn hộ {$meterReading->apartment?->ApartmentNumber} thành công.",
+                'data' => $meterReading,
+            ]);
+        }
+
         return redirect()->route('utilities.index')
             ->with('success', "Đã đính chính chỉ số cho căn hộ {$meterReading->apartment?->ApartmentNumber} thành công.");
     }
@@ -125,7 +133,15 @@ class UtilityController extends Controller
         }
 
         $dto = MeterReadingDTO::fromFirstTimeRequest($request, auth()->id() ?? 1);
-        MeterReading::create($dto->toModelArray());
+        $reading = MeterReading::create($dto->toModelArray());
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Nhập chỉ số ban đầu thành công.',
+                'data' => $reading,
+            ]);
+        }
 
         return redirect()->route('utilities.index')
             ->with('success', 'Nhập chỉ số ban đầu thành công.');

@@ -21,10 +21,8 @@
         </p>
     </div>
 
-    <!-- 2 Columns Layout: Form (Left) & Lưu ý nghiệp vụ (Right) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-        <!-- Left: Thông tin cần cung cấp (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-xs">
+    <!-- Form Card: Thông tin cần cung cấp -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs">
             <div class="flex items-center justify-between pb-5 border-b border-[#F3F4F6] mb-6">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-[8px] bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-bold">
@@ -111,41 +109,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- Right: Lưu ý nghiệp vụ (4 cols) -->
-        <div class="lg:col-span-4 space-y-5">
-            <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs space-y-4">
-                <div class="flex items-center gap-2 pb-3 border-b border-[#F3F4F6]">
-                    <div class="w-8 h-8 rounded-[8px] bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
-                        ℹ️
-                    </div>
-                    <h3 class="font-bold text-[#111827] text-[15px]">
-                        Lưu ý nghiệp vụ
-                    </h3>
-                </div>
-
-                <div class="space-y-3 text-[13px] text-[#4B5563] leading-relaxed">
-                    <p>
-                        Người gửi: <strong class="text-[#111827]">Nguyễn An</strong>. Tạo thành công ở trạng thái <strong class="text-[#0E4D3C]">Chờ xử lý</strong>.
-                    </p>
-                    <p>
-                        Yêu cầu của tôi: #1 Không xem được thông báo phí; #31 Đề nghị cập nhật email liên hệ; #61 Đề nghị cập nhật số điện thoại; #91 Sai họ tên trong hồ sơ cư dân.
-                    </p>
-                    <div class="p-3 bg-[#F8FAF8] rounded-[10px] border border-[#E5E7EB] text-[12.5px] text-[#6B7280]">
-                        Cả 4 yêu cầu đang Chờ xử lý, chưa phân công. Bạn có thể theo dõi tiến độ và phản hồi bất kỳ lúc nào.
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-[#E4EFE9]/50 border border-[#B8D5C7] rounded-[18px] p-5 text-[12.5px] text-[#0E4D3C] space-y-2">
-                <div class="font-bold text-[13px] flex items-center gap-1.5">
-                    <span>⚡ Hỗ trợ khẩn cấp</span>
-                </div>
-                <p class="leading-relaxed">
-                    Đối với sự cố khẩn cấp (chập điện nguy hiểm, bục vỡ ống nước chính), vui lòng gọi ngay hotline BQL: <strong>1900 8888</strong>.
-                </p>
-            </div>
-        </div>
     </div>
 
     <!-- Bottom Card: Theo dõi yêu cầu của tôi -->
@@ -163,7 +126,7 @@
             </span>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <!-- Ticket 1 -->
             <a href="{{ route('portal.tickets.show', 1) }}" class="p-4.5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
                 <div>

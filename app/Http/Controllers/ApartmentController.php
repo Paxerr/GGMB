@@ -120,11 +120,19 @@ class ApartmentController extends Controller
     /**
      * Lưu căn hộ mới vào cơ sở dữ liệu (SCR-APT-04).
      */
-    public function store(StoreApartmentRequest $request): RedirectResponse
+    public function store(StoreApartmentRequest $request): RedirectResponse|JsonResponse
     {
         $dto = ApartmentDTO::fromStoreRequest($request);
 
         $apartment = Apartment::create($dto->toModelArray());
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã tạo căn hộ {$apartment->ApartmentNumber} thành công.",
+                'data' => $apartment,
+            ]);
+        }
 
         return redirect()->route('apartments.index')
             ->with('success', "Đã tạo căn hộ {$apartment->ApartmentNumber} thành công.");
@@ -171,7 +179,7 @@ class ApartmentController extends Controller
     /**
      * Cập nhật thông tin căn hộ (SCR-APT-05).
      */
-    public function update(UpdateApartmentRequest $request, Apartment $apartment): RedirectResponse
+    public function update(UpdateApartmentRequest $request, Apartment $apartment): RedirectResponse|JsonResponse
     {
         $dto = ApartmentDTO::fromUpdateRequest($request, $apartment->FloorId);
 
@@ -189,6 +197,14 @@ class ApartmentController extends Controller
 
         $apartment->update($dto->toModelArray());
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã cập nhật căn hộ {$apartment->ApartmentNumber} thành công.",
+                'data' => $apartment,
+            ]);
+        }
+
         return redirect()->route('apartments.index')
             ->with('success', "Đã cập nhật căn hộ {$apartment->ApartmentNumber} thành công.");
     }
@@ -196,7 +212,7 @@ class ApartmentController extends Controller
     /**
      * Thay đổi trạng thái căn hộ (SCR-APT-06).
      */
-    public function updateStatus(UpdateApartmentStatusRequest $request, Apartment $apartment): RedirectResponse
+    public function updateStatus(UpdateApartmentStatusRequest $request, Apartment $apartment): RedirectResponse|JsonResponse
     {
         $newStatus = (string) $request->validated('Status');
 
@@ -215,6 +231,14 @@ class ApartmentController extends Controller
         $apartment->update([
             'Status' => $newStatus,
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã thay đổi trạng thái căn hộ {$apartment->ApartmentNumber} thành {$newStatus}.",
+                'data' => $apartment,
+            ]);
+        }
 
         return redirect()->route('apartments.index')
             ->with('success', "Đã thay đổi trạng thái căn hộ {$apartment->ApartmentNumber} thành {$newStatus}.");

@@ -40,76 +40,82 @@
     </div>
 
     <!-- 3 Stat KPI Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
         <!-- Stat Card 1: Hóa đơn & Công nợ -->
-        <div class="bg-white border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[16px] p-6 shadow-xs transition-all hover:shadow-sm group">
-            <div class="flex items-center justify-between">
-                <span class="text-[13px] font-semibold text-[#6B7280] uppercase tracking-wider">
-                    Hóa đơn chờ thanh toán
-                </span>
-                <div class="w-9 h-9 rounded-[10px] bg-amber-50 text-amber-600 flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z"/></svg>
+        <div class="bg-white border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[16px] p-5 sm:p-6 shadow-xs transition-all hover:shadow-sm group flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[12.5px] font-semibold text-[#6B7280] uppercase tracking-wider">
+                        Hóa đơn chờ thanh toán
+                    </span>
+                    <div class="w-8 h-8 rounded-[8px] bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2zM10 8.5a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0z"/></svg>
+                    </div>
+                </div>
+                <span class="sr-only">HÓA ĐƠN CHỜ THANH TOÁN</span>
+                <div class="text-[26px] sm:text-[28px] font-bold text-[#111827] mt-2.5 tracking-tight">
+                    1.685.000 đ
                 </div>
             </div>
-            <span class="sr-only">HÓA ĐƠN CHỜ THANH TOÁN</span>
-            <div class="text-[28px] font-bold text-[#111827] mt-3 tracking-tight">
-                1.685.000 đ
-            </div>
-            <div class="mt-2 flex items-center justify-between text-[12.5px]">
-                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11.5px] font-medium bg-[#FFF4DB] text-[#8F5316]">
+            <div class="mt-3 pt-2.5 border-t border-[#F3F4F6] flex flex-wrap items-center justify-between gap-2 text-[12px]">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full font-medium bg-[#FFF4DB] text-[#8F5316]">
                     Kỳ 01 và 02/2026
                 </span>
-                <a href="{{ route('portal.invoices') }}" class="font-medium text-[#0E4D3C] hover:underline inline-flex items-center gap-1">
+                <a href="{{ route('portal.invoices') }}" class="font-medium text-[#0E4D3C] hover:underline inline-flex items-center gap-1 shrink-0">
                     Thanh toán →
                 </a>
             </div>
         </div>
 
         <!-- Stat Card 2: Căn hộ & Xe -->
-        <div class="bg-white border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[16px] p-6 shadow-xs transition-all hover:shadow-sm group">
-            <div class="flex items-center justify-between">
-                <span class="text-[13px] font-semibold text-[#6B7280] uppercase tracking-wider">
-                    Căn hộ 0101
-                </span>
-                <div class="w-9 h-9 rounded-[10px] bg-emerald-50 text-[#0E4D3C] flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+        <div class="bg-white border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[16px] p-5 sm:p-6 shadow-xs transition-all hover:shadow-sm group flex flex-col justify-between">
+            <div>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[12.5px] font-semibold text-[#6B7280] uppercase tracking-wider">
+                        Căn hộ 0101
+                    </span>
+                    <div class="w-8 h-8 rounded-[8px] bg-emerald-50 text-[#0E4D3C] flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    </div>
                 </div>
+                <span class="sr-only">HỒ SƠ CĂN HỘ 0101</span>
+                <div class="text-[26px] sm:text-[28px] font-bold text-[#111827] mt-2.5 tracking-tight">
+                    1 cư dân · 1 xe
+                </div>
+                <span class="sr-only">01 cư dân · 01 xe</span>
             </div>
-            <span class="sr-only">HỒ SƠ CĂN HỘ 0101</span>
-            <div class="text-[28px] font-bold text-[#111827] mt-3 tracking-tight">
-                1 cư dân · 1 xe
-            </div>
-            <span class="sr-only">01 cư dân · 01 xe</span>
-            <div class="mt-2 flex items-center justify-between text-[12.5px]">
-                <span class="text-[#6B7280] truncate max-w-[170px]">
+            <div class="mt-3 pt-2.5 border-t border-[#F3F4F6] flex flex-wrap items-center justify-between gap-2 text-[12px]">
+                <span class="text-[#6B7280] break-words">
                     Nguyễn An · 29-B1 100.01
                 </span>
-                <a href="{{ route('portal.profile') }}" class="font-medium text-[#0E4D3C] hover:underline inline-flex items-center gap-1">
+                <a href="{{ route('portal.profile') }}" class="font-medium text-[#0E4D3C] hover:underline inline-flex items-center gap-1 shrink-0">
                     Hồ sơ →
                 </a>
             </div>
         </div>
 
         <!-- Stat Card 3: Yêu cầu hỗ trợ -->
-        <div class="bg-white border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[16px] p-6 shadow-xs transition-all hover:shadow-sm group">
-            <div class="flex items-center justify-between">
-                <span class="text-[13px] font-semibold text-[#6B7280] uppercase tracking-wider">
-                    Yêu cầu đang mở
-                </span>
-                <div class="w-9 h-9 rounded-[10px] bg-sky-50 text-sky-600 flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+        <div class="bg-white border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[16px] p-5 sm:p-6 shadow-xs transition-all hover:shadow-sm group flex flex-col justify-between sm:col-span-2 lg:col-span-1">
+            <div>
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[12.5px] font-semibold text-[#6B7280] uppercase tracking-wider">
+                        Yêu cầu đang mở
+                    </span>
+                    <div class="w-8 h-8 rounded-[8px] bg-sky-50 text-sky-600 flex items-center justify-center shrink-0">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    </div>
                 </div>
+                <span class="sr-only">YÊU CẦU ĐANG MỞ</span>
+                <div class="text-[26px] sm:text-[28px] font-bold text-[#111827] mt-2.5 tracking-tight">
+                    4 yêu cầu
+                </div>
+                <span class="sr-only">04 yêu cầu</span>
             </div>
-            <span class="sr-only">YÊU CẦU ĐANG MỞ</span>
-            <div class="text-[28px] font-bold text-[#111827] mt-3 tracking-tight">
-                4 yêu cầu
-            </div>
-            <span class="sr-only">04 yêu cầu</span>
-            <div class="mt-2 flex items-center justify-between text-[12.5px]">
-                <span class="text-[#6B7280]">
+            <div class="mt-3 pt-2.5 border-t border-[#F3F4F6] flex flex-wrap items-center justify-between gap-2 text-[12px]">
+                <span class="text-[#6B7280] break-words">
                     Chờ xử lý · Chưa phân công
                 </span>
-                <a href="{{ route('portal.tickets') }}" class="font-medium text-[#0E4D3C] hover:underline inline-flex items-center gap-1">
+                <a href="{{ route('portal.tickets') }}" class="font-medium text-[#0E4D3C] hover:underline inline-flex items-center gap-1 shrink-0">
                     Tạo mới →
                 </a>
             </div>
@@ -158,9 +164,9 @@
     </div>
 
     <!-- Main Content 2 Columns: Bảng tin (left) + Thông tin ban quản lý (right) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Left: Bảng tin của bạn (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-xs space-y-5">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <!-- Left: Bảng tin của bạn (8 cols on xl) -->
+        <div class="xl:col-span-8 bg-white border border-[#E5E7EB] rounded-[16px] p-5 sm:p-6 shadow-xs space-y-5">
             <div class="flex items-center justify-between pb-3 border-b border-[#F3F4F6]">
                 <div class="flex items-center gap-2.5">
                     <div class="w-8 h-8 rounded-[8px] bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-bold">
@@ -247,8 +253,8 @@
             </div>
         </div>
 
-        <!-- Right: Thông tin hỗ trợ BQL (4 cols) -->
-        <div class="lg:col-span-4 space-y-5">
+        <!-- Right: Thông tin hỗ trợ BQL (4 cols on xl) -->
+        <div class="xl:col-span-4 space-y-5">
             <!-- Box BQL -->
             <div class="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-xs space-y-4">
                 <h3 class="text-[15px] font-bold text-[#111827] flex items-center gap-2">

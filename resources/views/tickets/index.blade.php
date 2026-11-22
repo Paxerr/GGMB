@@ -359,7 +359,7 @@
     // ==========================================
     // JIRA-LIKE DRAG & DROP INTERACTION LOGIC
     // ==========================================
-    document.addEventListener('DOMContentLoaded', function() {
+    function initKanbanDragDrop() {
         const cards = document.querySelectorAll('.ticket-card');
         const columnBodies = document.querySelectorAll('.ticket-column-body');
 
@@ -539,6 +539,9 @@
                 });
             });
         });
-    });
+    }
+
+    window.initKanbanDragDrop = initKanbanDragDrop;
+    document.addEventListener('DOMContentLoaded', initKanbanDragDrop);
 </script>
 @endsection

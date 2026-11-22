@@ -59,6 +59,14 @@ class BuildingController extends Controller
 
         $building = Building::create($dto->toModelArray());
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Tòa nhà '{$building->BuildingName}' đã được tạo thành công.",
+                'data' => $building,
+            ]);
+        }
+
         return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
             ->with('status', "Tòa nhà '{$building->BuildingName}' đã được tạo thành công.");
     }
@@ -102,6 +110,13 @@ class BuildingController extends Controller
         $name = $building->BuildingName;
         $building->delete();
 
+        if (request()->expectsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã xóa tòa nhà '{$name}' thành công.",
+            ]);
+        }
+
         return redirect()->route('buildings.index')
             ->with('status', "Đã xóa tòa nhà '{$name}' thành công.");
     }
@@ -125,11 +140,19 @@ class BuildingController extends Controller
             throw new BusinessException("Tầng {$floorNumber} đã tồn tại trong tòa {$building->BuildingName}.");
         }
 
-        Floor::create([
+        $floor = Floor::create([
             'BuildingId' => $building->BuildingId,
             'FloorNumber' => $floorNumber,
             'IsDeleted' => false,
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã thêm Tầng {$floorNumber} vào tòa {$building->BuildingName} thành công.",
+                'data' => $floor,
+            ]);
+        }
 
         return redirect()->route('buildings.index', ['building_id' => $building->BuildingId])
             ->with('status', "Đã thêm Tầng {$floorNumber} vào tòa {$building->BuildingName} thành công.");
@@ -157,6 +180,14 @@ class BuildingController extends Controller
 
         $floor->update(['FloorNumber' => $floorNumber]);
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã cập nhật Tầng {$floorNumber} thành công.",
+                'data' => $floor,
+            ]);
+        }
+
         return redirect()->route('buildings.index', ['building_id' => $floor->BuildingId])
             ->with('status', "Đã cập nhật Tầng {$floorNumber} thành công.");
     }
@@ -177,6 +208,13 @@ class BuildingController extends Controller
         $bldId = $floor->BuildingId;
         $num = $floor->FloorNumber;
         $floor->delete();
+
+        if (request()->expectsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã xóa Tầng {$num} thành công.",
+            ]);
+        }
 
         return redirect()->route('buildings.index', ['building_id' => $bldId])
             ->with('status', "Đã xóa Tầng {$num} thành công.");

@@ -28,10 +28,8 @@
         </a>
     </div>
 
-    <!-- 2 Columns Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-start">
-        <!-- Left: Thông tin chi tiết (8 cols) -->
-        <div class="lg:col-span-8 bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-xs space-y-6">
+    <!-- Thông tin chi tiết -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-5 sm:p-7 shadow-xs space-y-6">
             <!-- Profile Top Card -->
             <div class="flex items-center gap-4 pb-6 border-b border-[#F3F4F6]">
                 <div class="w-16 h-16 rounded-full bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-black text-2xl border-2 border-[#B8D5C7]">
@@ -110,20 +108,6 @@
                 <a href="{{ route('portal.profile.edit') }}" class="px-5 py-2.5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[10px] shadow-xs transition-colors">
                     Cập nhật liên hệ
                 </a>
-            </div>
-        </div>
-
-        <!-- Right: Lưu ý nghiệp vụ (4 cols) -->
-        <div class="lg:col-span-4 bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs text-[13px] text-[#4B5563] space-y-4">
-            <h3 class="font-bold text-[#111827] text-[15px] pb-3 border-b border-[#F3F4F6] flex items-center gap-2">
-                <span>🛡️</span>
-                <span>Lưu ý nghiệp vụ</span>
-            </h3>
-            <p class="leading-relaxed">
-                Bạn chỉ cập nhật thông tin liên hệ. Đổi họ tên, căn cước hoặc cư trú cần ban quản lý kiểm tra.
-            </p>
-            <div class="p-3.5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB] text-[12.5px] text-[#6B7280] leading-relaxed">
-                Khi cần thay đổi thông tin cư trú hoặc thêm người ở cùng, vui lòng đến trực tiếp văn phòng BQL tại Tầng 1 kèm giấy tờ liên quan.
             </div>
         </div>
     </div>

@@ -178,6 +178,13 @@ class NotificationController extends Controller
             }
         });
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Gửi thông báo thành công.',
+            ]);
+        }
+
         return redirect()->route('notifications.index')
             ->with('success', 'Gửi thông báo thành công.');
     }
@@ -193,6 +200,14 @@ class NotificationController extends Controller
             'Title' => (string) $request->validated('Title'),
             'Content' => (string) $request->validated('Content'),
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Cập nhật thông báo #{$id} thành công.",
+                'data' => $notification,
+            ]);
+        }
 
         return redirect()->route('notifications.index')
             ->with('success', "Cập nhật thông báo #{$id} thành công.");

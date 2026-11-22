@@ -170,6 +170,14 @@ class TicketController extends Controller
         $dto = TicketDTO::fromStoreRequest($request, auth()->id() ?? 1);
         $ticket = Ticket::create($dto->toModelArray());
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Tạo yêu cầu #{$ticket->TicketId} thành công.",
+                'data' => $ticket,
+            ]);
+        }
+
         return redirect()->route('tickets.index')
             ->with('success', "Tạo yêu cầu #{$ticket->TicketId} thành công.");
     }
@@ -193,6 +201,14 @@ class TicketController extends Controller
         }
 
         $ticket->update($updateData);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Cập nhật yêu cầu #{$ticket->TicketId} thành công.",
+                'data' => $ticket,
+            ]);
+        }
 
         return redirect()->route('tickets.index')
             ->with('success', "Cập nhật yêu cầu #{$ticket->TicketId} thành công.");
@@ -286,6 +302,14 @@ class TicketController extends Controller
             'Status' => 'ASSIGNED',
         ]);
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã phân công yêu cầu #{$ticket->TicketId} cho {$user->FullName}.",
+                'data' => $ticket,
+            ]);
+        }
+
         return redirect()->route('tickets.index')
             ->with('success', "Đã phân công yêu cầu #{$ticket->TicketId} cho {$user->FullName}.");
     }
@@ -315,6 +339,14 @@ class TicketController extends Controller
             default => 'xử lý xong',
         };
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã xác nhận {$label} yêu cầu #{$ticket->TicketId}.",
+                'data' => $ticket,
+            ]);
+        }
+
         return redirect()->route('tickets.index')
             ->with('success', "Đã xác nhận {$label} yêu cầu #{$ticket->TicketId}.");
     }
@@ -333,6 +365,14 @@ class TicketController extends Controller
         $ticket->update([
             'Status' => 'CANCELLED',
         ]);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã hủy yêu cầu #{$ticket->TicketId}.",
+                'data' => $ticket,
+            ]);
+        }
 
         return redirect()->route('tickets.index')
             ->with('success', "Đã hủy yêu cầu #{$ticket->TicketId}.");
