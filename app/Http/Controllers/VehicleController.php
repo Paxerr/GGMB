@@ -97,6 +97,8 @@ class VehicleController extends Controller
 
         $vehicle = Vehicle::create($dto->toModelArray());
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -178,6 +180,8 @@ class VehicleController extends Controller
 
         $vehicle->update($dto->toModelArray());
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -228,6 +232,8 @@ class VehicleController extends Controller
         $plate = $vehicle->LicensePlate;
 
         $vehicle->delete();
+
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
