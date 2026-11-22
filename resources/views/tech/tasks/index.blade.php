@@ -71,7 +71,7 @@
         <!-- 2-column Grid of Task Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <!-- Task 1 -->
-            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 flex flex-col justify-between">
+            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-5 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11.5px] font-semibold bg-[#FFF4DB] text-[#8F5316]">
@@ -93,7 +93,7 @@
             </div>
 
             <!-- Task 2 -->
-            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 flex flex-col justify-between">
+            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-5 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11.5px] font-semibold bg-[#FFF4DB] text-[#8F5316]">
@@ -115,7 +115,7 @@
             </div>
 
             <!-- Task 3 -->
-            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 flex flex-col justify-between">
+            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-5 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11.5px] font-semibold bg-[#FFF4DB] text-[#8F5316]">
@@ -137,7 +137,7 @@
             </div>
 
             <!-- Task 4 -->
-            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 flex flex-col justify-between">
+            <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-5 flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11.5px] font-semibold bg-[#FFF4DB] text-[#8F5316]">

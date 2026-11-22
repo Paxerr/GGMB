@@ -69,7 +69,7 @@
 
             <!-- Row 1: Tình trạng & Thông tin yêu cầu -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pb-5 border-b border-[#F3F4F6] text-[13px]">
-                <div class="p-3.5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
+                <div class="p-4 sm:p-5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
                     <div class="text-[12px] text-[#6B7280] font-medium">Người gửi & Căn hộ</div>
                     <div class="font-bold text-[#111827] mt-1 text-[14px]">
                         Nguyễn An · Căn 0101
@@ -77,7 +77,7 @@
                     <div class="text-[12px] text-[#6B7280] mt-0.5">Nhóm: Tài khoản & Hồ sơ</div>
                 </div>
 
-                <div class="p-3.5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
+                <div class="p-4 sm:p-5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
                     <div class="text-[12px] text-[#6B7280] font-medium">Thời gian tạo</div>
                     <div class="font-bold text-[#111827] mt-1 text-[14px]">
                         02/02/2026 08:30

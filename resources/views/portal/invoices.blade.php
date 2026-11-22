@@ -97,7 +97,7 @@
 
             <!-- Items Table Breakdown -->
             <div class="py-6 border-b border-[#F3F4F6] space-y-4" id="invItemsContainer">
-                <div class="flex items-center justify-between p-3.5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
                         <div class="font-bold text-[14px] text-[#111827]">⚡ Điện sinh hoạt</div>
                         <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
@@ -107,7 +107,7 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between p-3.5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
                         <div class="font-bold text-[14px] text-[#111827]">🏢 Phí quản lý căn hộ</div>
                         <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
@@ -209,7 +209,7 @@
 <!-- Modal Hướng dẫn thanh toán trực tiếp / Đối chiếu -->
 <div id="paymentModal" class="fixed inset-0 z-50 flex items-center justify-center bg-[#000000]/40 backdrop-blur-xs hidden">
     <div class="bg-white rounded-[20px] shadow-2xl border border-[#E5E7EB] max-w-md w-full mx-4 overflow-hidden transform transition-all animate-in fade-in zoom-in-95 duration-200">
-        <div class="flex items-center justify-between px-6 py-4.5 bg-[#F2F6F4] border-b border-[#E5E7EB]">
+        <div class="flex items-center justify-between px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB]">
             <div class="flex items-center gap-2">
                 <div class="w-7 h-7 rounded-full bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-bold text-xs">
                     ✓
@@ -259,14 +259,14 @@
         1: {
             sub: 'Hóa đơn #1 · Kỳ phí 01/2026 · Hạn 10/02/2026',
             items: `
-                <div class="flex items-center justify-between p-3.5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
                         <div class="font-bold text-[14px] text-[#111827]">⚡ Điện sinh hoạt</div>
                         <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
                     </div>
                     <div class="font-bold text-[14px] text-[#111827] font-mono">122.500 đ</div>
                 </div>
-                <div class="flex items-center justify-between p-3.5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
                         <div class="font-bold text-[14px] text-[#111827]">🏢 Phí quản lý căn hộ</div>
                         <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
@@ -279,14 +279,14 @@
         21: {
             sub: 'Hóa đơn #21 · Kỳ phí 02/2026 · Hạn 10/03/2026',
             items: `
-                <div class="flex items-center justify-between p-3.5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
                         <div class="font-bold text-[14px] text-[#111827]">⚡ Điện sinh hoạt</div>
                         <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
                     </div>
                     <div class="font-bold text-[14px] text-[#111827] font-mono">122.500 đ</div>
                 </div>
-                <div class="flex items-center justify-between p-3.5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
                         <div class="font-bold text-[14px] text-[#111827]">🏢 Phí quản lý căn hộ</div>
                         <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">60 m² × 12.000 đ = 720.000 đ</div>

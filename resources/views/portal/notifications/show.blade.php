@@ -46,14 +46,14 @@
 
             <!-- Row 1: Người gửi & Ngày gửi -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-5 border-b border-[#F3F4F6] text-[13px]">
-                <div class="p-3.5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
+                <div class="p-4 sm:p-5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
                     <div class="text-[12px] text-[#6B7280] font-medium">Người gửi thông báo</div>
                     <div class="font-bold text-[#111827] mt-1 text-[14px]">
                         Nguyễn Minh Quản lý · Ban quản lý
                     </div>
                 </div>
 
-                <div class="p-3.5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
+                <div class="p-4 sm:p-5 bg-[#F8FAF8] rounded-[12px] border border-[#E5E7EB]/60">
                     <div class="text-[12px] text-[#6B7280] font-medium">Thời gian gửi</div>
                     <div class="font-bold text-[#111827] mt-1 text-[14px]">
                         20/02/2026 09:00

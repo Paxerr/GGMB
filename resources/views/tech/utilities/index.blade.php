@@ -35,7 +35,7 @@
             <!-- Responsive Grid of Apartment Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 @foreach ($apartments as $apt)
-                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 space-y-3">
+                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-5 space-y-3">
                         <div class="flex items-center justify-between">
                             <span class="font-bold text-[#111827] text-[14px]">
                                 Căn {{ $apt['code'] }}

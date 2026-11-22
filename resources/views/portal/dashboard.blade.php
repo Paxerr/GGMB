@@ -183,7 +183,7 @@
 
             <div class="space-y-3.5">
                 <!-- Notification 1 -->
-                <div class="border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[14px] p-4.5 bg-white transition-all hover:shadow-2xs">
+                <div class="border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[14px] p-5 sm:p-6 bg-white transition-all hover:shadow-2xs">
                     <div class="flex items-center justify-between">
                         <span class="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-[6px]">
                             <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
@@ -207,7 +207,7 @@
                 </div>
 
                 <!-- Notification 2 -->
-                <div class="border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[14px] p-4.5 bg-white transition-all hover:shadow-2xs">
+                <div class="border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[14px] p-5 sm:p-6 bg-white transition-all hover:shadow-2xs">
                     <div class="flex items-center justify-between">
                         <span class="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-[6px]">
                             <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
@@ -231,7 +231,7 @@
                 </div>
 
                 <!-- Notification 3 -->
-                <div class="border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[14px] p-4.5 bg-white transition-all hover:shadow-2xs">
+                <div class="border border-[#E5E7EB] hover:border-[#B8D5C7] rounded-[14px] p-5 sm:p-6 bg-white transition-all hover:shadow-2xs">
                     <div class="flex items-center justify-between">
                         <span class="inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-[6px]">
                             <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>

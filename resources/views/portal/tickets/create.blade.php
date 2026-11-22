@@ -128,7 +128,7 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             <!-- Ticket 1 -->
-            <a href="{{ route('portal.tickets.show', 1) }}" class="p-4.5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
+            <a href="{{ route('portal.tickets.show', 1) }}" class="p-5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between text-[12px] mb-2">
                         <span class="font-mono font-bold text-[#0E4D3C]">#1</span>
@@ -148,7 +148,7 @@
             </a>
 
             <!-- Ticket 31 -->
-            <a href="{{ route('portal.tickets.show', 1) }}" class="p-4.5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
+            <a href="{{ route('portal.tickets.show', 1) }}" class="p-5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between text-[12px] mb-2">
                         <span class="font-mono font-bold text-[#0E4D3C]">#31</span>
@@ -168,7 +168,7 @@
             </a>
 
             <!-- Ticket 61 -->
-            <a href="{{ route('portal.tickets.show', 1) }}" class="p-4.5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
+            <a href="{{ route('portal.tickets.show', 1) }}" class="p-5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between text-[12px] mb-2">
                         <span class="font-mono font-bold text-[#0E4D3C]">#61</span>
@@ -188,7 +188,7 @@
             </a>
 
             <!-- Ticket 91 -->
-            <a href="{{ route('portal.tickets.show', 1) }}" class="p-4.5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
+            <a href="{{ route('portal.tickets.show', 1) }}" class="p-5 rounded-[14px] bg-[#F8FAF8] hover:bg-[#E4EFE9]/30 border border-[#E5E7EB] hover:border-[#B8D5C7] transition-all group flex flex-col justify-between">
                 <div>
                     <div class="flex items-center justify-between text-[12px] mb-2">
                         <span class="font-mono font-bold text-[#0E4D3C]">#91</span>

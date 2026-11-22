@@ -53,7 +53,7 @@
             <!-- Details Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pb-6 border-b border-[#F3F4F6]">
                 <!-- Họ và tên -->
-                <div class="p-4 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div class="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider">
                         Họ và tên
                     </div>
@@ -63,7 +63,7 @@
                 </div>
 
                 <!-- Căn cước -->
-                <div class="p-4 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div class="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider">
                         Số CCCD / CMND
                     </div>
@@ -73,7 +73,7 @@
                 </div>
 
                 <!-- Liên hệ -->
-                <div class="p-4 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div class="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider">
                         Thông tin liên hệ
                     </div>
@@ -89,7 +89,7 @@
                 </div>
 
                 <!-- Cư trú hiện tại -->
-                <div class="p-4 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div class="text-[12px] font-semibold text-[#6B7280] uppercase tracking-wider">
                         Cư trú hiện tại
                     </div>
