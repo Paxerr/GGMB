@@ -199,11 +199,19 @@ class AccountController extends Controller
     /**
      * Xác nhận mở khóa tài khoản.
      */
-    public function confirmUnlock(int $id, Request $request): RedirectResponse
+    public function confirmUnlock(int $id, Request $request): RedirectResponse|JsonResponse
     {
         $account = User::where('IsDeleted', false)->findOrFail($id);
 
         $account->update(['Status' => 'ACTIVE']);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã mở khóa tài khoản '{$account->UserName}' thành công.",
+                'data' => $account,
+            ]);
+        }
 
         return redirect()->route('accounts.index')
             ->with('success', "Đã mở khóa tài khoản '{$account->UserName}' thành công.");
