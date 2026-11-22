@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-<div class="max-w-[1152px] mx-auto space-y-5">
+<div class="w-full space-y-5">
     <!-- Tiêu đề nghiệp vụ -->
     <div>
         <h1 class="text-[24px] leading-[32px] font-bold text-[#111827]">

@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-<div class="max-w-[1216px] mx-auto space-y-6">
+<div class="w-full space-y-6">
     @if (session('success'))
         <div class="p-4 bg-[#e6f5ec] border border-[#c3e6cb] text-[#16734b] text-[14px] rounded-[4px] flex items-center justify-between">
             <span>{{ session('success') }}</span>

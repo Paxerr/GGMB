@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-<div class="max-w-[1216px] mx-auto space-y-6">
+<div class="w-full space-y-6">
     <!-- Header Title & Subtitle (SCR-APT-04) -->
     <div>
         <h1 class="text-[24px] leading-[32px] font-bold text-[#111827]">

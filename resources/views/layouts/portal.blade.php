@@ -47,7 +47,7 @@
 <body class="min-h-screen bg-[#F8FAF8] text-[#374151] antialiased flex flex-col justify-between">
     <!-- Top White Portal Header -->
     <header class="bg-white border-b border-[#E5E7EB] sticky top-0 z-30 select-none">
-        <div class="max-w-[1240px] mx-auto px-6 h-[64px] flex items-center justify-between">
+        <div class="w-full px-6 sm:px-8 lg:px-10 h-[64px] flex items-center justify-between">
             <!-- Left: Brand + Navigation Tabs grouped on the left -->
             <div class="flex items-center space-x-8 sm:space-x-10">
                 <!-- Brand / Portal Badge -->
@@ -125,7 +125,7 @@
     </div>
 
     <!-- Main Container -->
-    <main class="flex-1 w-full max-w-[1240px] mx-auto px-6 py-8">
+    <main class="flex-1 w-full px-6 sm:px-8 lg:px-10 py-8">
         @if (session('success'))
             <div class="mb-6 p-4 bg-[#E4EFE9] border border-[#B8D5C7] text-[#0E4D3C] text-[13.5px] rounded-[10px] flex items-center justify-between">
                 <span>{{ session('success') }}</span>
@@ -144,8 +144,8 @@
     </main>
 
     <!-- 4-Column Design Footer Matching Screenshots -->
-    <footer class="bg-white border-t border-[#E5E7EB] mt-16 pt-12 pb-10 px-6 lg:px-12 select-none">
-        <div class="max-w-[1240px] mx-auto">
+    <footer class="bg-white border-t border-[#E5E7EB] mt-16 pt-12 pb-10 px-6 sm:px-8 lg:px-10 select-none">
+        <div class="w-full">
             <!-- 4-column Links Grid -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-[#F3F4F6] text-[13px]">
                 <!-- Col 1: Product -->

@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-<div class="max-w-[1240px] mx-auto space-y-6">
+<div class="w-full space-y-6">
     <!-- Breadcrumb & Header Title -->
     <div>
         <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
