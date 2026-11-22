@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form method="POST" action="{{ route('vehicles.store') }}" onsubmit="handleCreateVehicleSubmit(event)">
+            <form method="POST" action="{{ route('vehicles.store') }}">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Căn hộ * & Loại xe * (2 cột) -->

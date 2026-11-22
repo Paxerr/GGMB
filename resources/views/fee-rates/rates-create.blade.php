@@ -28,7 +28,7 @@
 
     <!-- Form container -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 shadow-none">
-        <form method="POST" action="{{ route('fee-rates.rates.store', $feeRate->id ?? 1) }}" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Đã lưu đơn giá mới thành công.'); setTimeout(() => window.location.href='{{ route('fee-rates.show', $feeRate->id ?? 1) }}', 600);">
+        <form method="POST" action="{{ route('fee-rates.rates.store', $feeRate->id ?? 1) }}">
             @csrf
             <div class="space-y-4">
                 <!-- Hàng 1: Loại phí * & Đơn giá (VND) * -->
@@ -50,6 +50,7 @@
                         </label>
                         <input
                             type="number"
+                            name="UnitPrice"
                             required
                             min="0"
                             placeholder="Nhập đơn giá không âm"
@@ -65,10 +66,11 @@
                             Hiệu lực từ *
                         </label>
                         <input
-                            type="text"
+                            type="date"
+                            name="EffectiveFrom"
                             required
-                            placeholder="dd/mm/yyyy"
-                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                            value="{{ date('Y-m-d') }}"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
                     <div>
@@ -76,9 +78,9 @@
                             Hiệu lực đến (bỏ trống nếu đang áp dụng)
                         </label>
                         <input
-                            type="text"
-                            placeholder="dd/mm/yyyy"
-                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                            type="date"
+                            name="EffectiveTo"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
                 </div>

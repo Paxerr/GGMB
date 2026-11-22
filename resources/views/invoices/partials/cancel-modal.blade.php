@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="cancelInvoiceForm" method="POST" action="" onsubmit="event.preventDefault(); simulateCancelInvoice();">
+            <form id="cancelInvoiceForm" method="POST" action="">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Tổng tiền hóa đơn & Trạng thái sau xác nhận (2 cột) -->
@@ -63,6 +63,20 @@
                                 Đã hủy
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Lý do hủy -->
+                    <div>
+                        <label for="cancel_inv_reason" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                            Lý do hủy hóa đơn
+                        </label>
+                        <textarea
+                            id="cancel_inv_reason"
+                            name="reason"
+                            rows="2"
+                            placeholder="Nhập lý do hủy hóa đơn (tùy chọn)..."
+                            class="w-full px-3 py-2 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                        ></textarea>
                     </div>
 
                     <!-- Bảng các khoản phí trên hóa đơn (Bám sát Ảnh 1) -->

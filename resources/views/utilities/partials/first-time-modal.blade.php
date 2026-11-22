@@ -41,7 +41,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form action="{{ route('utilities.first-time') }}" method="POST" onsubmit="event.preventDefault(); simulateFirstTime();">
+            <form action="{{ route('utilities.first-time') }}" method="POST">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Căn hộ * & Loại phí * -->
@@ -51,7 +51,7 @@
                                 Căn hộ <span class="text-rose-600">*</span>
                             </label>
                             <div class="relative">
-                                <select id="ft_apartment" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                                <select id="ft_apartment" name="ApartmentId" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
                                     <option value="" disabled selected>Chọn căn hộ ▾</option>
                                     @foreach ($apartments as $apt)
                                         <option value="{{ $apt->ApartmentId }}">{{ $apt->ApartmentNumber }}</option>
@@ -66,9 +66,9 @@
                                 Loại phí <span class="text-rose-600">*</span>
                             </label>
                             <div class="relative">
-                                <select id="ft_type" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                                    <option value="Điện">Điện ▾</option>
-                                    <option value="Nước">Nước ▾</option>
+                                <select id="ft_type" name="FeeTypeId" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                                    <option value="1">Điện ▾</option>
+                                    <option value="2">Nước ▾</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                             </div>
@@ -84,6 +84,7 @@
                             <input
                                 type="text"
                                 id="ft_period"
+                                name="BillingPeriod"
                                 required
                                 placeholder="MM/YYYY"
                                 value="02/2026"
@@ -98,6 +99,7 @@
                             <input
                                 type="number"
                                 id="ft_start_num"
+                                name="PreviousReading"
                                 required
                                 placeholder="Nhập theo biên bản bàn giao"
                                 oninput="calcFtUsage()"
@@ -115,6 +117,7 @@
                             <input
                                 type="number"
                                 id="ft_end_num"
+                                name="CurrentReading"
                                 required
                                 placeholder="Nhập số ghi thực tế"
                                 oninput="calcFtUsage()"

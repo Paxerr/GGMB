@@ -27,7 +27,7 @@
 
     <!-- Khối thẻ xác nhận mở khóa -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 sm:p-7 w-full max-w-[688px] space-y-6 shadow-none">
-        <form method="POST" action="{{ route('accounts.confirm-unlock', $account->id) }}" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Đã mở khóa tài khoản thành công.'); setTimeout(() => window.location.href='{{ route('accounts.index') }}', 600);">
+        <form method="POST" action="{{ route('accounts.confirm-unlock', $account->id) }}">
             @csrf
             <!-- 2 Cột: Tài khoản & Sau xác nhận -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">

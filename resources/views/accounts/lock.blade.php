@@ -27,7 +27,7 @@
 
     <!-- Khối thẻ xác nhận khóa -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 sm:p-7 w-full max-w-[688px] space-y-6 shadow-none">
-        <form method="POST" action="{{ route('accounts.confirm-lock', $account->id) }}" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Đã khóa tài khoản thành công.', 'danger'); setTimeout(() => window.location.href='{{ route('accounts.index') }}', 600);">
+        <form method="POST" action="{{ route('accounts.confirm-lock', $account->id) }}">
             @csrf
             <!-- 2 Cột: Trạng thái hiện tại & Sau xác nhận -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">

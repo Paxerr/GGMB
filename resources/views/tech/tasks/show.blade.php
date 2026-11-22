@@ -64,11 +64,12 @@
             <!-- Row 3 & 4: Form kết quả & File upload -->
             <form action="{{ route('tech.tasks.complete', $id ?? 3) }}" method="POST" enctype="multipart/form-data" class="pt-4 border-t border-[#E5E7EB] space-y-4">
                 @csrf
+                <input type="hidden" name="status" value="RESOLVED">
                 <div>
                     <label class="block text-[12px] font-medium text-[#374151] mb-1.5">
                         Nội dung kết quả <span class="text-rose-500">*</span>
                     </label>
-                    <textarea name="result_content" rows="4" required placeholder="Mô tả công việc đã xử lý, vật tư thay thế nếu có..." class="w-full p-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C]"></textarea>
+                    <textarea name="content" rows="4" required placeholder="Mô tả công việc đã xử lý, vật tư thay thế nếu có..." class="w-full p-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C]"></textarea>
                 </div>
 
                 <div>

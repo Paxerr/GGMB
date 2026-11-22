@@ -28,7 +28,7 @@
 
     <!-- Form Container -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 shadow-none">
-        <form id="notificationCreateForm" method="POST" action="{{ route('notifications.store') }}" onsubmit="event.preventDefault(); alert('Đã gửi thông báo thành công (Demo UI)!'); window.location.href='{{ route('notifications.index') }}';">
+        <form id="notificationCreateForm" method="POST" action="{{ route('notifications.store') }}">
             @csrf
             <div class="space-y-4">
                 <!-- Tiêu đề * -->
@@ -39,7 +39,7 @@
                     <input
                         type="text"
                         id="notif_title"
-                        name="title"
+                        name="Title"
                         required
                         placeholder="Nhập tiêu đề thông báo"
                         value="Thông báo lịch bảo trì thang máy"
@@ -54,7 +54,7 @@
                     </label>
                     <textarea
                         id="notif_body"
-                        name="body"
+                        name="Content"
                         rows="4"
                         required
                         placeholder="Nhập nội dung thông báo cho cư dân"
@@ -112,7 +112,7 @@
                         <div>
                             <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Phạm vi *</label>
                             <div class="relative">
-                                <select onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <select name="TargetType" onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                     <option value="building">Tòa nhà ▾</option>
                                     <option value="floor" selected>Tầng ▾</option>
                                     <option value="apartment">Căn hộ ▾</option>
@@ -124,7 +124,7 @@
                         <div>
                             <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Tầng nhận *</label>
                             <div class="relative">
-                                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <select name="FloorId" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                     <option value="1">Tầng 1 ▾</option>
                                     <option value="2" selected>Tầng 2 ▾</option>
                                 </select>
@@ -147,7 +147,7 @@
                         <div>
                             <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Phạm vi *</label>
                             <div class="relative">
-                                <select onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <select name="TargetType" onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                     <option value="building">Tòa nhà ▾</option>
                                     <option value="floor">Tầng ▾</option>
                                     <option value="apartment" selected>Căn hộ ▾</option>
@@ -159,10 +159,10 @@
                         <div>
                             <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Căn hộ *</label>
                             <div class="relative">
-                                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
-                                    <option value="0101" selected>0101 ▾</option>
-                                    <option value="0102">0102 ▾</option>
-                                    <option value="0103">0103 ▾</option>
+                                <select name="ApartmentId" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                    <option value="1" selected>0101 ▾</option>
+                                    <option value="2">0102 ▾</option>
+                                    <option value="3">0103 ▾</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                             </div>
@@ -183,7 +183,7 @@
                         <div>
                             <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Phạm vi *</label>
                             <div class="relative">
-                                <select onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <select name="TargetType" onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                     <option value="building">Tòa nhà ▾</option>
                                     <option value="floor">Tầng ▾</option>
                                     <option value="apartment">Căn hộ ▾</option>
@@ -221,7 +221,7 @@
                     <div>
                         <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Phạm vi nhận *</label>
                         <div class="relative">
-                            <select onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                            <select name="TargetType" onchange="setScope(this.value)" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                 <option value="building" selected>Tòa nhà ▾</option>
                                 <option value="floor">Tầng ▾</option>
                                 <option value="apartment">Căn hộ ▾</option>
@@ -233,8 +233,8 @@
                     <div>
                         <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">Tòa nhà *</label>
                         <div class="relative">
-                            <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
-                                <option selected>GGMB Residence · Tòa A ▾</option>
+                            <select name="BuildingId" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <option value="1" selected>GGMB Residence · Tòa A ▾</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                         </div>

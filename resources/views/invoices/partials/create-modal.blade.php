@@ -38,8 +38,9 @@
             </div>
 
             <!-- Modal Form -->
-            <form action="{{ route('invoices.store') }}" method="POST" onsubmit="event.preventDefault(); simulateCreateInvoice();">
+            <form action="{{ route('invoices.store') }}" method="POST">
                 @csrf
+                <input type="hidden" name="total_amount" id="inv_total_amount" value="0">
                 <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Căn hộ * & Kỳ thanh toán * -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -48,7 +49,7 @@
                                 Căn hộ <span class="text-rose-600">*</span>
                             </label>
                             <div class="relative">
-                                <select id="inv_apartment" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                                <select id="inv_apartment" name="ApartmentId" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
                                     <option value="" disabled selected>Chọn căn hộ ▾</option>
                                     @foreach ($apartments as $apt)
                                         <option value="{{ $apt->ApartmentId }}">{{ $apt->ApartmentNumber }} · Tầng {{ $apt->floor->FloorNumber ?? 1 }}</option>
@@ -65,6 +66,7 @@
                             <input
                                 type="text"
                                 id="inv_period"
+                                name="BillingPeriod"
                                 required
                                 value="02/2026"
                                 placeholder="MM/YYYY"
@@ -80,11 +82,11 @@
                                 Hạn thanh toán <span class="text-rose-600">*</span>
                             </label>
                             <input
-                                type="text"
+                                type="date"
                                 id="inv_due_date"
+                                name="DueDate"
                                 required
-                                value="10/03/2026"
-                                placeholder="DD/MM/YYYY"
+                                value="{{ date('Y-m-d', strtotime('+10 days')) }}"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -220,6 +222,8 @@
             }
         });
         document.getElementById('totalInvoiceSelectedAmount').textContent = total.toLocaleString('vi-VN') + ' đ';
+        const hiddenTotal = document.getElementById('inv_total_amount');
+        if (hiddenTotal) hiddenTotal.value = total;
     }
 
     function simulateCreateInvoice() {

@@ -39,7 +39,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form method="POST" action="{{ route('tickets.store') }}" onsubmit="event.preventDefault(); simulateCreateTicket();">
+            <form method="POST" action="{{ route('tickets.store') }}">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Tiêu đề * -->
@@ -50,7 +50,7 @@
                         <input
                             type="text"
                             id="create_ticket_title"
-                            name="title"
+                            name="Subject"
                             required
                             placeholder="Nhập tóm tắt vấn đề cần hỗ trợ"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
@@ -64,7 +64,7 @@
                         </label>
                         <textarea
                             id="create_ticket_desc"
-                            name="description"
+                            name="Description"
                             rows="3"
                             required
                             placeholder="Nhập hiện tượng, vị trí và thời điểm phát hiện để bộ phận tiếp nhận kiểm tra..."
@@ -81,7 +81,7 @@
                             <div class="relative">
                                 <select
                                     id="create_ticket_cat"
-                                    name="category"
+                                    name="Category"
                                     required
                                     class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                                 >
@@ -104,12 +104,12 @@
                             <div class="relative">
                                 <select
                                     id="create_ticket_apt"
-                                    name="apartment"
+                                    name="ApartmentId"
                                     class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                                 >
                                     <option value="" disabled selected>Chọn căn hộ ▾</option>
                                     @foreach ($apartments as $apt)
-                                        <option value="{{ $apt->ApartmentNumber }}">{{ $apt->ApartmentNumber }}</option>
+                                        <option value="{{ $apt->ApartmentId }}">{{ $apt->ApartmentNumber }}</option>
                                     @endforeach
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>

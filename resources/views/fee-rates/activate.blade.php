@@ -28,7 +28,7 @@
 
     <!-- Khối thẻ xác nhận -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 shadow-none">
-        <form method="POST" action="{{ route('fee-rates.confirm-activate', $feeRate->id ?? 1) }}" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Đã kích hoạt lại loại phí thành công.'); setTimeout(() => window.location.href='{{ route('fee-rates.index') }}', 600);">
+        <form method="POST" action="{{ route('fee-rates.confirm-activate', $feeRate->id ?? 1) }}">
             @csrf
             <!-- 2 Cột thông tin -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pb-6">

@@ -227,34 +227,12 @@
     function confirmAccountLock() {
         if (!currentLockAccount) return;
         const id = currentLockAccount.id;
-        const row = document.getElementById(`acc-row-${id}`);
-
-        if (row) {
-            // Cập nhật trạng thái
-            const statusEl = row.querySelector('.acc-status');
-            if (statusEl) {
-                statusEl.innerText = 'Bị khóa';
-                statusEl.classList.add('text-[#B91C1C]', 'font-semibold');
-            }
-
-            // Cập nhật nút khóa/mở khóa
-            const actionsEl = row.querySelector('.acc-actions');
-            if (actionsEl) {
-                currentLockAccount.status = 'LOCKED';
-                currentLockAccount.status_label = 'Bị khóa';
-                const lockBtn = actionsEl.querySelector('.btn-lock-toggle');
-                if (lockBtn) {
-                    lockBtn.innerText = 'Mở khóa';
-                    lockBtn.className = 'text-[#0E4D3C] hover:underline font-medium cursor-pointer btn-lock-toggle';
-                    lockBtn.onclick = () => openAccountUnlockModal(currentLockAccount);
-                }
-            }
-        }
-
-        closeAccountLockModal();
-        if (window.showToast) {
-            window.showToast(`Đã khóa tài khoản ${currentLockAccount.name} thành công.`, 'danger');
-        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/accounts/${id}/lock`;
+        form.innerHTML = `@csrf`;
+        document.body.appendChild(form);
+        form.submit();
     }
 
     // --- UNLOCK MODAL ---
@@ -297,34 +275,11 @@
     function confirmAccountUnlock() {
         if (!currentLockAccount) return;
         const id = currentLockAccount.id;
-        const row = document.getElementById(`acc-row-${id}`);
-
-        if (row) {
-            // Cập nhật trạng thái
-            const statusEl = row.querySelector('.acc-status');
-            if (statusEl) {
-                statusEl.innerText = 'Hoạt động';
-                statusEl.classList.remove('text-[#B91C1C]');
-                statusEl.classList.add('text-[#0E4D3C]');
-            }
-
-            // Cập nhật nút khóa/mở khóa
-            const actionsEl = row.querySelector('.acc-actions');
-            if (actionsEl) {
-                currentLockAccount.status = 'ACTIVE';
-                currentLockAccount.status_label = 'Hoạt động';
-                const lockBtn = actionsEl.querySelector('.btn-lock-toggle');
-                if (lockBtn) {
-                    lockBtn.innerText = 'Khóa';
-                    lockBtn.className = 'text-[#B91C1C] hover:underline font-medium cursor-pointer btn-lock-toggle';
-                    lockBtn.onclick = () => openAccountLockModal(currentLockAccount);
-                }
-            }
-        }
-
-        closeAccountUnlockModal();
-        if (window.showToast) {
-            window.showToast(`Đã mở khóa tài khoản ${currentLockAccount.name} thành công.`);
-        }
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/accounts/${id}/unlock`;
+        form.innerHTML = `@csrf`;
+        document.body.appendChild(form);
+        form.submit();
     }
 </script>

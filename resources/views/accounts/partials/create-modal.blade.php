@@ -42,7 +42,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form method="POST" action="{{ route('accounts.store') }}" onsubmit="event.preventDefault(); closeCreateAccountModal(); if(window.showToast) window.showToast('Tạo tài khoản mới thành công.');">
+            <form method="POST" action="{{ route('accounts.store') }}">
                 @csrf
                 <div class="p-6 space-y-4">
                     <span class="block text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">
@@ -57,6 +57,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="UserName"
                                 required
                                 placeholder="Nhập tên đăng nhập duy nhất"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
@@ -68,6 +69,7 @@
                             </label>
                             <input
                                 type="password"
+                                name="Password"
                                 required
                                 placeholder="Nhập mật khẩu · được che ký tự"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
@@ -83,6 +85,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="FullName"
                                 required
                                 placeholder="Nhập họ tên"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
@@ -94,6 +97,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="Phone"
                                 placeholder="Nhập số điện thoại (tùy chọn)"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
@@ -108,6 +112,7 @@
                             </label>
                             <input
                                 type="email"
+                                name="Email"
                                 placeholder="Nhập email (tùy chọn)"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
@@ -118,6 +123,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="CitizenId"
                                 placeholder="Nhập số căn cước (tùy chọn)"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
@@ -131,7 +137,7 @@
                                 Vai trò *
                             </label>
                             <div class="relative">
-                                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <select name="Role" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                     <option value="" disabled selected>Chọn vai trò ▾</option>
                                     <option value="Quản lý">Quản lý</option>
                                     <option value="Hỗ trợ">Hỗ trợ</option>
@@ -147,6 +153,7 @@
                             </label>
                             <input
                                 type="text"
+                                name="Department"
                                 placeholder="Nhập bộ phận (nếu có)"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
@@ -160,7 +167,7 @@
                                 Trạng thái
                             </label>
                             <div class="relative">
-                                <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                                <select name="Status" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                     <option value="ACTIVE" selected>Hoạt động · mặc định ▾</option>
                                     <option value="LOCKED">Bị khóa</option>
                                 </select>

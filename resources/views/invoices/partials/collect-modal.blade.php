@@ -41,7 +41,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="collectInvoiceForm" method="POST" action="" onsubmit="event.preventDefault(); simulateCollectInvoice();">
+            <form id="collectInvoiceForm" method="POST" action="">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Box: Số tiền cần thu -->
@@ -75,10 +75,9 @@
                                 Phương thức thanh toán <span class="text-rose-600">*</span>
                             </label>
                             <div class="relative">
-                                <select id="collect_method" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
-                                    <option value="CASH">Tiền mặt / Chuyển khoản ▾</option>
-                                    <option value="BANK_TRANSFER">Chuyển khoản ngân hàng</option>
-                                    <option value="QR">Quét mã VietQR</option>
+                                <select id="collect_method" name="PaymentType" required class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer">
+                                    <option value="CASH">Tiền mặt (CASH)</option>
+                                    <option value="TRANSFER" selected>Chuyển khoản (TRANSFER)</option>
                                 </select>
                                 <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">▾</div>
                             </div>

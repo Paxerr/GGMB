@@ -41,44 +41,60 @@
             </div>
 
             <!-- Modal Form -->
-            <form action="{{ route('fee-rates.store') }}" method="POST" onsubmit="event.preventDefault(); simulateCreateFee();">
+            <form action="{{ route('fee-rates.store') }}" method="POST">
                 @csrf
                 <div class="p-6 space-y-4">
-                    <div>
-                        <label for="fee_name" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
-                            Tên loại phí <span class="text-rose-600">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="fee_name"
-                            required
-                            placeholder="Ví dụ: Phí gửi xe đạp điện"
-                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
-                        />
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="fee_code" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                                Mã loại phí <span class="text-rose-600">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="fee_code"
+                                name="Code"
+                                required
+                                placeholder="Ví dụ: ELEC, WATER, MGMT"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] uppercase focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                            />
+                        </div>
+                        <div>
+                            <label for="fee_name" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                                Tên loại phí <span class="text-rose-600">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="fee_name"
+                                name="Name"
+                                required
+                                placeholder="Ví dụ: Phí gửi xe đạp điện"
+                                class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                            />
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label for="fee_unit" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
-                                Đơn vị tính <span class="text-rose-600">*</span>
+                            <label for="fee_desc" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                                Mô tả
                             </label>
                             <input
                                 type="text"
-                                id="fee_unit"
-                                required
-                                placeholder="kWh, m³, Xe/tháng..."
+                                id="fee_desc"
+                                name="Description"
+                                placeholder="Mô tả loại phí..."
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
 
                         <div>
                             <label for="fee_price" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
-                                Đơn giá (VND) <span class="text-rose-600">*</span>
+                                Đơn giá khởi tạo (VND)
                             </label>
                             <input
                                 type="number"
                                 id="fee_price"
-                                required
+                                name="UnitPrice"
                                 placeholder="50000"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />

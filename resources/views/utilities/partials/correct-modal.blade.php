@@ -41,8 +41,9 @@
             </div>
 
             <!-- Modal Form -->
-            <form action="{{ route('utilities.correct') }}" method="POST" onsubmit="event.preventDefault(); simulateCorrect();">
+            <form action="{{ route('utilities.correct') }}" method="POST">
                 @csrf
+                <input type="hidden" name="MeterReadingId" id="correctMeterReadingId" value="1">
                 <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Chỉ số kỳ trước (chỉ đọc) & Chỉ số mới * -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -53,6 +54,7 @@
                             <input
                                 type="text"
                                 id="correctOldNum"
+                                name="PreviousReading"
                                 readonly
                                 value="103"
                                 class="w-full h-[40px] px-3 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#6B7280] font-mono cursor-not-allowed select-none focus:outline-none"
@@ -66,6 +68,7 @@
                             <input
                                 type="number"
                                 id="correctNewNum"
+                                name="CurrentReading"
                                 required
                                 value="142"
                                 oninput="calcCorrectUsage()"
@@ -126,6 +129,7 @@
         const newNum = data.new_num || 142;
         const usage = data.usage || (newNum - oldNum);
 
+        document.getElementById('correctMeterReadingId').value = data.id || (typeof idOrData === 'number' ? idOrData : 1);
         document.getElementById('correctModalSubtitle').textContent = `Căn ${apt} · ${type} · Kỳ ${period}`;
         document.getElementById('correctOldNum').value = oldNum;
         document.getElementById('correctNewNum').value = newNum;

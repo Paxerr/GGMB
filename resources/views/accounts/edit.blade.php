@@ -27,7 +27,7 @@
 
     <!-- Form chỉnh sửa -->
     <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 sm:p-7 w-full max-w-[688px] space-y-6 shadow-none">
-        <form method="POST" action="{{ route('accounts.update', $account->id) }}" onsubmit="event.preventDefault(); if(window.showToast) window.showToast('Lưu thay đổi thành công.'); setTimeout(() => window.location.href='{{ route('accounts.show', $account->id) }}', 600);">
+        <form method="POST" action="{{ route('accounts.update', $account->id) }}">
             @csrf
             @method('PUT')
             <div class="space-y-4">
@@ -39,6 +39,7 @@
                         </label>
                         <input
                             type="text"
+                            name="FullName"
                             required
                             value="{{ $account->name }}"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
@@ -50,6 +51,7 @@
                         </label>
                         <input
                             type="text"
+                            name="Phone"
                             value="{{ $account->phone }}"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
@@ -64,6 +66,7 @@
                         </label>
                         <input
                             type="email"
+                            name="Email"
                             value="{{ $account->email }}"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
@@ -74,6 +77,7 @@
                         </label>
                         <input
                             type="text"
+                            name="CitizenId"
                             placeholder="Nhập căn cước nếu có"
                             value="{{ $account->citizen_id ?? '' }}"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
@@ -88,7 +92,7 @@
                             Vai trò *
                         </label>
                         <div class="relative">
-                            <select class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
+                            <select name="Role" class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] cursor-pointer">
                                 <option value="Quản lý" {{ $account->role === 'Quản lý' ? 'selected' : '' }}>Quản lý</option>
                                 <option value="Hỗ trợ" {{ $account->role === 'Hỗ trợ' ? 'selected' : '' }}>Hỗ trợ ▾</option>
                                 <option value="Kỹ thuật" {{ $account->role === 'Kỹ thuật' ? 'selected' : '' }}>Kỹ thuật</option>
@@ -103,11 +107,25 @@
                         </label>
                         <input
                             type="text"
+                            name="Department"
                             placeholder="Nhập bộ phận nếu có"
                             value="{{ $account->department ?? '' }}"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-[#9CA3AF] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
                     </div>
+                </div>
+
+                <!-- Hàng 4: Mật khẩu mới (tùy chọn) -->
+                <div>
+                    <label class="block text-[12px] font-semibold text-[#374151] mb-1.5">
+                        Mật khẩu mới (bỏ trống nếu không thay đổi)
+                    </label>
+                    <input
+                        type="password"
+                        name="Password"
+                        placeholder="••••••••"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-slate-400 focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
+                    />
                 </div>
             </div>
 

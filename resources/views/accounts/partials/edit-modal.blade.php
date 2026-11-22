@@ -42,7 +42,9 @@
             </div>
 
             <!-- Form -->
-            <form id="accountEditForm" onsubmit="event.preventDefault(); submitAccountEdit();">
+            <form id="accountEditForm" method="POST" action="">
+                @csrf
+                @method('PUT')
                 <input type="hidden" id="edit_acc_id">
                 <div class="p-6 space-y-4">
                     <!-- Hàng 1: Họ tên & Điện thoại -->
@@ -54,6 +56,7 @@
                             <input
                                 type="text"
                                 id="edit_acc_name"
+                                name="FullName"
                                 required
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
@@ -65,6 +68,7 @@
                             <input
                                 type="text"
                                 id="edit_acc_phone"
+                                name="Phone"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -79,6 +83,7 @@
                             <input
                                 type="email"
                                 id="edit_acc_email"
+                                name="Email"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -89,6 +94,7 @@
                             <input
                                 type="text"
                                 id="edit_acc_citizen_id"
+                                name="CitizenId"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -102,6 +108,7 @@
                             </label>
                             <select
                                 id="edit_acc_role"
+                                name="Role"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] cursor-pointer"
                             >
                                 <option value="Quản lý">Quản lý</option>
@@ -118,6 +125,7 @@
                             <input
                                 type="text"
                                 id="edit_acc_dept"
+                                name="Department"
                                 class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                             />
                         </div>
@@ -130,6 +138,7 @@
                         </label>
                         <input
                             type="password"
+                            name="Password"
                             placeholder="••••••••"
                             class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] placeholder-slate-400 focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         />
@@ -160,6 +169,7 @@
 <script>
     function openAccountEditModal(acc) {
         document.getElementById('edit_acc_id').value = acc.id;
+        document.getElementById('accountEditForm').action = `/accounts/${acc.id}`;
         document.getElementById('edit_user_subtitle').innerText = `${acc.name} · Tên đăng nhập ${acc.username} được giữ nguyên.`;
         document.getElementById('edit_acc_name').value = acc.name || '';
         document.getElementById('edit_acc_phone').value = acc.phone || '';

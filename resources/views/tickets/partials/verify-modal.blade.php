@@ -39,8 +39,9 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="verifyTicketForm" method="POST" action="" onsubmit="event.preventDefault(); simulateVerifyTicket();">
+            <form id="verifyTicketForm" method="POST" action="">
                 @csrf
+                <input type="hidden" name="action" id="verifyAction" value="CLOSE">
                 <div class="px-6 py-5 space-y-4">
                     <!-- Ticket Info Summary Box (Bám sát Ảnh 7) -->
                     <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] p-3.5 space-y-1">
@@ -58,13 +59,12 @@
                     <!-- Kết quả kiểm tra / lý do trả lại * (Bám sát Ảnh 7) -->
                     <div>
                         <label for="verify_result" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
-                            Kết quả kiểm tra / lý do trả lại *
+                            Kết quả kiểm tra / ghi chú nghiệm thu
                         </label>
                         <textarea
                             id="verify_result"
-                            name="result"
+                            name="notes"
                             rows="3"
-                            required
                             class="w-full px-3 py-2.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C]"
                         >Đã đối chiếu chỉ số và đơn giá điện kỳ 02/2026. Gửi kết quả giải thích đến cư dân căn 0202.</textarea>
                     </div>
@@ -138,11 +138,17 @@
 
         if (!modal || !backdrop || !panel) return;
 
+        const id = data.id || (typeof idOrData === 'number' ? idOrData : 1);
         const title = data.title || 'Đối chiếu tiền điện kỳ 02/2026';
         const category = data.category || 'Hóa đơn';
         const apt = data.apartment || '0202';
         const creator = data.creator || '19 / Phan Nam';
         const resolved = data.resolved_at || '11/02/2026 16:00';
+
+        const form = document.getElementById('verifyTicketForm');
+        if (form) {
+            form.action = `/tickets/${id}/verify`;
+        }
 
         document.getElementById('verifyTicketBoxTitle').textContent = title;
         document.getElementById('verifyTicketBoxSub').textContent = `${category} · Căn ${apt} · Người tạo ${creator}`;

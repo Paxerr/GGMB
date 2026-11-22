@@ -39,7 +39,7 @@
             </div>
 
             <!-- Modal Form -->
-            <form id="cancelTicketForm" method="POST" action="" onsubmit="event.preventDefault(); simulateCancelTicket();">
+            <form id="cancelTicketForm" method="POST" action="">
                 @csrf
                 <div class="px-6 py-5 space-y-4">
                     <!-- Ticket Info Summary Box (Bám sát Ảnh 8) -->
@@ -111,12 +111,18 @@
 
         if (!modal || !backdrop || !panel) return;
 
+        const id = data.id || (typeof idOrData === 'number' ? idOrData : 1);
         const title = data.title || 'Không xem được thông báo phí';
         const category = data.category || 'Tài khoản';
         const apt = data.apartment || '0101';
         const creator = data.creator_name || 'Nguyễn An';
         const created = data.created_at || '02/02/2026 08:30';
         const statusLabel = data.status_label || 'Chờ xử lý';
+
+        const form = document.getElementById('cancelTicketForm');
+        if (form) {
+            form.action = `/tickets/${id}/cancel`;
+        }
 
         document.getElementById('cancelTicketBoxTitle').textContent = title;
         document.getElementById('cancelTicketBoxSub').textContent = `${statusLabel} · ${category} · Căn ${apt} · ${creator}`;
