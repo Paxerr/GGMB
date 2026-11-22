@@ -15,10 +15,10 @@
 
     <!-- Header Title & Subtitle -->
     <div>
-        <h1 class="text-[26px] leading-[32px] font-semibold text-[#122d40]">
+        <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
             Danh sách căn hộ
         </h1>
-        <p class="mt-1 text-[14px] leading-[20px] text-[#334b5d]">
+        <p class="mt-1 text-[13px] leading-[20px] text-[#6b7280]">
             Tra cứu, tạo và cập nhật căn hộ
         </p>
     </div>
@@ -29,7 +29,7 @@
         <form method="GET" action="{{ route('apartments.index') }}" class="flex flex-wrap items-end gap-3 sm:gap-4 flex-1">
             <!-- Tòa · BuildingId -->
             <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="buildingIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#334b5d]">
+                <label for="buildingIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
                     Tòa · BuildingId
                 </label>
                 <div class="relative">
@@ -37,7 +37,7 @@
                         id="buildingIdSelect"
                         name="building_id"
                         onchange="this.form.submit()"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
                         <option value="">Tất cả tòa nhà</option>
                         @foreach ($buildings as $b)
@@ -46,7 +46,7 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
                         ▾
                     </div>
                 </div>
@@ -54,7 +54,7 @@
 
             <!-- Tầng · FloorId -->
             <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="floorIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#334b5d]">
+                <label for="floorIdSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
                     Tầng · FloorId
                 </label>
                 <div class="relative">
@@ -62,7 +62,7 @@
                         id="floorIdSelect"
                         name="floor_id"
                         onchange="this.form.submit()"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
                         <option value="">Tất cả tầng</option>
                         @foreach ($floors as $f)
@@ -71,7 +71,7 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
                         ▾
                     </div>
                 </div>
@@ -79,7 +79,7 @@
 
             <!-- Trạng thái · Status -->
             <div class="space-y-1.5 w-full sm:w-[260px]">
-                <label for="statusSelect" class="block text-[12px] leading-[18px] font-semibold text-[#334b5d]">
+                <label for="statusSelect" class="block text-[12px] leading-[18px] font-semibold text-[#374151]">
                     Trạng thái · Status
                 </label>
                 <div class="relative">
@@ -87,14 +87,14 @@
                         id="statusSelect"
                         name="status"
                         onchange="this.form.submit()"
-                        class="w-full h-[42px] px-3 bg-white border border-solid border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#e5e7eb] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0e4d3c] focus:ring-1 focus:ring-[#0e4d3c] cursor-pointer"
                     >
                         <option value="">Tất cả trạng thái</option>
                         <option value="OCCUPIED" {{ request('status') === 'OCCUPIED' ? 'selected' : '' }}>OCCUPIED · Đang ở</option>
                         <option value="VACANT" {{ request('status') === 'VACANT' ? 'selected' : '' }}>VACANT · Trống</option>
                         <option value="SUSPENDED" {{ request('status') === 'SUSPENDED' ? 'selected' : '' }}>SUSPENDED · Ngừng hoạt động</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6b7280]">
                         ▾
                     </div>
                 </div>
@@ -106,7 +106,7 @@
             <button
                 type="button"
                 onclick="openCreateApartmentModal()"
-                class="w-full sm:w-[196px] h-[40px] px-5 bg-[#2864ad] hover:bg-[#205391] border border-solid border-[#2864ad] rounded-[4px] text-[14px] font-semibold text-white transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap"
+                class="w-full sm:w-[196px] h-[40px] px-5 bg-[#0e4d3c] hover:bg-[#0a3d2f] border border-[#0e4d3c] rounded-[8px] text-[13.5px] font-semibold text-white transition-colors cursor-pointer flex items-center justify-center whitespace-nowrap shadow-sm"
             >
                 ＋ Thêm căn hộ
             </button>
@@ -114,25 +114,25 @@
     </div>
 
     <!-- Data Table (Bảng dữ liệu) -->
-    <div class="bg-white border border-solid border-[#d9e4ec] overflow-hidden" data-name="Bảng dữ liệu">
+    <div class="bg-white border border-[#e5e7eb] rounded-[14px] overflow-hidden shadow-none" data-name="Bảng dữ liệu">
         <!-- Table Header (Tiêu đề cột) -->
-        <div class="bg-[#e4edf3] border-b border-[#d9e4ec] flex h-[40px] items-center text-[#334b5d] text-[12px] font-semibold select-none">
-            <div class="w-[64px] min-w-[64px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+        <div class="bg-[#f2f6f4] border-b border-[#e5e7eb] flex h-[44px] items-center text-[#374151] text-[12px] font-semibold select-none px-4">
+            <div class="w-[70px] min-w-[70px]">
                 ID
             </div>
-            <div class="w-[150px] min-w-[150px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="w-[140px] min-w-[140px]">
                 Số căn hộ
             </div>
-            <div class="w-[100px] min-w-[100px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="w-[110px] min-w-[110px]">
                 Tầng
             </div>
-            <div class="w-[174px] min-w-[174px] px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="w-[180px] min-w-[180px]">
                 Trạng thái
             </div>
-            <div class="flex-1 px-3 border-r border-[#d9e4ec] h-full flex items-center">
+            <div class="flex-1">
                 Mô tả
             </div>
-            <div class="w-[264px] min-w-[264px] px-3 h-full flex items-center">
+            <div class="w-[220px] min-w-[220px] text-[#0e4d3c]">
                 Thao tác
             </div>
         </div>
@@ -140,85 +140,93 @@
         <!-- Table Rows -->
         @forelse ($apartments as $apt)
             <div
-                class="bg-white border-b last:border-b-0 border-[#d9e4ec] flex h-[48px] items-center text-[#334b5d] text-[14px] hover:bg-[#f8fbfd] transition-colors cursor-pointer"
-                onclick="if(!event.target.closest('a')) openApartmentDrawer({{ $apt->ApartmentId }})"
+                class="border-b last:border-b-0 border-[#e5e7eb] flex h-[52px] items-center text-[#374151] text-[13.5px] hover:bg-[#f9fbfa] transition-colors cursor-pointer px-4"
+                onclick="if(!event.target.closest('a') && !event.target.closest('button')) openApartmentDrawer({{ $apt->ApartmentId }})"
             >
-                <div class="w-[64px] min-w-[64px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
+                <div class="w-[70px] min-w-[70px] font-normal">
                     {{ $apt->ApartmentId }}
                 </div>
-                <div class="w-[150px] min-w-[150px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
+                <div class="w-[140px] min-w-[140px] font-semibold text-[#111827]">
                     {{ $apt->ApartmentNumber }}
                 </div>
-                <div class="w-[100px] min-w-[100px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
+                <div class="w-[110px] min-w-[110px] font-normal">
                     {{ $apt->floor->FloorNumber ?? $apt->FloorId }}
                 </div>
-                <div class="w-[174px] min-w-[174px] px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal">
+                <div class="w-[180px] min-w-[180px]">
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openStatusApartmentModal({{ $apt->ApartmentId }})"
                         title="Thay đổi trạng thái"
-                        class="inline-block px-2 py-0.5 text-xs font-semibold hover:opacity-80 transition-opacity cursor-pointer {{ $apt->Status === 'OCCUPIED' ? 'text-[#16734b] bg-[#e6f5ec]' : ($apt->Status === 'VACANT' ? 'text-[#2864ad] bg-[#e8f1ff]' : 'text-[#52697c] bg-gray-100') }}"
+                        class="inline-block px-2.5 py-1 text-xs font-semibold rounded-[6px] transition-opacity cursor-pointer {{ $apt->Status === 'OCCUPIED' ? 'text-[#0e4d3c] bg-[#e4efe9]' : ($apt->Status === 'VACANT' ? 'text-[#8f5316] bg-[#fff4db]' : 'text-[#6b7280] bg-[#f3f4f6]') }}"
                     >
                         {{ $apt->Status }}
                     </button>
                 </div>
-                <div class="flex-1 px-3 border-r border-[#d9e4ec] h-full flex items-center font-normal truncate">
+                <div class="flex-1 font-normal text-[#6b7280] truncate pr-4">
                     {{ $apt->Description ?? '—' }}
                 </div>
-                <div class="w-[264px] min-w-[264px] px-3 h-full flex items-center space-x-2">
+                <div class="w-[220px] min-w-[220px] flex items-center gap-1.5 text-[13px]">
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openApartmentDrawer({{ $apt->ApartmentId }})"
-                        class="text-[#2864ad] hover:underline cursor-pointer font-medium"
+                        title="Xem chi tiết căn hộ"
+                        class="p-1.5 text-[#0E4D3C] hover:bg-[#E4EFE9] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Xem
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                        <span class="sr-only">Xem Chi tiết</span>
                     </button>
-                    <span class="text-[#52697c]">/</span>
                     <button
                         type="button"
                         onclick="event.stopPropagation(); openEditApartmentModal({{ $apt->ApartmentId }})"
-                        class="text-[#2864ad] hover:underline cursor-pointer font-medium"
+                        title="Chỉnh sửa căn hộ"
+                        class="p-1.5 text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F3F4F6] rounded-[6px] transition-colors cursor-pointer inline-flex items-center justify-center"
                     >
-                        Sửa
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="sr-only">Sửa</span>
                     </button>
                 </div>
             </div>
         @empty
-            <div class="p-6 text-center text-sm text-[#52697c]">
+            <div class="p-8 text-center text-sm text-[#6b7280]">
                 Không tìm thấy căn hộ nào phù hợp với bộ lọc.
             </div>
         @endforelse
     </div>
 
-    <!-- Hàng thông tin & Phân trang chuẩn Figma (1–8 / 40 căn hộ · Chọn bản ghi để mở drawer) -->
+    <!-- Hàng thông tin & Phân trang (1–8 / 40 căn hộ · Chọn bản ghi để mở drawer) -->
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
-        <div class="text-[13px] text-[#52697c]">
-            {{ $apartments->firstItem() ?? 1 }}–{{ $apartments->lastItem() ?? count($apartments) }} / {{ $apartments->total() ?? 40 }} căn hộ · <span class="font-medium text-[#334b5d]">Chọn bản ghi để mở drawer</span>
+        <div class="text-[13px] text-[#6b7280]">
+            {{ $apartments->firstItem() ?? 1 }}–{{ $apartments->lastItem() ?? count($apartments) }} / {{ $apartments->total() ?? 40 }} căn hộ · <span class="font-medium text-[#111827]">Chọn bản ghi để mở drawer</span>
         </div>
 
         @if ($apartments->hasPages())
-            <div class="flex items-center space-x-1 border border-solid border-[#d9e4ec] bg-white h-[40px] px-2 rounded-[4px] select-none text-[14px]">
+            <div class="flex items-center space-x-1 border border-[#e5e7eb] bg-white h-[38px] px-2 rounded-[8px] select-none text-[13.5px]">
                 <!-- Previous Button -->
                 @if ($apartments->onFirstPage())
-                    <span class="px-2.5 py-1 text-gray-400 cursor-not-allowed">‹</span>
+                    <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed">‹</span>
                 @else
-                    <a href="{{ $apartments->previousPageUrl() }}" class="px-2.5 py-1 text-[#334b5d] hover:text-[#2864ad] transition-colors">‹</a>
+                    <a href="{{ $apartments->previousPageUrl() }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">‹</a>
                 @endif
 
                 <!-- Page numbers (1, 2, 3...) -->
                 @foreach ($apartments->getUrlRange(1, min(3, $apartments->lastPage())) as $page => $url)
                     @if ($page == $apartments->currentPage())
-                        <span class="px-2.5 py-1 font-semibold text-[#2864ad] bg-[#e8f1ff] rounded">{{ $page }}</span>
+                        <span class="px-2.5 py-1 font-semibold text-[#0e4d3c] bg-[#e4efe9] rounded-[6px]">{{ $page }}</span>
                     @else
-                        <a href="{{ $url }}" class="px-2.5 py-1 text-[#334b5d] hover:text-[#2864ad] transition-colors">{{ $page }}</a>
+                        <a href="{{ $url }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">{{ $page }}</a>
                     @endif
                 @endforeach
 
                 <!-- Next Button -->
                 @if ($apartments->hasMorePages())
-                    <a href="{{ $apartments->nextPageUrl() }}" class="px-2.5 py-1 text-[#334b5d] hover:text-[#2864ad] transition-colors">›</a>
+                    <a href="{{ $apartments->nextPageUrl() }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] transition-colors">›</a>
                 @else
-                    <span class="px-2.5 py-1 text-gray-400 cursor-not-allowed">›</span>
+                    <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed">›</span>
                 @endif
             </div>
         @endif

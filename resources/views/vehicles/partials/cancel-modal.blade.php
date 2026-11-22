@@ -10,33 +10,33 @@
     <div
         id="cancelVehicleBackdrop"
         onclick="closeCancelVehicleModal()"
-        class="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
+        class="fixed inset-0 bg-black/40 backdrop-blur-[1px] transition-opacity duration-200 opacity-0"
     ></div>
 
     <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
         <div
             id="cancelVehiclePanel"
-            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[640px] border border-[#d9e4ec] rounded-[4px] opacity-0 scale-95 duration-200"
+            class="relative transform overflow-hidden bg-white text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-[640px] border border-[#E5E7EB] rounded-[16px] opacity-0 scale-95 duration-200"
         >
             <!-- Modal Header (Bám sát Ảnh 3) -->
-            <div class="px-7 pt-6 pb-4">
+            <div class="px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB] rounded-t-[16px]">
                 <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-bold text-rose-400 tracking-wider uppercase select-none">
+                    <span class="text-[11px] font-bold text-rose-600 tracking-wider uppercase select-none">
                         XÁC NHẬN
                     </span>
                     <button
                         type="button"
                         onclick="closeCancelVehicleModal()"
-                        class="text-slate-400 hover:text-slate-700 text-2xl leading-none cursor-pointer p-1"
+                        class="text-[#6B7280] hover:text-[#111827] text-2xl leading-none cursor-pointer p-1"
                         aria-label="Đóng"
                     >
                         &times;
                     </button>
                 </div>
-                <h3 class="text-[20px] font-bold text-[#b91c1c] mt-1" id="cancel-vehicle-title">
+                <h3 class="text-[18px] font-bold text-rose-600 mt-1" id="cancel-vehicle-title">
                     Hủy đăng ký phương tiện
                 </h3>
-                <p class="text-[13px] text-[#e05252] mt-1" id="cancelModalSubtitle">
+                <p class="text-[13px] text-[#6B7280] mt-1" id="cancelModalSubtitle">
                     Xác nhận hủy đăng ký xe 29-B1 100.01 khỏi căn hộ 0101.
                 </p>
             </div>
@@ -44,50 +44,50 @@
             <!-- Modal Form -->
             <form id="cancelVehicleForm" method="POST" action="" onsubmit="handleCancelVehicleSubmit(event)">
                 @csrf
-                <div class="px-7 pb-6 space-y-5">
+                <div class="px-6 py-5 space-y-4">
                     <!-- Hàng 1: Biển số & Loại xe (2 cột) -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <span class="block text-[12px] leading-[17px] font-semibold text-[#52697c]">
+                        <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] p-3">
+                            <span class="block text-[12px] font-semibold text-[#6B7280]">
                                 Biển số
                             </span>
-                            <span class="block text-[14px] leading-[20px] text-[#122d40] mt-1 font-normal font-mono" id="cancelModalPlate">
+                            <span class="block text-[14px] font-bold text-[#111827] mt-0.5 font-mono" id="cancelModalPlate">
                                 29-B1 100.01
                             </span>
                         </div>
-                        <div>
-                            <span class="block text-[12px] leading-[17px] font-semibold text-[#52697c]">
+                        <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] p-3">
+                            <span class="block text-[12px] font-semibold text-[#6B7280]">
                                 Loại xe
                             </span>
-                            <span class="block text-[14px] leading-[20px] text-[#122d40] mt-1 font-normal" id="cancelModalType">
+                            <span class="block text-[14px] font-medium text-[#111827] mt-0.5" id="cancelModalType">
                                 Xe máy
                             </span>
                         </div>
                     </div>
 
                     <!-- Hàng 2: Căn hộ liên kết -->
-                    <div>
-                        <span class="block text-[12px] leading-[17px] font-semibold text-[#52697c]">
+                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[8px] p-3">
+                        <span class="block text-[12px] font-semibold text-[#6B7280]">
                             Căn hộ liên kết
                         </span>
-                        <span class="block text-[14px] leading-[20px] text-[#122d40] mt-1 font-normal" id="cancelModalApartment">
+                        <span class="block text-[14px] font-medium text-[#111827] mt-0.5" id="cancelModalApartment">
                             Tòa A · Tầng 1 · 0101
                         </span>
                     </div>
                 </div>
 
                 <!-- Modal Footer (2 nút: Giữ đăng ký & Xác nhận hủy - Bám sát Ảnh 3) -->
-                <div class="px-7 py-4 border-t border-[#d9e4ec] flex items-center justify-between">
+                <div class="px-6 py-4 bg-[#F2F6F4] border-t border-[#E5E7EB] flex items-center justify-between rounded-b-[16px]">
                     <button
                         type="button"
                         onclick="closeCancelVehicleModal()"
-                        class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none"
+                        class="h-[38px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none"
                     >
                         Giữ đăng ký
                     </button>
                     <button
                         type="submit"
-                        class="h-[40px] px-6 bg-[#b91c1c] hover:bg-[#991b1b] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                        class="h-[38px] px-6 bg-rose-600 hover:bg-rose-700 text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                     >
                         Xác nhận hủy
                     </button>

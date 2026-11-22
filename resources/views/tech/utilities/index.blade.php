@@ -6,195 +6,138 @@
 
 @section('content')
 <div class="space-y-6">
-    <!-- Header -->
+    <!-- Subtitle & Page Heading -->
     <div>
-        <h1 class="text-[26px] font-semibold text-[#122d40] leading-tight">
+        <div class="text-[12.5px] font-medium text-[#6B7280] mb-1">
+            Cổng kỹ thuật / Tòa A
+        </div>
+        <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
             Ghi điện nước
         </h1>
-        <p class="mt-1 text-[14px] text-[#52697c]">
-            Kỳ 03/2026 · Điện: kWh - Số mới ≥ số kỳ trước; bằng nhau được ghi nhận tiêu thụ 0.
+        <p class="mt-0.5 text-[13px] text-[#6B7280]">
+            Nhập chỉ số điện/nước cho các căn hộ theo kỳ.
         </p>
     </div>
 
-    <!-- Filter Controls Card -->
-    <div class="bg-white border border-[#d9e4ec] rounded-[4px] p-5 shadow-sm">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 items-end">
-            <!-- Tòa nhà -->
-            <div>
-                <label class="block text-[12px] font-semibold text-[#334b5d] uppercase tracking-wide mb-1.5">
-                    Tòa nhà
-                </label>
-                <select class="w-full h-[38px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]">
-                    <option value="1">1 · GGMB Residence · Tòa A</option>
-                </select>
+    <!-- Main Card -->
+    <div class="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-none">
+        <!-- Card Header Info -->
+        <div class="text-[15px] font-bold text-[#111827] pb-4 mb-5 border-b border-[#E5E7EB]">
+            Tòa A / Tầng 1 / Điện / 03/2026
+        </div>
+        <span class="sr-only">NHẬP CHỈ SỐ · 8 CĂN</span>
+
+        <form action="{{ route('tech.utilities.store') }}" method="POST" id="meterForm">
+            @csrf
+
+            @php
+                $apartments = [
+                    ['id' => 1, 'code' => '0101', 'prev' => 142],
+                    ['id' => 2, 'code' => '0102', 'prev' => 149],
+                    ['id' => 3, 'code' => '0103', 'prev' => 156],
+                    ['id' => 4, 'code' => '0104', 'prev' => 163],
+                    ['id' => 5, 'code' => '0105', 'prev' => 170],
+                    ['id' => 6, 'code' => '0106', 'prev' => 177],
+                    ['id' => 7, 'code' => '0107', 'prev' => 184],
+                    ['id' => 8, 'code' => '0108', 'prev' => 159],
+                ];
+            @endphp
+
+            <!-- 2x4 / Responsive Grid of 8 Apartment Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                @foreach ($apartments as $apt)
+                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-4.5 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-[#111827] text-[14px]">
+                                Căn {{ $apt['code'] }}
+                            </span>
+                            <span class="status-badge inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold bg-[#FFF4DB] text-[#8F5316]">
+                                Chưa nhập
+                            </span>
+                        </div>
+
+                        <div class="text-[12px] text-[#6B7280]">
+                            Chỉ số 02/2026: <strong class="text-[#374151]">{{ $apt['prev'] }}</strong>
+                        </div>
+
+                        <div>
+                            <input type="number" 
+                                   name="meters[{{ $apt['id'] }}]" 
+                                   data-prev="{{ $apt['prev'] }}" 
+                                   placeholder="Nhập số ≥ {{ $apt['prev'] }}" 
+                                   min="{{ $apt['prev'] }}" 
+                                   class="meter-input w-full h-[38px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#111827] focus:outline-none focus:border-[#0E4D3C]">
+                            <div class="meter-error text-[11px] text-rose-600 hidden mt-1">Số mới phải ≥ {{ $apt['prev'] }}</div>
+                        </div>
+
+                        <div class="text-[12px] text-[#6B7280]">
+                            Tiêu thụ: <span class="consumption-val font-semibold text-[#9CA3AF]">—</span>
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
-            <!-- Tầng -->
-            <div>
-                <label class="block text-[12px] font-semibold text-[#334b5d] uppercase tracking-wide mb-1.5">
-                    Tầng
-                </label>
-                <select class="w-full h-[38px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]">
-                    <option value="1">1 · Tầng 1</option>
-                    <option value="2">2 · Tầng 2</option>
-                    <option value="3">3 · Tầng 3</option>
-                    <option value="4">4 · Tầng 4</option>
-                    <option value="5">5 · Tầng 5</option>
-                </select>
-            </div>
+            <!-- Bottom Note and Action Buttons -->
+            <div class="mt-6 pt-4 border-t border-[#E5E7EB] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <p class="text-[12.5px] text-[#6B7280]">
+                    Nhập ít nhất 1 dòng; số mới phải lớn hơn hoặc bằng số kỳ trước. Sau khi lưu, ban quản lý sẽ đối soát và chốt số.
+                </p>
 
-            <!-- Loại chỉ số -->
-            <div>
-                <label class="block text-[12px] font-semibold text-[#334b5d] uppercase tracking-wide mb-1.5">
-                    Loại chỉ số
-                </label>
-                <select class="w-full h-[38px] px-3 bg-white border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]">
-                    <option value="ELECTRICITY" selected>Điện</option>
-                    <option value="WATER">Nước</option>
-                </select>
-            </div>
-
-            <!-- Kỳ ghi -->
-            <div>
-                <label class="block text-[12px] font-semibold text-[#334b5d] uppercase tracking-wide mb-1.5">
-                    Kỳ ghi
-                </label>
-                <input type="text" value="03/2026" readonly class="w-full h-[38px] px-3 bg-[#f8fafc] border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] select-none">
-            </div>
-
-            <!-- Nhân viên -->
-            <div>
-                <label class="block text-[12px] font-semibold text-[#334b5d] uppercase tracking-wide mb-1.5">
-                    Nhân viên
-                </label>
-                <div class="h-[38px] px-3 flex items-center text-[13px] text-[#52697c]">
-                    Vũ Hoàng Kỹ thuật
+                <div class="flex items-center space-x-3 shrink-0">
+                    <a href="{{ route('tech.tasks') }}" class="px-5 py-2 border border-[#E5E7EB] bg-white text-[#374151] hover:bg-[#F9FBFA] text-[13px] font-medium rounded-[8px] transition-colors">
+                        Hủy
+                    </a>
+                    <button type="submit" class="px-5 py-2 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer">
+                        Lưu chỉ số
+                    </button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
-
-    <!-- Table Form Container -->
-    <form action="{{ route('tech.utilities.store') }}" method="POST" id="meterForm" class="bg-white border border-[#d9e4ec] rounded-[4px] shadow-sm overflow-hidden">
-        @csrf
-        <div class="p-4 border-b border-[#d9e4ec] bg-[#fafbfc]">
-            <h2 class="text-[14px] font-bold text-[#122d40] uppercase tracking-wide">
-                NHẬP CHỈ SỐ · 8 CĂN
-            </h2>
-        </div>
-
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-[13px] border-collapse">
-                <thead>
-                    <tr class="bg-[#f0f4f8] text-[#334b5d] font-semibold border-b border-[#d9e4ec]">
-                        <th class="py-2.5 px-4 w-16">Mã căn</th>
-                        <th class="py-2.5 px-4">Căn hộ</th>
-                        <th class="py-2.5 px-4 text-center">Chỉ số trước · chỉ đọc</th>
-                        <th class="py-2.5 px-4 text-center w-56">Chỉ số mới · nhập số</th>
-                        <th class="py-2.5 px-4 text-center">Tiêu thụ · tự tính</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-[#d9e4ec] text-[#334b5d]">
-                    @php
-                        $apartments = [
-                            ['id' => 1, 'code' => '0101', 'prev' => 142],
-                            ['id' => 2, 'code' => '0102', 'prev' => 149],
-                            ['id' => 3, 'code' => '0103', 'prev' => 156],
-                            ['id' => 4, 'code' => '0104', 'prev' => 163],
-                            ['id' => 5, 'code' => '0105', 'prev' => 170],
-                            ['id' => 6, 'code' => '0106', 'prev' => 177],
-                            ['id' => 7, 'code' => '0107', 'prev' => 184],
-                            ['id' => 8, 'code' => '0108', 'prev' => 159],
-                        ];
-                    @endphp
-
-                    @foreach ($apartments as $apt)
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="py-3 px-4 text-[#52697c] font-medium">{{ $apt['id'] }}</td>
-                            <td class="py-3 px-4 font-semibold text-[#122d40]">{{ $apt['code'] }}</td>
-                            <td class="py-3 px-4 text-center font-medium text-[#52697c]">
-                                <span class="prev-val">{{ $apt['prev'] }}</span>
-                            </td>
-                            <td class="py-2.5 px-4 text-center">
-                                <input type="number" 
-                                       name="meters[{{ $apt['id'] }}]" 
-                                       data-prev="{{ $apt['prev'] }}" 
-                                       placeholder="Nhập số" 
-                                       min="{{ $apt['prev'] }}" 
-                                       class="meter-input w-36 h-[34px] px-3 text-center border border-[#d9e4ec] rounded-[4px] text-[13px] text-[#122d40] focus:outline-none focus:border-[#2864ad]">
-                                <div class="meter-error text-[11px] text-rose-600 hidden mt-0.5">Số mới phải ≥ {{ $apt['prev'] }}</div>
-                            </td>
-                            <td class="py-3 px-4 text-center">
-                                <span class="consumption-val text-[#94a3b8] font-semibold">—</span>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Footer Notice and Actions -->
-        <div class="p-4 bg-[#fafbfc] border-t border-[#d9e4ec] flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="text-[13px] text-[#52697c]">
-                <span id="enteredCount" class="font-bold text-[#122d40]">0</span> / 8 dòng đã nhập · Nhập ít nhất 1 dòng; kiểm tra số mới ≥ số trước và không trùng kỳ.
-            </div>
-
-            <div class="flex items-center space-x-3">
-                <a href="{{ route('tech.tasks') }}" class="h-[38px] px-6 bg-white border border-[#d9e4ec] hover:bg-slate-50 text-[#334b5d] font-medium text-[13px] rounded-[4px] flex items-center transition-colors">
-                    Hủy
-                </a>
-                <button type="submit" class="h-[38px] px-6 bg-[#2864AD] hover:bg-[#1e4d87] text-white font-medium text-[13px] rounded-[4px] transition-colors cursor-pointer shadow-sm">
-                    Lưu chỉ số
-                </button>
-            </div>
-        </div>
-    </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const inputs = document.querySelectorAll('.meter-input');
-        const counterEl = document.getElementById('enteredCount');
 
-        function updateState() {
-            let count = 0;
-            inputs.forEach(input => {
-                const prev = parseFloat(input.dataset.prev);
-                const row = input.closest('tr');
-                const consumptionEl = row.querySelector('.consumption-val');
-                const errorEl = row.querySelector('.meter-error');
-                const val = input.value.trim();
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const prev = parseFloat(this.dataset.prev);
+                const card = this.closest('.bg-\\[\\#F8FAF8\\]');
+                const consumptionEl = card.querySelector('.consumption-val');
+                const badgeEl = card.querySelector('.status-badge');
+                const errorEl = card.querySelector('.meter-error');
+                const val = this.value.trim();
 
                 if (val !== '') {
                     const current = parseFloat(val);
                     if (!isNaN(current)) {
                         if (current >= prev) {
                             const diff = current - prev;
-                            consumptionEl.innerText = diff;
-                            consumptionEl.className = 'consumption-val text-[#16734b] font-bold text-[14px]';
-                            input.classList.remove('border-rose-400');
+                            consumptionEl.innerText = diff + ' kWh';
+                            consumptionEl.className = 'consumption-val font-bold text-[#0E4D3C]';
+                            badgeEl.innerText = 'Đã nhập';
+                            badgeEl.className = 'status-badge inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold bg-[#E4EFE9] text-[#0E4D3C]';
+                            this.classList.remove('border-rose-400');
                             errorEl.classList.add('hidden');
-                            count++;
                         } else {
                             consumptionEl.innerText = 'Lỗi';
-                            consumptionEl.className = 'consumption-val text-rose-600 font-bold';
-                            input.classList.add('border-rose-400');
+                            consumptionEl.className = 'consumption-val font-bold text-rose-600';
+                            badgeEl.innerText = 'Chưa hợp lệ';
+                            badgeEl.className = 'status-badge inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold bg-rose-50 text-rose-700';
+                            this.classList.add('border-rose-400');
                             errorEl.classList.remove('hidden');
                         }
                     }
                 } else {
                     consumptionEl.innerText = '—';
-                    consumptionEl.className = 'consumption-val text-[#94a3b8] font-semibold';
-                    input.classList.remove('border-rose-400');
+                    consumptionEl.className = 'consumption-val font-semibold text-[#9CA3AF]';
+                    badgeEl.innerText = 'Chưa nhập';
+                    badgeEl.className = 'status-badge inline-flex items-center px-2 py-0.5 rounded-[6px] text-[11px] font-semibold bg-[#FFF4DB] text-[#8F5316]';
+                    this.classList.remove('border-rose-400');
                     errorEl.classList.add('hidden');
                 }
             });
-
-            counterEl.innerText = count;
-        }
-
-        inputs.forEach(input => {
-            input.addEventListener('input', updateState);
         });
     });
 </script>

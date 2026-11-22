@@ -1,38 +1,28 @@
 @props(['breadcrumbs' => ['GGMB', 'Tổng quan']])
 
-<header class="h-[64px] min-h-[64px] bg-white border-b border-[#d9e4ec] px-8 flex items-center justify-between shrink-0 select-none">
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center space-x-2 text-[14px] leading-[20px] text-[#334b5d]" aria-label="Breadcrumb">
-        @foreach ($breadcrumbs as $index => $crumb)
-            @if ($index > 0)
-                <span class="text-[#52697c]">/</span>
-            @endif
-            <span class="{{ $loop->last ? 'text-[#334b5d] font-normal' : 'text-[#334b5d]' }}">
-                {{ $crumb }}
-            </span>
-        @endforeach
-    </nav>
+<header class="h-[56px] min-h-[56px] bg-white border-b border-[#eaeaea] px-8 flex items-center justify-between shrink-0 select-none">
+    <!-- Left: Tòa / Vị trí theo ảnh thiết kế -->
+    <div class="flex items-center space-x-2 text-[13.5px] font-semibold text-[#111827]">
+        <span>GGMB Residence · Tòa A</span>
+    </div>
 
-    <!-- Header Actions (Right) -->
-    <div class="flex items-center space-x-8 text-[13px] leading-[19px] text-[#334b5d]">
-        <a href="#" class="hover:text-[#122d40] transition-colors relative flex items-center">
-            Thông báo
+    <!-- Right: Thông báo pill & Tên người dùng -->
+    <div class="flex items-center space-x-4">
+        <a href="{{ route('notifications.index') }}" class="px-3.5 py-1.5 bg-[#f3f4f6] hover:bg-[#e5e7eb] text-[#374151] rounded-[8px] text-[12px] font-medium transition-colors flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5 text-[#6b7280]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span>Thông báo</span>
         </a>
 
         @auth
-            <div class="relative flex items-center space-x-4">
-                <span class="text-[#334b5d]">
-                    Tài khoản ({{ Auth::user()->FullName ?? Auth::user()->UserName }})
-                </span>
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="text-xs text-[#2864ad] hover:underline cursor-pointer">
-                        [Đăng xuất]
-                    </button>
-                </form>
-            </div>
+            <a href="{{ route('accounts.index') }}" class="text-[13px] font-medium text-[#111827] hover:text-[#0e4d3c] transition-colors" title="Tài khoản">
+                {{ Auth::user()->FullName ?? Auth::user()->UserName ?? 'Nguyễn Minh Quản lý' }}
+                <span class="sr-only">Tài khoản</span>
+            </a>
         @else
-            <a href="{{ route('login') }}" class="hover:text-[#122d40] transition-colors">
+            <a href="{{ route('login') }}" class="text-[13px] font-medium text-[#111827] hover:text-[#0e4d3c] transition-colors">
                 Tài khoản
             </a>
         @endauth

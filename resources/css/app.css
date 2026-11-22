@@ -7,11 +7,118 @@
 @theme {
     --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-ggmb-navy: #122d40;
-    --color-ggmb-body: #334b5d;
-    --color-ggmb-muted: #52697c;
-    --color-ggmb-border: #d9e4ec;
-    --color-ggmb-bluesoft: #e8f1ff;
-    --color-ggmb-primary: #2864ad;
-    --color-ggmb-canvas: #f3f7fa;
+
+    /* Brand Forest Green Theme */
+    --color-ggmb-forest: #0e4d3c;
+    --color-ggmb-forest-hover: #0a3d2f;
+    --color-ggmb-sage: #e4efe9;
+    --color-ggmb-sage-light: #f2f6f4;
+    --color-ggmb-canvas: #f8faf8;
+
+    /* Semantic Colors */
+    --color-ggmb-caramel: #8f5316;
+    --color-ggmb-paid: #115e43;
+    --color-ggmb-heading: #111827;
+    --color-ggmb-body: #374151;
+    --color-ggmb-muted: #6b7280;
+    --color-ggmb-border: #e5e7eb;
+
+    /* Backward Compatible Aliases */
+    --color-ggmb-navy: #0e4d3c;
+    --color-ggmb-primary: #0e4d3c;
+    --color-ggmb-blue: #0e4d3c;
+}
+
+@layer components {
+    /* Primary Action Button (Bo góc 8px) */
+    .ggmb-btn-primary {
+        background-color: #0e4d3c;
+        border: 1px solid #0e4d3c;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 13px;
+        line-height: 20px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ggmb-btn-primary:hover {
+        background-color: #0a3d2f;
+        border-color: #0a3d2f;
+    }
+
+    /* Secondary / Neutral Button (Bo góc 8px) */
+    .ggmb-btn-secondary {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        color: #374151;
+        font-weight: 500;
+        font-size: 13px;
+        line-height: 20px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .ggmb-btn-secondary:hover {
+        background-color: #f9fafb;
+        border-color: #d1d5db;
+    }
+
+    /* Standard Form Inputs (Bo góc 8px) */
+    .ggmb-input, .ggmb-select {
+        width: 100%;
+        height: 42px;
+        padding: 0 12px;
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #111827;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+    .ggmb-input:focus, .ggmb-select:focus {
+        outline: none;
+        border-color: #0e4d3c;
+        box-shadow: 0 0 0 1px #0e4d3c;
+    }
+
+    /* Cards (Bo góc 14px - 16px) */
+    .ggmb-card {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+    }
+
+    .ggmb-kpi-card {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 20px;
+    }
+
+    /* Tables (Bo góc 12px) */
+    .ggmb-table-container {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .ggmb-table-header {
+        background-color: #f9fafb;
+        border-bottom: 1px solid #e5e7eb;
+        color: #374151;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 18px;
+    }
 }

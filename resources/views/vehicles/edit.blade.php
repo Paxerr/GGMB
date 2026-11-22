@@ -1,31 +1,40 @@
 @extends('layouts.app', [
     'title' => 'Chỉnh sửa phương tiện · GGMB',
     'active' => 'vehicles',
-    'breadcrumbs' => ['GGMB', 'Xe & đăng ký']
+    'breadcrumbs' => ['Quản trị', 'Xe & đăng ký', 'Chỉnh sửa']
 ])
 
 @section('content')
-<div class="max-w-[1216px] mx-auto space-y-6">
-    <!-- Tiêu đề & Phụ đề (28 · SCR-VEH-04) -->
+<div class="space-y-6">
+    <span class="sr-only">GGMB</span>
+
+    <!-- Tiêu đề & Phụ đề -->
     <div>
-        <h1 class="text-[26px] leading-[32px] font-semibold text-[#122d40]">
+        <nav class="flex items-center text-[12px] text-[#6B7280] space-x-1.5 mb-1.5">
+            <span>Quản trị</span>
+            <span>/</span>
+            <a href="{{ route('vehicles.index') }}" class="hover:text-[#0E4D3C]">Xe & đăng ký</a>
+            <span>/</span>
+            <span class="text-[#111827] font-medium">Chỉnh sửa</span>
+        </nav>
+        <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
             Chỉnh sửa phương tiện
         </h1>
-        <p class="mt-1 text-[14px] leading-[20px] text-[#334b5d]">
+        <p class="mt-0.5 text-[13.5px] text-[#6B7280]">
             {{ $vehicle->LicensePlate ?? '29-B1 100.01' }} · Cập nhật thông tin gắn với căn hộ.
         </p>
     </div>
 
     <!-- Khối form 688px -->
-    <div class="bg-white border border-[#d9e4ec] rounded-[4px] p-6 sm:p-[25px] w-full max-w-[688px]">
-        <form method="POST" action="{{ route('vehicles.update', $vehicle->VehicleId ?? 1) }}" class="space-y-5">
+    <div class="bg-white border border-[#E5E7EB] rounded-[14px] p-6 sm:p-[25px] w-full max-w-[688px] shadow-none">
+        <form method="POST" action="{{ route('vehicles.update', $vehicle->VehicleId ?? 1) }}" class="space-y-4">
             @csrf
             @method('PUT')
 
             <!-- Hàng 1: Biển số & Loại xe (2 cols) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="LicensePlate" class="block text-[12px] leading-[17px] font-semibold text-[#334b5d] mb-1.5">
+                    <label for="LicensePlate" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                         Biển số *
                     </label>
                     <input
@@ -34,12 +43,12 @@
                         name="LicensePlate"
                         value="{{ old('LicensePlate', $vehicle->LicensePlate ?? '29-B1 100.01') }}"
                         required
-                        class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] uppercase"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] uppercase"
                     />
                 </div>
 
                 <div>
-                    <label for="VehicleType" class="block text-[12px] leading-[17px] font-semibold text-[#334b5d] mb-1.5">
+                    <label for="VehicleType" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                         Loại xe *
                     </label>
                     <div class="relative">
@@ -47,14 +56,14 @@
                             id="VehicleType"
                             name="VehicleType"
                             required
-                            class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                            class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                         >
                             <option value="MOTORBIKE" {{ ($vehicle->VehicleType ?? '') === 'MOTORBIKE' ? 'selected' : '' }}>Xe máy · MOTORBIKE</option>
                             <option value="CAR" {{ ($vehicle->VehicleType ?? '') === 'CAR' ? 'selected' : '' }}>Ô tô · CAR</option>
                             <option value="ELECTRIC_BIKE" {{ ($vehicle->VehicleType ?? '') === 'ELECTRIC_BIKE' ? 'selected' : '' }}>Xe máy điện · ELECTRIC</option>
                             <option value="BICYCLE" {{ ($vehicle->VehicleType ?? '') === 'BICYCLE' ? 'selected' : '' }}>Xe đạp · BICYCLE</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
                             ▾
                         </div>
                     </div>
@@ -63,7 +72,7 @@
 
             <!-- Hàng 2: Căn hộ liên kết -->
             <div>
-                <label for="ApartmentId" class="block text-[12px] leading-[17px] font-semibold text-[#334b5d] mb-1.5">
+                <label for="ApartmentId" class="block text-[12px] font-semibold text-[#374151] mb-1.5">
                     Căn hộ *
                 </label>
                 <div class="relative">
@@ -71,7 +80,7 @@
                         id="ApartmentId"
                         name="ApartmentId"
                         required
-                        class="w-full h-[42px] px-3 bg-white border border-[#d9e4ec] text-[14px] leading-[20px] text-[#334b5d] appearance-none focus:outline-none focus:border-[#2864ad] focus:ring-1 focus:ring-[#2864ad] cursor-pointer"
+                        class="w-full h-[40px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] appearance-none focus:outline-none focus:border-[#0E4D3C] focus:ring-1 focus:ring-[#0E4D3C] cursor-pointer"
                     >
                         @foreach ($apartments as $apt)
                             <option value="{{ $apt->ApartmentId }}" {{ ($vehicle->ApartmentId ?? 1) == $apt->ApartmentId ? 'selected' : '' }}>
@@ -79,7 +88,7 @@
                             </option>
                         @endforeach
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#334b5d]">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
                         ▾
                     </div>
                 </div>
@@ -89,13 +98,13 @@
             <div class="flex items-center justify-between pt-3">
                 <a
                     href="{{ route('vehicles.show', $vehicle->VehicleId ?? 1) }}"
-                    class="h-[40px] px-6 bg-white border border-[#d9e4ec] hover:bg-[#f0f4f8] text-[#334b5d] text-[14px] font-semibold rounded-[4px] transition-colors flex items-center justify-center cursor-pointer select-none"
+                    class="h-[40px] px-5 bg-white border border-[#E5E7EB] hover:bg-[#F9FBFA] text-[#374151] text-[13.5px] font-medium rounded-[8px] transition-colors flex items-center justify-center cursor-pointer select-none"
                 >
                     Hủy
                 </a>
                 <button
                     type="submit"
-                    class="h-[40px] px-8 bg-[#2864ad] hover:bg-[#205391] text-white text-[14px] font-semibold rounded-[4px] transition-colors cursor-pointer select-none shadow-sm"
+                    class="h-[40px] px-6 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13.5px] font-semibold rounded-[8px] transition-colors cursor-pointer select-none shadow-sm"
                 >
                     Lưu thay đổi
                 </button>

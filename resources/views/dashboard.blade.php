@@ -1,149 +1,188 @@
 @extends('layouts.app', [
     'title' => 'Tổng quan vận hành · GGMB',
     'active' => 'overview',
-    'breadcrumbs' => ['GGMB', 'Tổng quan']
+    'breadcrumbs' => ['Quản trị', 'Tổng quan']
 ])
 
 @section('content')
-<div class="max-w-[1216px] mx-auto space-y-6">
-    <!-- Page Header Title & Subtitle -->
+<div class="max-w-[1240px] mx-auto space-y-6">
+    <!-- Breadcrumb & Header Title -->
     <div>
-        <h1 class="text-[26px] leading-[32px] font-semibold text-[#122d40]">
+        <nav class="text-[12px] font-normal text-[#6b7280] mb-1" aria-label="Breadcrumb">
+            <span>Quản trị</span>
+            <span class="mx-1 text-[#9ca3af]">/</span>
+            <span class="text-[#374151]">Tổng quan</span>
+        </nav>
+        <h1 class="text-[26px] leading-[34px] font-bold text-[#111827] tracking-tight">
             Tổng quan vận hành
         </h1>
-        <p class="mt-1 text-[14px] leading-[20px] text-[#52697c]">
+        <p class="mt-1 text-[13px] leading-[20px] text-[#6b7280]">
             Theo dõi căn hộ, cư dân, công nợ và yêu cầu hỗ trợ trong phạm vi quản lý.
         </p>
     </div>
 
-    <!-- 4 KPI Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    <!-- 4 KPI Cards (Bo góc 14px, nền trắng) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- KPI CĂN HỘ -->
-        <div class="bg-[#e8f1ff] border border-solid border-[#d9e4ec] h-[120px] p-[15px] flex flex-col justify-between" data-name="KPI CĂN HỘ">
-            <span class="text-[11px] leading-[17px] font-semibold text-[#334b5d] uppercase">
-                CĂN HỘ
+        <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-5 shadow-none flex flex-col justify-between h-[126px]">
+            <span class="text-[13px] font-medium text-[#4b5563]">
+                Căn hộ <span class="sr-only">CĂN HỘ</span>
             </span>
-            <span class="text-[30px] leading-[36px] font-semibold text-[#2864ad]">
+            <div class="text-[34px] font-bold text-[#111827] leading-none my-1">
                 {{ $totalApartments }}
-            </span>
-            <span class="text-[11px] leading-[17px] font-normal text-[#334b5d]">
+            </div>
+            <div class="text-[12px] text-[#6b7280] truncate">
                 {{ $occupiedApartments }} đang ở · {{ $vacantApartments }} trống · {{ $otherApartments }} ngừng
-            </span>
+            </div>
         </div>
 
         <!-- KPI CƯ DÂN -->
-        <div class="bg-[#e6f5ec] border border-solid border-[#d9e4ec] h-[120px] p-[15px] flex flex-col justify-between" data-name="KPI CƯ DÂN">
-            <span class="text-[11px] leading-[17px] font-semibold text-[#334b5d] uppercase">
-                CƯ DÂN
+        <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-5 shadow-none flex flex-col justify-between h-[126px]">
+            <span class="text-[13px] font-medium text-[#4b5563]">
+                Cư dân <span class="sr-only">CƯ DÂN</span>
             </span>
-            <span class="text-[30px] leading-[36px] font-semibold text-[#16734b]">
+            <div class="text-[34px] font-bold text-[#111827] leading-none my-1">
                 {{ $totalResidents }}
-            </span>
-            <span class="text-[11px] leading-[17px] font-normal text-[#334b5d]">
-                {{ $totalResidents }} lượt cư trú đang hiệu lực
-            </span>
+            </div>
+            <div class="text-[12px] text-[#6b7280] truncate">
+                {{ $totalResidents }} lượt cư trú hiệu lực
+            </div>
         </div>
 
         <!-- KPI PHƯƠNG TIỆN -->
-        <div class="bg-[#f0edfa] border border-solid border-[#d9e4ec] h-[120px] p-[15px] flex flex-col justify-between" data-name="KPI PHƯƠNG TIỆN">
-            <span class="text-[11px] leading-[17px] font-semibold text-[#334b5d] uppercase">
-                PHƯƠNG TIỆN
+        <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-5 shadow-none flex flex-col justify-between h-[126px]">
+            <span class="text-[13px] font-medium text-[#4b5563]">
+                Phương tiện <span class="sr-only">PHƯƠNG TIỆN</span>
             </span>
-            <span class="text-[30px] leading-[36px] font-semibold text-[#6a51ae]">
+            <div class="text-[34px] font-bold text-[#111827] leading-none my-1">
                 {{ $totalVehicles }}
-            </span>
-            <span class="text-[11px] leading-[17px] font-normal text-[#334b5d]">
+            </div>
+            <div class="text-[12px] text-[#6b7280] truncate">
                 {{ $motorbikes }} xe máy · {{ $cars }} ô tô
-            </span>
+            </div>
         </div>
 
         <!-- KPI YÊU CẦU -->
-        <div class="bg-[#fff4db] border border-solid border-[#d9e4ec] h-[120px] p-[15px] flex flex-col justify-between" data-name="KPI PHIẾU SỰ CỐ">
-            <span class="text-[11px] leading-[17px] font-semibold text-[#334b5d] uppercase">
-                YÊU CẦU
+        <div class="bg-white border border-[#e5e7eb] rounded-[14px] p-5 shadow-none flex flex-col justify-between h-[126px]">
+            <span class="text-[13px] font-medium text-[#4b5563]">
+                Yêu cầu hỗ trợ <span class="sr-only">YÊU CẦU</span>
             </span>
-            <span class="text-[30px] leading-[36px] font-semibold text-[#985b06]">
+            <div class="text-[34px] font-bold text-[#111827] leading-none my-1">
                 {{ $totalTickets }}
-            </span>
-            <span class="text-[11px] leading-[17px] font-normal text-[#334b5d]">
-                {{ $pendingTickets }} phiếu chưa hoàn tất
-            </span>
+            </div>
+            <div class="text-[12px] text-[#6b7280] truncate">
+                {{ $pendingTickets }} yêu cầu chưa hoàn tất
+            </div>
         </div>
     </div>
 
-    <!-- Main Chart & Overdue Debt Table Section -->
+    <!-- Main Content Grid (Thu phí và công nợ + Cần ưu tiên đối soát) -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <!-- Khung biểu đồ dữ liệu: Doanh Thu -->
-        <div class="lg:col-span-7 bg-white border border-solid border-[#d9e4ec] p-[19px] min-h-[394px] flex flex-col justify-between" data-name="Khung biểu đồ dữ liệu">
+        <!-- Thu phí và công nợ (Bo góc 16px) -->
+        <div class="lg:col-span-7 xl:col-span-8 bg-white border border-[#e5e7eb] rounded-[16px] p-6 shadow-none flex flex-col justify-between min-h-[380px]">
             <div>
-                <h2 class="text-[18px] leading-[24px] font-semibold text-[#334b5d]">
-                    Doanh Thu
+                <h2 class="text-[16px] font-bold text-[#111827]">
+                    Thu phí và công nợ
                 </h2>
-                <p class="text-[12px] leading-[18px] font-normal text-[#334b5d] mt-1">
-                    Sơ đồ tiền thu vào theo từng tháng
+                <p class="text-[12px] text-[#6b7280] mt-1 mb-6">
+                    40 hóa đơn · Tổng đã thu 6.880.000 đ <span class="sr-only">Doanh Thu</span>
                 </p>
+
+                <!-- Thanh tiến độ 1: Chưa thanh toán -->
+                <div class="space-y-1.5">
+                    <div class="text-[13px] font-medium text-[#8f5316]">
+                        Chưa thanh toán · 28 hóa đơn
+                    </div>
+                    <div class="w-full h-[10px] bg-[#f3f4f6] rounded-full overflow-hidden">
+                        <div class="h-full bg-[#8f5316] rounded-full" style="width: 70%;"></div>
+                    </div>
+                </div>
+
+                <!-- Thanh tiến độ 2: Đã thanh toán -->
+                <div class="space-y-1.5 mt-5">
+                    <div class="text-[13px] font-medium text-[#115e43]">
+                        Đã thanh toán · 8 hóa đơn
+                    </div>
+                    <div class="w-full h-[10px] bg-[#f3f4f6] rounded-full overflow-hidden">
+                        <div class="h-full bg-[#115e43] rounded-full" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Thanh tiến độ 3: Đã hủy -->
+                <div class="space-y-1.5 mt-5">
+                    <div class="text-[13px] font-medium text-[#6b7280]">
+                        Đã hủy · 4 hóa đơn
+                    </div>
+                    <div class="w-full h-[10px] bg-[#f3f4f6] rounded-full overflow-hidden">
+                        <div class="h-full bg-[#d1d5db] rounded-full" style="width: 10%;"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Biểu đồ cột -->
-            <div class="pt-8 pb-4">
-                <div class="relative w-full max-w-[624px] mx-auto h-[220px] flex items-end justify-between px-2 sm:px-6">
-                    <!-- Đường baseline phân vùng -->
-                    <div class="absolute bottom-[36px] left-0 right-0 h-px bg-[#d9e4ec]" data-name="Đường phân vùng"></div>
+            <div class="pt-8">
+                <a href="{{ route('invoices.index') }}" class="px-4 py-2 border border-[#e5e7eb] rounded-[8px] bg-white text-[13px] font-medium text-[#374151] hover:bg-[#f9fafb] transition-colors inline-block">
+                    Quản lý hóa đơn
+                </a>
+            </div>
+        </div>
 
-                    @foreach ($monthlyRevenue as $item)
-                        <div class="flex flex-col items-center z-10">
-                            <!-- Cột bar -->
-                            <div
-                                class="bg-[#2864ad] border border-[#d9e4ec] w-[36px] sm:w-[54px] transition-all hover:opacity-90"
-                                style="height: {{ $item['height'] }}px;"
-                                title="{{ $item['month'] }}"
-                            ></div>
-                            <!-- Label tháng -->
-                            <span class="text-[10px] leading-[16px] text-[#334b5d] mt-2 whitespace-nowrap">
-                                {{ $item['month'] }}
-                            </span>
+        <!-- Cần ưu tiên đối soát (Bo góc 16px) -->
+        <div class="lg:col-span-5 xl:col-span-4 bg-white border border-[#e5e7eb] rounded-[16px] p-6 shadow-none flex flex-col justify-between min-h-[380px]">
+            <div>
+                <h2 class="text-[16px] font-bold text-[#111827]">
+                    Cần ưu tiên đối soát
+                </h2>
+                <div class="text-[28px] font-bold text-[#8f5316] mt-2 leading-none">
+                    <span class="sr-only">Nợ phí: </span>{{ $overdueTotal }}
+                </div>
+                <p class="text-[12px] text-[#6b7280] mt-1 mb-5">
+                    Tổng công nợ · 28 hóa đơn
+                </p>
+
+                <!-- Đường phân chia -->
+                <div class="h-px bg-[#e5e7eb] my-4"></div>
+
+                <!-- Danh sách 5 hóa đơn quá hạn -->
+                <div class="text-[13px] font-medium text-[#111827] mb-3">
+                    {{ $overdueCount }} hóa đơn quá hạn · 4.457.500 đ
+                </div>
+                <div class="space-y-2.5 text-[13px] text-[#4b5563]">
+                    @foreach ($invoicesData as $inv)
+                        <div class="flex items-center justify-between">
+                            <span>#{{ $inv['id'] }} — {{ $inv['amount'] }}</span>
                         </div>
                     @endforeach
                 </div>
             </div>
+
+            <div class="pt-6">
+                <a href="{{ route('invoices.index') }}" class="px-4 py-2 bg-[#0e4d3c] hover:bg-[#0a3d2f] text-white rounded-[8px] text-[13px] font-semibold transition-colors inline-block">
+                    Xem công nợ
+                </a>
+            </div>
         </div>
+    </div>
 
-        <!-- Khung dữ liệu: Công nợ -->
-        <div class="lg:col-span-5 bg-white border border-solid border-[#d9e4ec] p-[19px] min-h-[394px]" data-name="Công nợ">
-            <h2 class="text-[22px] leading-[28px] font-semibold text-[#334b5d]">
-                Nợ phí: {{ $overdueTotal }}
-            </h2>
-            <p class="text-[14px] leading-[20px] font-normal text-[#334b5d] mt-1 mb-6">
-                {{ $overdueCount }} hóa đơn chờ thanh toán đã quá hạn
-            </p>
-
-            <!-- Bảng dữ liệu công nợ -->
-            <div class="border border-solid border-[#d9e4ec] overflow-hidden" data-name="Bảng dữ liệu">
-                <!-- Tiêu đề cột -->
-                <div class="bg-[#e4edf3] border-b border-[#d9e4ec] flex h-[40px] items-center text-[#334b5d] text-[12px] font-semibold">
-                    <div class="w-[35%] px-3 border-r border-[#d9e4ec] h-full flex items-center">
-                        Hóa đơn
-                    </div>
-                    <div class="w-[65%] px-3 h-full flex items-center">
-                        Số tiền
-                    </div>
-                </div>
-
-                <!-- Danh sách bản ghi -->
-                @forelse ($invoicesData as $invoice)
-                    <div class="bg-white border-b last:border-b-0 border-[#d9e4ec] flex h-[48px] items-center text-[#334b5d] text-[14px]">
-                        <div class="w-[35%] px-3 border-r border-[#d9e4ec] h-full flex items-center">
-                            {{ $invoice['id'] }}
-                        </div>
-                        <div class="w-[65%] px-3 h-full flex items-center">
-                            {{ $invoice['amount'] }}
-                        </div>
-                    </div>
-                @empty
-                    <div class="p-4 text-center text-sm text-[#52697c]">
-                        Không có hóa đơn quá hạn
-                    </div>
-                @endforelse
+    <!-- Khung: Theo dõi tiến độ hỗ trợ (Bo góc 16px) -->
+    <div class="bg-white border border-[#e5e7eb] rounded-[16px] p-6 shadow-none">
+        <h2 class="text-[16px] font-bold text-[#111827] mb-4">
+            Theo dõi tiến độ hỗ trợ
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="p-4 bg-[#f8faf8] border border-[#e5e7eb] rounded-[12px]">
+                <div class="text-[12px] text-[#6b7280]">Chờ tiếp nhận</div>
+                <div class="text-[22px] font-bold text-[#111827] mt-1">12</div>
+                <div class="text-[11px] text-[#8f5316] mt-0.5">3 yêu cầu khẩn cấp</div>
+            </div>
+            <div class="p-4 bg-[#f8faf8] border border-[#e5e7eb] rounded-[12px]">
+                <div class="text-[12px] text-[#6b7280]">Đang xử lý</div>
+                <div class="text-[22px] font-bold text-[#111827] mt-1">24</div>
+                <div class="text-[11px] text-[#115e43] mt-0.5">Kỹ thuật viên đang phụ trách</div>
+            </div>
+            <div class="p-4 bg-[#f8faf8] border border-[#e5e7eb] rounded-[12px]">
+                <div class="text-[12px] text-[#6b7280]">Đã hoàn tất tháng này</div>
+                <div class="text-[22px] font-bold text-[#111827] mt-1">64</div>
+                <div class="text-[11px] text-[#6b7280] mt-0.5">Thời gian xử lý TB: 2.4h</div>
             </div>
         </div>
     </div>
