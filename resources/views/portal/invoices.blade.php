@@ -30,16 +30,16 @@
     </div>
 
     <!-- Outstanding Balance Card -->
-    <div class="bg-gradient-to-r from-amber-500/10 via-amber-50/60 to-white border border-amber-200/80 rounded-[18px] p-6 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <div class="flex items-center gap-2">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11.5px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11.5px] font-semibold bg-amber-50 text-amber-700 border border-amber-200/60">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                     Chờ thanh toán
                 </span>
                 <span class="text-[13px] font-medium text-[#6B7280]">Công nợ căn 0101</span>
             </div>
-            <div class="text-[32px] font-extrabold text-[#111827] mt-1.5 tracking-tight">
+            <div class="text-[30px] sm:text-[32px] font-black text-[#111827] mt-1.5 tracking-tight font-mono">
                 1.685.000 đ
             </div>
             <div class="text-[12.5px] text-[#6B7280] mt-0.5">
@@ -48,7 +48,7 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <button type="button" onclick="openPaymentModal()" class="px-5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-semibold text-[13px] rounded-[10px] shadow-xs transition-colors cursor-pointer">
+            <button type="button" onclick="openPaymentModal()" class="px-5 py-2.5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white font-semibold text-[13px] rounded-[10px] shadow-xs transition-colors cursor-pointer">
                 Thanh toán ngay
             </button>
         </div>
@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="sm:text-right">
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-[12px] font-bold bg-[#FFF4DB] text-[#8F5316]" id="invStatusBadge">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-[12px] font-semibold bg-amber-50 text-amber-700 border border-amber-200/60" id="invStatusBadge">
                         Chờ thanh toán
                     </span>
                     <div class="font-semibold text-[13.5px] text-[#111827] mt-2">
@@ -97,22 +97,28 @@
 
             <!-- Items Table Breakdown -->
             <div class="py-6 border-b border-[#F3F4F6] space-y-4" id="invItemsContainer">
-                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
-                        <div class="font-bold text-[14px] text-[#111827]">⚡ Điện sinh hoạt</div>
-                        <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[14px] text-[#111827]">Điện sinh hoạt</span>
+                            <span class="text-[11px] font-semibold text-emerald-800 bg-[#E4EFE9] px-2 py-0.5 rounded">Điện năng</span>
+                        </div>
+                        <div class="text-[12.5px] text-[#6B7280] mt-1 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
                     </div>
-                    <div class="font-bold text-[14px] text-[#111827] font-mono">
+                    <div class="font-bold text-[15px] text-[#111827] font-mono">
                         122.500 đ
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
-                        <div class="font-bold text-[14px] text-[#111827]">🏢 Phí quản lý căn hộ</div>
-                        <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[14px] text-[#111827]">Phí quản lý căn hộ</span>
+                            <span class="text-[11px] font-semibold text-sky-800 bg-sky-50 px-2 py-0.5 rounded">Dịch vụ tòa nhà</span>
+                        </div>
+                        <div class="text-[12.5px] text-[#6B7280] mt-1 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
                     </div>
-                    <div class="font-bold text-[14px] text-[#111827] font-mono">
+                    <div class="font-bold text-[15px] text-[#111827] font-mono">
                         720.000 đ
                     </div>
                 </div>
@@ -121,7 +127,7 @@
             <!-- Total Amount Section -->
             <div class="pt-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                    <div class="text-[13px] font-semibold text-[#6B7280] uppercase tracking-wider">Tổng cộng kỳ thanh toán</div>
+                    <div class="text-[12.5px] font-semibold text-[#6B7280] uppercase tracking-wider">Tổng cộng kỳ thanh toán</div>
                     <div class="text-[32px] font-black text-[#0E4D3C] mt-1 font-mono tracking-tight" id="invTotal">
                         842.500 đ
                     </div>
@@ -130,7 +136,7 @@
                     </p>
                 </div>
 
-                <div class="text-[12.5px] text-[#6B7280] bg-[#F8FAF8] px-3.5 py-2 rounded-[10px] border border-[#E5E7EB] shrink-0">
+                <div class="text-[12.5px] text-[#6B7280] bg-[#F8FAF8] px-4 py-2.5 rounded-[10px] border border-[#E5E7EB] shrink-0">
                     Người lập biểu: <strong class="text-[#111827]">Nguyễn Minh Quản lý</strong>
                 </div>
             </div>
@@ -140,7 +146,7 @@
         <div class="xl:col-span-4 space-y-5">
             <!-- Box hướng dẫn chuyển khoản -->
             <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-6 shadow-xs space-y-4">
-                <div class="flex items-center gap-2 pb-3 border-b border-[#F3F4F6]">
+                <div class="flex items-center gap-2.5 pb-3 border-b border-[#F3F4F6]">
                     <div class="w-8 h-8 rounded-[8px] bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-bold">
                         <svg class="w-4 h-4 text-[#0E4D3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
                     </div>
@@ -212,7 +218,7 @@
         <div class="flex items-center justify-between px-6 py-4 bg-[#F2F6F4] border-b border-[#E5E7EB]">
             <div class="flex items-center gap-2">
                 <div class="w-7 h-7 rounded-full bg-[#E4EFE9] text-[#0E4D3C] flex items-center justify-center font-bold text-xs">
-                    ✓
+                    <svg class="w-4 h-4 text-[#0E4D3C]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 </div>
                 <h3 class="text-[15px] font-bold text-[#111827]">Thông tin thanh toán trực tiếp</h3>
             </div>
@@ -221,18 +227,18 @@
 
         <div class="p-6 space-y-3.5 text-[13px] text-[#374151]">
             <p class="font-medium text-[#111827]">Quý cư dân có thể lựa chọn 1 trong 2 hình thức:</p>
-            <div class="p-3.5 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] space-y-1">
-                <div class="font-bold text-[#111827] flex items-center gap-1.5">
-                    <span>💵</span> 1. Thanh toán tiền mặt:
+            <div class="p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] space-y-1">
+                <div class="font-bold text-[#111827]">
+                    1. Thanh toán tiền mặt:
                 </div>
                 <div class="text-[#6B7280] text-[12.5px] leading-relaxed">
                     Tại Văn phòng Ban quản lý chung cư GGMB (Tầng 1 - Tòa A). Giờ làm việc: 08:00 - 17:30 các ngày từ thứ 2 đến thứ 7.
                 </div>
             </div>
 
-            <div class="p-3.5 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] space-y-1.5">
-                <div class="font-bold text-[#111827] flex items-center gap-1.5">
-                    <span>🏦</span> 2. Chuyển khoản ngân hàng:
+            <div class="p-4 bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] space-y-1.5">
+                <div class="font-bold text-[#111827]">
+                    2. Chuyển khoản ngân hàng:
                 </div>
                 <div class="text-[#6B7280] text-[12.5px] space-y-1">
                     <div>Ngân hàng: <strong class="text-[#111827]">Vietcombank (VCB)</strong></div>
@@ -259,19 +265,25 @@
         1: {
             sub: 'Hóa đơn #1 · Kỳ phí 01/2026 · Hạn 10/02/2026',
             items: `
-                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
-                        <div class="font-bold text-[14px] text-[#111827]">⚡ Điện sinh hoạt</div>
-                        <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[14px] text-[#111827]">Điện sinh hoạt</span>
+                            <span class="text-[11px] font-semibold text-emerald-800 bg-[#E4EFE9] px-2 py-0.5 rounded">Điện năng</span>
+                        </div>
+                        <div class="text-[12.5px] text-[#6B7280] mt-1 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
                     </div>
-                    <div class="font-bold text-[14px] text-[#111827] font-mono">122.500 đ</div>
+                    <div class="font-bold text-[15px] text-[#111827] font-mono">122.500 đ</div>
                 </div>
-                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
-                        <div class="font-bold text-[14px] text-[#111827]">🏢 Phí quản lý căn hộ</div>
-                        <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[14px] text-[#111827]">Phí quản lý căn hộ</span>
+                            <span class="text-[11px] font-semibold text-sky-800 bg-sky-50 px-2 py-0.5 rounded">Dịch vụ tòa nhà</span>
+                        </div>
+                        <div class="text-[12.5px] text-[#6B7280] mt-1 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
                     </div>
-                    <div class="font-bold text-[14px] text-[#111827] font-mono">720.000 đ</div>
+                    <div class="font-bold text-[15px] text-[#111827] font-mono">720.000 đ</div>
                 </div>
             `,
             total: '842.500 đ'
@@ -279,19 +291,25 @@
         21: {
             sub: 'Hóa đơn #21 · Kỳ phí 02/2026 · Hạn 10/03/2026',
             items: `
-                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
-                        <div class="font-bold text-[14px] text-[#111827]">⚡ Điện sinh hoạt</div>
-                        <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[14px] text-[#111827]">Điện sinh hoạt</span>
+                            <span class="text-[11px] font-semibold text-emerald-800 bg-[#E4EFE9] px-2 py-0.5 rounded">Điện năng</span>
+                        </div>
+                        <div class="text-[12.5px] text-[#6B7280] mt-1 font-mono">35 kWh × 3.500 đ = 122.500 đ</div>
                     </div>
-                    <div class="font-bold text-[14px] text-[#111827] font-mono">122.500 đ</div>
+                    <div class="font-bold text-[15px] text-[#111827] font-mono">122.500 đ</div>
                 </div>
-                <div class="flex items-center justify-between p-4 sm:p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
+                <div class="flex items-center justify-between p-5 rounded-[12px] bg-[#F8FAF8] border border-[#E5E7EB]/60">
                     <div>
-                        <div class="font-bold text-[14px] text-[#111827]">🏢 Phí quản lý căn hộ</div>
-                        <div class="text-[12.5px] text-[#6B7280] mt-0.5 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-[14px] text-[#111827]">Phí quản lý căn hộ</span>
+                            <span class="text-[11px] font-semibold text-sky-800 bg-sky-50 px-2 py-0.5 rounded">Dịch vụ tòa nhà</span>
+                        </div>
+                        <div class="text-[12.5px] text-[#6B7280] mt-1 font-mono">60 m² × 12.000 đ = 720.000 đ</div>
                     </div>
-                    <div class="font-bold text-[14px] text-[#111827] font-mono">720.000 đ</div>
+                    <div class="font-bold text-[15px] text-[#111827] font-mono">720.000 đ</div>
                 </div>
             `,
             total: '842.500 đ'

@@ -4,13 +4,17 @@
     $hasPaginator = isset($paginator) && is_object($paginator) && method_exists($paginator, 'hasPages');
 @endphp
 
-<div class="flex items-center space-x-1 border border-[#e5e7eb] bg-white h-[38px] px-2 rounded-[8px] select-none text-[13px] text-[#374151] shadow-2xs" aria-label="Phân trang">
+<nav class="inline-flex items-center gap-1 bg-white border border-[#E5E7EB] rounded-[10px] p-1 select-none text-[13px] text-[#374151] shadow-2xs" aria-label="Phân trang">
     @if ($hasPaginator && $paginator->hasPages())
         {{-- Nút Trước ‹ --}}
         @if ($paginator->onFirstPage())
-            <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed select-none">‹</span>
+            <span class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-[6px] cursor-not-allowed select-none" aria-disabled="true">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </span>
         @else
-            <a href="{{ $paginator->previousPageUrl() }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] hover:bg-[#f4f7f5] rounded-[6px] transition-colors" rel="prev" title="Trang trước">‹</a>
+            <a href="{{ $paginator->previousPageUrl() }}" class="w-8 h-8 flex items-center justify-center text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F4F7F5] rounded-[6px] transition-colors" rel="prev" title="Trang trước">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            </a>
         @endif
 
         {{-- Danh sách các số trang --}}
@@ -22,19 +26,19 @@
         @endphp
 
         @if ($start > 1)
-            <a href="{{ $paginator->url(1) }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] hover:bg-[#f4f7f5] rounded-[6px] transition-colors">1</a>
+            <a href="{{ $paginator->url(1) }}" class="min-w-[32px] h-8 px-2 flex items-center justify-center text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F4F7F5] rounded-[6px] font-medium transition-colors">1</a>
             @if ($start > 2)
-                <span class="px-1 text-gray-400">...</span>
+                <span class="px-1 text-gray-400 select-none">…</span>
             @endif
         @endif
 
         @for ($p = $start; $p <= $end; $p++)
             @if ($p == $current)
-                <span class="px-2.5 py-1 font-semibold text-[#0e4d3c] bg-[#e4efe9] rounded-[6px]" aria-current="page">
+                <span class="min-w-[32px] h-8 px-2 flex items-center justify-center font-bold text-white bg-[#0E4D3C] rounded-[6px] shadow-2xs" aria-current="page">
                     {{ $p }}
                 </span>
             @else
-                <a href="{{ $paginator->url($p) }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] hover:bg-[#f4f7f5] rounded-[6px] transition-colors">
+                <a href="{{ $paginator->url($p) }}" class="min-w-[32px] h-8 px-2 flex items-center justify-center text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F4F7F5] rounded-[6px] font-medium transition-colors">
                     {{ $p }}
                 </a>
             @endif
@@ -42,26 +46,38 @@
 
         @if ($end < $last)
             @if ($end < $last - 1)
-                <span class="px-1 text-gray-400">...</span>
+                <span class="px-1 text-gray-400 select-none">…</span>
             @endif
-            <a href="{{ $paginator->url($last) }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] hover:bg-[#f4f7f5] rounded-[6px] transition-colors">{{ $last }}</a>
+            <a href="{{ $paginator->url($last) }}" class="min-w-[32px] h-8 px-2 flex items-center justify-center text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F4F7F5] rounded-[6px] font-medium transition-colors">{{ $last }}</a>
         @endif
 
         {{-- Nút Sau › --}}
         @if ($paginator->hasMorePages())
-            <a href="{{ $paginator->nextPageUrl() }}" class="px-2.5 py-1 text-[#374151] hover:text-[#0e4d3c] hover:bg-[#f4f7f5] rounded-[6px] transition-colors" rel="next" title="Trang sau">›</a>
+            <a href="{{ $paginator->nextPageUrl() }}" class="w-8 h-8 flex items-center justify-center text-[#374151] hover:text-[#0E4D3C] hover:bg-[#F4F7F5] rounded-[6px] transition-colors" rel="next" title="Trang sau">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
         @else
-            <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed select-none">›</span>
+            <span class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-[6px] cursor-not-allowed select-none" aria-disabled="true">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </span>
         @endif
     @elseif ($hasPaginator && ! $paginator->hasPages())
         {{-- Single-page paginator --}}
-        <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed select-none">‹</span>
-        <span class="px-2.5 py-1 font-semibold text-[#0e4d3c] bg-[#e4efe9] rounded-[6px]" aria-current="page">{{ $paginator->currentPage() }}</span>
-        <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed select-none">›</span>
+        <span class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-[6px] cursor-not-allowed select-none" aria-disabled="true">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </span>
+        <span class="min-w-[32px] h-8 px-2 flex items-center justify-center font-bold text-white bg-[#0E4D3C] rounded-[6px] shadow-2xs" aria-current="page">{{ $paginator->currentPage() }}</span>
+        <span class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-[6px] cursor-not-allowed select-none" aria-disabled="true">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </span>
     @else
-        {{-- Static 1-page fallback --}}
-        <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed select-none">‹</span>
-        <span class="px-2.5 py-1 font-semibold text-[#0e4d3c] bg-[#e4efe9] rounded-[6px]" aria-current="page">1</span>
-        <span class="px-2.5 py-1 text-gray-300 cursor-not-allowed select-none">›</span>
+        {{-- Static fallback --}}
+        <span class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-[6px] cursor-not-allowed select-none" aria-disabled="true">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </span>
+        <span class="min-w-[32px] h-8 px-2 flex items-center justify-center font-bold text-white bg-[#0E4D3C] rounded-[6px] shadow-2xs" aria-current="page">1</span>
+        <span class="w-8 h-8 flex items-center justify-center text-gray-300 rounded-[6px] cursor-not-allowed select-none" aria-disabled="true">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </span>
     @endif
-</div>
+</nav>

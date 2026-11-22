@@ -45,8 +45,8 @@
                 <!-- Khối định danh xe -->
                 <div class="bg-[#F8FAF8] border border-[#E5E7EB] p-4 rounded-[10px]">
                     <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 rounded-[8px] bg-[#0E4D3C] text-white flex items-center justify-center text-xl shrink-0" id="vehicleDrawerIcon">
-                            🚗
+                        <div class="w-12 h-12 rounded-[8px] bg-[#0E4D3C] text-white flex items-center justify-center shrink-0" id="vehicleDrawerIcon">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h2"/></svg>
                         </div>
                         <div class="flex-1 min-w-0">
                             <h3 class="text-[18px] font-bold text-[#111827] font-mono tracking-wide" id="vehicleDrawerPlate">
@@ -149,7 +149,9 @@
 
         // Loại xe & Icon
         const isCar = (data.vehicleType === 'CAR');
-        document.getElementById('vehicleDrawerIcon').textContent = isCar ? '🚗' : '🛵';
+        document.getElementById('vehicleDrawerIcon').innerHTML = isCar
+            ? '<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h2"/></svg>'
+            : '<svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="5.5" cy="17.5" r="3.5" stroke-width="2"/><circle cx="18.5" cy="17.5" r="3.5" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 6h-3l-2.5 5.5H18M9 17.5l2-6M12 17.5l3-6"/></svg>';
         
         const badge = document.getElementById('vehicleDrawerTypeBadge');
         if (isCar) {
