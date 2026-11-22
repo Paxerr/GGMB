@@ -13,6 +13,7 @@ use App\Models\Floor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class ApartmentController extends Controller
@@ -126,6 +127,8 @@ class ApartmentController extends Controller
 
         $apartment = Apartment::create($dto->toModelArray());
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -197,6 +200,8 @@ class ApartmentController extends Controller
 
         $apartment->update($dto->toModelArray());
 
+        Cache::forget('dashboard_stats');
+
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
                 'success' => true,
@@ -231,6 +236,8 @@ class ApartmentController extends Controller
         $apartment->update([
             'Status' => $newStatus,
         ]);
+
+        Cache::forget('dashboard_stats');
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
