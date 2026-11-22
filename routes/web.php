@@ -95,6 +95,7 @@ Route::middleware(['auth'])->group(function (): void {
         Route::get('/tickets', [TicketController::class, 'index'])->name('tickets.index');
         Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
         Route::put('/tickets/{id}', [TicketController::class, 'update'])->name('tickets.update');
+        Route::post('/tickets/{id}/move', [TicketController::class, 'move'])->name('tickets.move');
         Route::post('/tickets/{id}/assign', [TicketController::class, 'assign'])->name('tickets.assign');
         Route::post('/tickets/{id}/verify', [TicketController::class, 'verify'])->name('tickets.verify');
         Route::post('/tickets/{id}/cancel', [TicketController::class, 'cancel'])->name('tickets.cancel');

@@ -225,4 +225,53 @@ class TicketAndNotificationTest extends TestCase
         $resUtil->assertStatus(200);
         $resUtil->assertSee('Sổ chỉ số điện nước');
     }
+
+    public function test_ticket_move_status_via_ajax(): void
+    {
+        $ticket = Ticket::create([
+            'CreatedByUserId' => $this->user->UserId,
+            'Subject' => 'Kiểm tra đường truyền mạng',
+            'Description' => 'Mất kết nối Internet phòng khách.',
+            'Category' => 'Kỹ thuật',
+            'Status' => 'WAITING',
+            'IsDeleted' => false,
+        ]);
+
+        $response = $this->actingAs($this->user)->postJson(route('tickets.move', $ticket->TicketId), [
+            'status' => 'PROCESSING',
+        ]);
+
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'oldStatus' => 'WAITING',
+            'newStatus' => 'PROCESSING',
+        ]);
+
+        $this->assertDatabaseHas('Ticket', [
+            'TicketId' => $ticket->TicketId,
+            'Status' => 'PROCESSING',
+            'ResolvedAt' => null,
+        ]);
+
+        // Move to CLOSED
+        $resClosed = $this->actingAs($this->user)->postJson(route('tickets.move', $ticket->TicketId), [
+            'status' => 'CLOSED',
+        ]);
+
+        $resClosed->assertStatus(200);
+        $ticket->refresh();
+        $this->assertEquals('CLOSED', $ticket->Status);
+        $this->assertNotNull($ticket->ResolvedAt);
+
+        // Cannot move from CLOSED to CANCELLED
+        $resCancel = $this->actingAs($this->user)->postJson(route('tickets.move', $ticket->TicketId), [
+            'status' => 'CANCELLED',
+        ]);
+
+        $resCancel->assertStatus(422);
+        $resCancel->assertJson([
+            'success' => false,
+        ]);
+    }
 }

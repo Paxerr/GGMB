@@ -146,34 +146,48 @@
             @php
                 $colTickets = $tickets->where('status', $statusKey);
             @endphp
-            <div class="bg-[#F9FBFA] border border-[#E5E7EB] rounded-[14px] flex flex-col min-h-[460px] overflow-hidden">
+            <div
+                class="ticket-column-wrapper bg-[#F9FBFA] border border-[#E5E7EB] rounded-[14px] flex flex-col min-h-[460px] overflow-hidden transition-all duration-150"
+                data-column-status="{{ $statusKey }}"
+            >
                 <!-- Column Header -->
-                <div class="px-3.5 py-3 border-b border-[#E5E7EB] bg-white">
-                    <div class="flex items-center justify-between">
+                <div class="px-3.5 py-3 border-b border-[#E5E7EB] bg-white flex items-center justify-between">
+                    <div>
                         <span class="text-[13px] font-bold text-[#111827]">
-                            {{ $col['title'] }} · {{ $col['count'] }}
+                            {{ $col['title'] }} · <span class="col-count-badge" data-col-status="{{ $statusKey }}">{{ $col['count'] }}</span>
+                        </span>
+                        <span class="text-[11px] text-[#6B7280] block mt-0.5">
+                            {{ $col['step'] }}
                         </span>
                     </div>
-                    <span class="text-[11px] text-[#6B7280] block mt-0.5">
-                        {{ $col['step'] }}
-                    </span>
                 </div>
 
-                <!-- Column Cards List -->
-                <div class="p-2.5 space-y-2.5 flex-1">
+                <!-- Column Cards List (Jira Drag & Drop Zone) -->
+                <div
+                    class="ticket-column-body p-2.5 space-y-2.5 flex-1 min-h-[380px] transition-all rounded-b-[14px]"
+                    data-column-status="{{ $statusKey }}"
+                >
                     @foreach ($colTickets as $ticket)
                         @php
                             $ticketsMap[$ticket->id] = (array) $ticket;
                         @endphp
                         <div
-                            class="bg-white border border-[#E5E7EB] hover:border-[#0E4D3C] rounded-[10px] p-3 shadow-xs hover:shadow-sm transition-all cursor-pointer group"
-                            onclick="openTicketDetailDrawer({{ $ticket->id }})"
+                            class="ticket-card bg-white border border-[#E5E7EB] hover:border-[#0E4D3C] rounded-[10px] p-3 shadow-xs hover:shadow-md transition-all cursor-grab active:cursor-grabbing select-none group relative"
+                            draggable="true"
+                            data-ticket-id="{{ $ticket->id }}"
+                            data-status="{{ $ticket->status }}"
+                            onclick="handleTicketCardClick(event, {{ $ticket->id }})"
                         >
-                            <!-- Card Header: Tag & Dropdown options -->
+                            <!-- Card Header: Drag Handle & Tag & Dropdown options -->
                             <div class="flex items-center justify-between mb-1.5">
-                                <span class="inline-block text-[11px] font-semibold text-[#6B7280]">
-                                    #{{ $ticket->id }} · {{ $ticket->category }}
-                                </span>
+                                <div class="flex items-center gap-1 min-w-0">
+                                    <svg class="w-3.5 h-3.5 text-[#9CA3AF] opacity-0 group-hover:opacity-100 transition-opacity cursor-grab shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" title="Kéo thả">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"/>
+                                    </svg>
+                                    <span class="inline-block text-[11px] font-semibold text-[#6B7280] truncate">
+                                        #{{ $ticket->id }} · {{ $ticket->category }}
+                                    </span>
+                                </div>
                                 <div class="relative" onclick="event.stopPropagation()">
                                     <button
                                         type="button"
@@ -286,8 +300,41 @@
 @include('tickets.partials.verify-modal')
 @include('tickets.partials.cancel-modal')
 
+<style>
+    .ticket-card.is-dragging {
+        opacity: 0.4 !important;
+        transform: scale(0.97) rotate(1.5deg) !important;
+        box-shadow: 0 12px 28px -5px rgba(14, 77, 60, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+        border-color: #0E4D3C !important;
+        cursor: grabbing !important;
+    }
+    .ticket-column-body.drag-over {
+        background-color: #E4EFE9 !important;
+        outline: 2px dashed #0E4D3C;
+        outline-offset: -3px;
+    }
+    .jira-drop-placeholder {
+        border: 2px dashed #0E4D3C;
+        background-color: rgba(228, 239, 233, 0.65);
+        border-radius: 10px;
+        min-height: 76px;
+        margin: 6px 0;
+        pointer-events: none;
+        transition: all 0.12s ease-in-out;
+    }
+</style>
+
 <script>
     window.ticketsMap = @json($ticketsMap ?? []);
+    window.isDraggingCard = false;
+
+    function handleTicketCardClick(e, ticketId) {
+        if (window.isDraggingCard) return;
+        if (e.target.closest('[id^="cardMenu_"]') || e.target.closest('button[onclick^="toggleCardMenu"]')) {
+            return;
+        }
+        openTicketDetailDrawer(ticketId);
+    }
 
     function toggleCardMenu(id) {
         const menu = document.getElementById(`cardMenu_${id}`);
@@ -307,6 +354,191 @@
         if (!e.target.closest('[id^="cardMenu_"]') && !e.target.closest('button[onclick^="toggleCardMenu"]')) {
             document.querySelectorAll('[id^="cardMenu_"]').forEach(el => el.classList.add('hidden'));
         }
+    });
+
+    // ==========================================
+    // JIRA-LIKE DRAG & DROP INTERACTION LOGIC
+    // ==========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const cards = document.querySelectorAll('.ticket-card');
+        const columnBodies = document.querySelectorAll('.ticket-column-body');
+
+        let draggedCard = null;
+        let dragOriginalCol = null;
+        let dragOriginalStatus = null;
+        let dragNextSibling = null;
+        let activePlaceholder = null;
+
+        function createPlaceholder() {
+            const el = document.createElement('div');
+            el.className = 'jira-drop-placeholder';
+            return el;
+        }
+
+        function removePlaceholder() {
+            if (activePlaceholder && activePlaceholder.parentElement) {
+                activePlaceholder.parentElement.removeChild(activePlaceholder);
+            }
+            activePlaceholder = null;
+        }
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('.ticket-card:not(.is-dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+
+        function updateColumnBadge(statusKey, delta) {
+            const badge = document.querySelector(`.col-count-badge[data-col-status="${statusKey}"]`);
+            if (badge) {
+                let current = parseInt(badge.textContent.trim(), 10) || 0;
+                current = Math.max(0, current + delta);
+                badge.textContent = current;
+            }
+        }
+
+        cards.forEach(card => {
+            card.addEventListener('dragstart', function(e) {
+                window.isDraggingCard = true;
+                draggedCard = card;
+                dragOriginalCol = card.closest('.ticket-column-body');
+                dragOriginalStatus = card.getAttribute('data-status');
+                dragNextSibling = card.nextElementSibling;
+
+                card.classList.add('is-dragging');
+
+                e.dataTransfer.setData('text/plain', card.getAttribute('data-ticket-id'));
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            card.addEventListener('dragend', function() {
+                card.classList.remove('is-dragging');
+                removePlaceholder();
+                columnBodies.forEach(col => col.classList.remove('drag-over'));
+
+                setTimeout(() => {
+                    window.isDraggingCard = false;
+                    draggedCard = null;
+                }, 100);
+            });
+        });
+
+        columnBodies.forEach(col => {
+            col.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+
+                if (!col.classList.contains('drag-over')) {
+                    col.classList.add('drag-over');
+                }
+
+                if (!activePlaceholder) {
+                    activePlaceholder = createPlaceholder();
+                }
+
+                const afterElement = getDragAfterElement(col, e.clientY);
+                if (afterElement == null) {
+                    col.appendChild(activePlaceholder);
+                } else {
+                    col.insertBefore(activePlaceholder, afterElement);
+                }
+            });
+
+            col.addEventListener('dragleave', function(e) {
+                // Check if leaving column to outside
+                if (!col.contains(e.relatedTarget)) {
+                    col.classList.remove('drag-over');
+                    if (activePlaceholder && activePlaceholder.parentElement === col) {
+                        removePlaceholder();
+                    }
+                }
+            });
+
+            col.addEventListener('drop', function(e) {
+                e.preventDefault();
+                col.classList.remove('drag-over');
+
+                if (!draggedCard) return;
+
+                const ticketId = draggedCard.getAttribute('data-ticket-id');
+                const targetStatus = col.getAttribute('data-column-status');
+                const sourceStatus = dragOriginalStatus;
+
+                // Place card where placeholder is
+                if (activePlaceholder && activePlaceholder.parentElement === col) {
+                    col.insertBefore(draggedCard, activePlaceholder);
+                } else {
+                    col.appendChild(draggedCard);
+                }
+                removePlaceholder();
+
+                // If dropped in the same column, no status update needed
+                if (targetStatus === sourceStatus) {
+                    return;
+                }
+
+                // Optimistically update counts and card data
+                updateColumnBadge(sourceStatus, -1);
+                updateColumnBadge(targetStatus, 1);
+                draggedCard.setAttribute('data-status', targetStatus);
+
+                const currentOriginalCol = dragOriginalCol;
+                const currentNextSibling = dragNextSibling;
+                const currentCard = draggedCard;
+
+                // Call Backend API
+                const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+                const csrfToken = csrfMeta ? csrfMeta.getAttribute('content') : '';
+
+                fetch(`/tickets/${ticketId}/move`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({ status: targetStatus })
+                })
+                .then(async response => {
+                    const data = await response.json();
+                    if (!response.ok || !data.success) {
+                        throw new Error(data.message || 'Không thể thay đổi trạng thái yêu cầu');
+                    }
+                    if (window.ticketsMap && window.ticketsMap[ticketId]) {
+                        window.ticketsMap[ticketId].status = targetStatus;
+                    }
+                    if (window.showToast) {
+                        window.showToast(data.message, 'success');
+                    }
+                })
+                .catch(err => {
+                    // Revert position on failure
+                    if (currentCard && currentOriginalCol) {
+                        if (currentNextSibling && currentOriginalCol.contains(currentNextSibling)) {
+                            currentOriginalCol.insertBefore(currentCard, currentNextSibling);
+                        } else {
+                            currentOriginalCol.appendChild(currentCard);
+                        }
+                        currentCard.setAttribute('data-status', sourceStatus);
+                    }
+                    // Revert badges
+                    updateColumnBadge(targetStatus, -1);
+                    updateColumnBadge(sourceStatus, 1);
+
+                    if (window.showToast) {
+                        window.showToast(err.message || 'Có lỗi xảy ra khi di chuyển yêu cầu', 'error');
+                    }
+                });
+            });
+        });
     });
 </script>
 @endsection

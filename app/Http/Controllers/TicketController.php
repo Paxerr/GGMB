@@ -14,6 +14,7 @@ use App\Models\Ticket;
 use App\Models\TicketAssignment;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -195,6 +196,68 @@ class TicketController extends Controller
 
         return redirect()->route('tickets.index')
             ->with('success', "Cập nhật yêu cầu #{$ticket->TicketId} thành công.");
+    }
+
+    /**
+     * Di chuyển yêu cầu sang trạng thái khác (Kéo thả Kanban).
+     */
+    public function move(Request $request, int $id): JsonResponse|RedirectResponse
+    {
+        $ticket = Ticket::findOrFail($id);
+
+        $validated = $request->validate([
+            'status' => ['required', 'string', 'in:WAITING,ASSIGNED,PROCESSING,RESOLVED,CLOSED,CANCELLED'],
+        ]);
+
+        $newStatus = $validated['status'];
+
+        if ($ticket->Status === 'CLOSED' && in_array($newStatus, ['CANCELLED'], true)) {
+            if ($request->expectsJson() || $request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể hủy yêu cầu đã hoàn tất và đóng.',
+                ], 422);
+            }
+            throw new BusinessException('Không thể hủy yêu cầu đã hoàn tất và đóng.');
+        }
+
+        $oldStatus = $ticket->Status;
+
+        $updateData = [
+            'Status' => $newStatus,
+        ];
+
+        if (in_array($newStatus, ['RESOLVED', 'CLOSED'], true)) {
+            $updateData['ResolvedAt'] = now();
+        } elseif (in_array($newStatus, ['WAITING', 'ASSIGNED', 'PROCESSING'], true)) {
+            $updateData['ResolvedAt'] = null;
+        }
+
+        $ticket->update($updateData);
+
+        $statusLabels = [
+            'WAITING' => 'Chờ xử lý',
+            'ASSIGNED' => 'Đã giao',
+            'PROCESSING' => 'Đang xử lý',
+            'RESOLVED' => 'Đã xử lý',
+            'CLOSED' => 'Đã đóng',
+            'CANCELLED' => 'Đã hủy',
+        ];
+
+        $newLabel = $statusLabels[$newStatus] ?? $newStatus;
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Đã chuyển yêu cầu #{$ticket->TicketId} sang {$newLabel}.",
+                'ticketId' => $ticket->TicketId,
+                'oldStatus' => $oldStatus,
+                'newStatus' => $newStatus,
+            ]);
+        }
+
+        return redirect()->route('tickets.index')
+            ->with('success', "Đã chuyển yêu cầu #{$ticket->TicketId} sang {$newLabel}.");
     }
 
     /**
