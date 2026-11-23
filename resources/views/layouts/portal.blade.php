@@ -49,7 +49,7 @@
 <body class="min-h-screen bg-[#F8FAF8] text-[#374151] antialiased flex flex-col justify-between selection:bg-[#E4EFE9] selection:text-[#0E4D3C]">
     <!-- Top Modern Portal Header -->
     <header class="bg-white/95 backdrop-blur-md border-b border-[#E5E7EB] sticky top-0 z-30 select-none transition-shadow duration-200">
-        <div class="w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 h-[64px] flex items-center justify-between gap-4">
+        <div class="w-full px-4 sm:px-6 lg:px-8 xl:px-10 h-[64px] flex items-center justify-between gap-4">
             <!-- Left: Brand + Role Badge + Navigation Tabs -->
             <div class="flex items-center space-x-4 sm:space-x-8 min-w-0">
                 <!-- Brand / Portal Badge -->
@@ -171,7 +171,7 @@
     </div>
 
     <!-- Main Container -->
-    <main class="flex-1 w-full max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-6 sm:py-8">
+    <main class="flex-1 w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-8 sm:py-10 lg:py-12">
         @if (session('success'))
             <div class="mb-6 p-4 bg-[#E4EFE9] border border-[#B8D5C7] text-[#0E4D3C] text-[13.5px] rounded-[12px] flex items-center justify-between shadow-2xs">
                 <div class="flex items-center gap-2.5">
@@ -197,7 +197,7 @@
 
     <!-- Modern Building Resident Footer -->
     <footer class="bg-white border-t border-[#E5E7EB] mt-12 pt-10 pb-8 px-4 sm:px-6 lg:px-8 xl:px-10 select-none">
-        <div class="w-full max-w-[1600px] mx-auto">
+        <div class="w-full">
             <!-- 4-column Links Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-[#F3F4F6] text-[13px]">
                 <!-- Col 1: BQL Chung cư GGMB -->

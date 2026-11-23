@@ -5,24 +5,26 @@
 ])
 
 @section('content')
-<div class="space-y-6">
+<div class="space-y-8 sm:space-y-10">
     <!-- Subtitle & Page Heading -->
     <div>
-        <div class="text-[12.5px] font-medium text-[#6B7280] mb-1">
-            Cổng kỹ thuật / Tòa A
+        <div class="text-[12.5px] font-semibold text-[#6B7280] mb-1.5 flex items-center gap-1.5">
+            <span>Cổng kỹ thuật</span>
+            <span>/</span>
+            <span class="text-[#111827]">Tòa A</span>
         </div>
-        <h1 class="text-[24px] font-bold text-[#111827] tracking-tight">
+        <h1 class="text-[26px] font-bold text-[#111827] tracking-tight">
             Ghi điện nước
         </h1>
-        <p class="mt-0.5 text-[13px] text-[#6B7280]">
+        <p class="mt-1.5 text-[13.5px] text-[#6B7280]">
             Nhập chỉ số điện/nước cho các căn hộ theo kỳ.
         </p>
     </div>
 
     <!-- Main Card -->
-    <div class="bg-white border border-[#E5E7EB] rounded-[16px] p-6 shadow-none">
+    <div class="bg-white border border-[#E5E7EB] rounded-[18px] p-7 sm:p-8 shadow-none">
         <!-- Card Header Info -->
-        <div class="text-[15px] font-bold text-[#111827] pb-4 mb-5 border-b border-[#E5E7EB]">
+        <div class="text-[15px] font-bold text-[#111827] pb-5 mb-7 border-b border-[#F3F4F6]">
             Tòa A / Tầng 1 / {{ $feeType?->Name ?? 'Điện' }} / {{ $currentPeriod ?? now()->format('m/Y') }}
         </div>
         <span class="sr-only">NHẬP CHỈ SỐ · {{ count($apartments) }} CĂN</span>
@@ -33,9 +35,9 @@
             <input type="hidden" name="billing_period" value="{{ $currentPeriod ?? now()->format('m/Y') }}">
 
             <!-- Responsive Grid of Apartment Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 sm:gap-6">
                 @foreach ($apartments as $apt)
-                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[12px] p-5 space-y-3">
+                    <div class="bg-[#F8FAF8] border border-[#E5E7EB] rounded-[14px] p-6 space-y-4 hover:border-[#CBD5E1] transition-all">
                         <div class="flex items-center justify-between">
                             <span class="font-bold text-[#111827] text-[14px]">
                                 Căn {{ $apt['code'] }}
@@ -45,7 +47,7 @@
                             </span>
                         </div>
 
-                        <div class="text-[12px] text-[#6B7280]">
+                        <div class="text-[12.5px] text-[#6B7280]">
                             Chỉ số {{ $previousPeriod ?? 'Kỳ trước' }}: <strong class="text-[#374151]">{{ $apt['prev'] }}</strong>
                         </div>
                         <input type="hidden" name="prev_meters[{{ $apt['id'] }}]" value="{{ $apt['prev'] }}">
@@ -56,11 +58,11 @@
                                    data-prev="{{ $apt['prev'] }}" 
                                    placeholder="Nhập số ≥ {{ $apt['prev'] }}" 
                                    min="{{ $apt['prev'] }}" 
-                                   class="meter-input w-full h-[38px] px-3 bg-white border border-[#E5E7EB] rounded-[8px] text-[13px] text-[#111827] focus:outline-none focus:border-[#0E4D3C]">
-                            <div class="meter-error text-[11px] text-rose-600 hidden mt-1">Số mới phải ≥ {{ $apt['prev'] }}</div>
+                                   class="meter-input w-full h-[40px] px-3.5 bg-white border border-[#E5E7EB] rounded-[8px] text-[13.5px] text-[#111827] focus:outline-none focus:border-[#0E4D3C] transition-colors shadow-2xs">
+                            <div class="meter-error text-[11px] text-rose-600 hidden mt-1.5 font-medium">Số mới phải ≥ {{ $apt['prev'] }}</div>
                         </div>
 
-                        <div class="text-[12px] text-[#6B7280]">
+                        <div class="text-[12.5px] text-[#6B7280]">
                             Tiêu thụ: <span class="consumption-val font-semibold text-[#9CA3AF]">—</span>
                         </div>
                     </div>
@@ -68,16 +70,16 @@
             </div>
 
             <!-- Bottom Note and Action Buttons -->
-            <div class="mt-6 pt-4 border-t border-[#E5E7EB] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="mt-8 pt-6 border-t border-[#F3F4F6] flex flex-col sm:flex-row sm:items-center justify-between gap-5">
                 <p class="text-[12.5px] text-[#6B7280]">
                     Nhập ít nhất 1 dòng; số mới phải lớn hơn hoặc bằng số kỳ trước. Sau khi lưu, ban quản lý sẽ đối soát và chốt số.
                 </p>
 
                 <div class="flex items-center space-x-3 shrink-0">
-                    <a href="{{ route('tech.tasks') }}" class="px-5 py-2 border border-[#E5E7EB] bg-white text-[#374151] hover:bg-[#F9FBFA] text-[13px] font-medium rounded-[8px] transition-colors">
+                    <a href="{{ route('tech.tasks') }}" class="px-5 py-2.5 border border-[#E5E7EB] bg-white text-[#374151] hover:bg-[#F9FBFA] text-[13px] font-semibold rounded-[8px] transition-colors">
                         Hủy
                     </a>
-                    <button type="submit" class="px-5 py-2 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-medium rounded-[8px] transition-colors cursor-pointer">
+                    <button type="submit" class="px-6 py-2.5 bg-[#0E4D3C] hover:bg-[#0A3D2F] text-white text-[13px] font-semibold rounded-[8px] transition-colors cursor-pointer shadow-xs">
                         Lưu chỉ số
                     </button>
                 </div>
